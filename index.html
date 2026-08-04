@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#121417">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<title>栄冠ナイン2026 攻略メモ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme:dark;
+    --bg:#121417; --card:#1c1e22; --panel:#262930; --line:#33363d;
+    --ink:#edeef0; --sec:#bcc0c5; --muted:#8b9096;
+    --green:#3fca8f; --green-deep:#2fb37c; --accent-soft:rgba(63,202,143,.14);
+    --amber:#e3ab48; --red:#ff5b60;
+    --tS:#ff6b70; --tA:#e6b552; --tB:#40cc90; --tC:#54c4cc; --tD:#9aa0a6;
+    --pp:#e0512b; --pc:#3a6fc4; --pi:#eab308; --po:#4fae43;
+    --ondark:#08140e;
+    --font:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+    --mono:"DM Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --sb:env(safe-area-inset-bottom,0px); --tab-h:60px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{font-family:var(--font);background:var(--bg);color:var(--ink);
+    font-size:15px;line-height:1.65;-webkit-text-size-adjust:100%;}
+  b,strong{font-weight:700;}
+
+  .app{display:flex;flex-direction:column;height:100vh;height:100dvh;max-width:720px;margin:0 auto;
+    background:var(--bg);padding-top:env(safe-area-inset-top,0px);}
+
+  .scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;background:var(--bg);}
+  .tab{display:none;padding:18px 15px calc(var(--tab-h) + var(--sb) + 24px);}
+  .tab.active{display:block;}
+  #tab-ob.active{display:flex;flex-direction:column;padding:0;}
+
+  .lead{font-size:13px;color:var(--muted);margin-bottom:16px;}
+  h3{font-size:16px;font-weight:700;color:var(--ink);letter-spacing:.02em;margin:26px 0 11px;display:flex;align-items:center;gap:8px;}
+  h3::before{content:"";width:6px;height:6px;background:var(--green);border-radius:50%;flex-shrink:0;}
+  h3:first-of-type{margin-top:2px;}
+  .note{font-size:12.5px;color:var(--muted);margin:-4px 0 12px;}
+  .note b{color:var(--ink);}
+
+  .badge{display:inline-block;font-size:10.5px;font-weight:700;padding:1px 8px;border-radius:6px;white-space:nowrap;line-height:1.7;}
+  .b-hidden{background:var(--red);color:#fff;}
+  .b-random{background:var(--panel);color:#c3aef0;border:1px solid var(--line);}
+  .b-cond{background:rgba(227,171,72,.16);color:#e6b552;border:1px solid rgba(227,171,72,.35);}
+  .b-fixed{background:var(--panel);color:var(--muted);border:1px solid var(--line);}
+
+  .legend{display:flex;flex-direction:column;gap:7px;background:var(--card);border:1px solid var(--line);
+    border-radius:12px;padding:12px 14px;margin-bottom:16px;font-size:12.5px;color:var(--muted);}
+  .legend div{display:flex;gap:9px;align-items:flex-start;}
+  .legend .badge{flex-shrink:0;margin-top:1px;}
+
+  .season{display:flex;align-items:center;gap:9px;font-weight:700;font-size:13px;letter-spacing:.03em;color:var(--ink);margin:24px 0 11px;}
+  .season::after{content:"";flex:1;height:1px;background:var(--line);}
+  .season .dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0;}
+
+  .ev{display:flex;gap:12px;background:var(--card);border:1px solid var(--line);border-left-width:4px;border-radius:12px;padding:12px 14px;margin-bottom:8px;}
+  .ev.cat-taikai{border-left-color:#e5484d;}
+  .ev.cat-ikusei{border-left-color:#3fca8f;}
+  .ev.cat-gakko{border-left-color:#3f8fd6;}
+  .ev.cat-kisetsu{border-left-color:#e3ab48;}
+  .ev.cat-scout{border-left-color:#a678d8;}
+  .ev-date{flex-shrink:0;width:54px;text-align:center;font-family:var(--mono);font-weight:500;font-size:13px;color:var(--ink);padding-top:1px;line-height:1.4;}
+  .ev-date small{display:block;font-size:10.5px;color:var(--muted);}
+  .ev-body{flex:1;min-width:0;}
+  .ev-title{font-weight:700;font-size:14.5px;margin-bottom:4px;color:var(--ink);}
+  .ev-badges{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:5px;}
+  .ev-detail{font-size:12.5px;color:var(--sec);}
+  .ev-detail b{color:var(--ink);}
+  .ev-detail a{color:var(--green);font-weight:700;text-decoration:none;border-bottom:1px solid var(--accent-soft);}
+
+  .card-list{display:flex;flex-direction:column;gap:8px;}
+  .rc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;}
+  .rc-head{font-weight:700;font-size:14px;color:var(--ink);margin-bottom:8px;display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+  .rc-row{font-size:12.5px;color:var(--sec);padding:6px 0;border-top:1px solid var(--line);}
+  .rc-row:first-of-type{border-top:none;padding-top:0;}
+  .rc-row .k{display:inline-block;font-weight:700;color:var(--sec);font-size:11px;background:var(--panel);border-radius:5px;padding:1px 7px;margin-right:6px;}
+  .rc-row b{color:var(--ink);}
+  .rc-sub{font-size:11px;color:var(--muted);display:block;margin-top:2px;}
+  .rc.pri{border-color:rgba(227,171,72,.32);background:rgba(227,171,72,.07);}
+  .pin{font-size:10px;font-weight:700;color:var(--ondark);background:var(--amber);padding:1px 8px;border-radius:6px;}
+
+  .seq-item{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 14px;margin-bottom:8px;}
+  .seq-cat{font-weight:700;font-size:13px;color:var(--ink);margin-bottom:8px;}
+  .seq{display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
+  .step{font-size:11.5px;padding:3px 9px;border-radius:6px;background:var(--panel);color:var(--sec);white-space:nowrap;border:1px solid var(--line);}
+  .step.top{background:var(--green);color:var(--ondark);font-weight:700;border-color:var(--green);}
+  .seq .arw{color:var(--muted);font-size:11px;}
+
+  /* 進行カードの強さ（表＋強さグラデーション） */
+  table.strtable{border-collapse:collapse;width:100%;font-size:12px;}
+  table.strtable th,table.strtable td{padding:7px 8px;text-align:center;white-space:nowrap;
+    border-bottom:1px solid var(--bg);border-right:1px solid var(--bg);}
+  table.strtable thead th{font-size:11px;font-weight:700;position:sticky;top:0;}
+  table.strtable th.name,table.strtable td.name{text-align:left;position:sticky;left:0;z-index:1;
+    background:var(--card);color:var(--ink);font-weight:700;padding-left:12px;min-width:64px;box-shadow:1px 0 0 var(--line);}
+  table.strtable thead th.name{background:var(--panel);z-index:2;}
+  .strtable .lv1{background:rgba(63,202,143,.10);color:var(--sec);}
+  .strtable .lv2{background:rgba(63,202,143,.24);color:var(--ink);}
+  .strtable .lv3{background:rgba(63,202,143,.44);color:var(--ink);}
+  .strtable .lv4{background:var(--green);color:#0e1f17;font-weight:700;}
+  .strtable tbody tr:last-child td{border-bottom:none;}
+
+  .matrix-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:12px;background:var(--card);margin-bottom:6px;}
+  table.matrix{border-collapse:collapse;width:100%;font-size:13px;}
+  table.matrix th,table.matrix td{padding:8px 6px;text-align:center;white-space:nowrap;border-bottom:1px solid var(--line);}
+  table.matrix thead th{background:var(--panel);color:var(--ink);font-size:11.5px;font-weight:700;position:sticky;top:0;}
+  table.matrix th.name,table.matrix td.name{text-align:left;position:sticky;left:0;z-index:1;background:var(--card);font-weight:700;color:var(--ink);padding-left:12px;min-width:80px;box-shadow:1px 0 0 var(--line);}
+  table.matrix tbody tr:nth-child(even) td{background:#1e2723;}
+  table.matrix tbody tr:nth-child(even) td.name{background:#243029;}
+  table.matrix thead th.name{background:var(--panel);z-index:2;}
+  table.matrix tbody tr:last-child td{border-bottom:none;}
+  .row-genius td{background:rgba(64,204,144,.12) !important;}
+  .row-genius td.name{background:rgba(64,204,144,.16) !important;}
+  .mk{font-weight:700;font-size:13px;}
+  .mk-hi{color:var(--tS);} .mk-mid{color:var(--green);} .mk-none{color:#5a5b5f;}
+
+  .tip,.warn{border-radius:12px;padding:12px 14px;margin:14px 0;font-size:12.5px;border:1px solid;color:var(--sec);}
+  .tip{background:rgba(63,202,143,.07);border-color:rgba(63,202,143,.2);}
+  .tip strong{color:var(--ink);}
+  .warn{background:rgba(255,91,96,.09);border-color:rgba(255,91,96,.28);}
+  .warn strong{color:var(--red);}
+
+  /* ===== イベント タイムライン ===== */
+  .ev-legend{display:flex;flex-wrap:wrap;gap:11px;margin-bottom:12px;font-size:11.5px;color:var(--sec);font-weight:700;}
+  .ev-legend span{display:inline-flex;align-items:center;gap:5px;}
+  .ev-legend i{width:10px;height:10px;border-radius:3px;flex-shrink:0;}
+  .tl-axis{position:sticky;top:0;z-index:10;display:flex;background:var(--bg);border-bottom:1px solid var(--line);padding:7px 0 6px;margin-bottom:4px;}
+  .tl-axis span{flex:1;text-align:center;font-family:var(--mono);font-size:10px;color:var(--muted);border-left:1px solid var(--line);}
+  .tl-axis span:first-child{border-left:none;}
+  .tl-row{border-bottom:1px solid var(--line);}
+  .tl-row:last-of-type{border-bottom:none;}
+  .tl-info{display:flex;align-items:center;gap:8px;padding:9px 2px 7px;cursor:pointer;}
+  .tl-cdot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+  .tl-name{font-size:13.5px;font-weight:700;color:var(--ink);flex:1;min-width:0;}
+  .tl-date{font-family:var(--mono);font-size:11px;color:var(--muted);flex-shrink:0;}
+  .tl-car{color:var(--muted);font-size:11px;transition:transform .2s;flex-shrink:0;}
+  .tl-row.open .tl-car{transform:rotate(180deg);}
+  .tl-track{position:relative;height:16px;margin:0 0 9px;border-radius:4px;
+    background-image:repeating-linear-gradient(90deg,var(--line) 0,var(--line) 1px,transparent 1px,transparent calc(100%/12));}
+  .tl-dot{position:absolute;top:50%;width:12px;height:12px;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 0 2px var(--bg);}
+  .tl-bar{position:absolute;top:50%;height:9px;border-radius:5px;transform:translateY(-50%);box-shadow:0 0 0 2px var(--bg);}
+  .tl-detail{display:grid;grid-template-rows:0fr;transition:grid-template-rows .2s ease;}
+  .tl-row.open .tl-detail{grid-template-rows:1fr;}
+  .tl-dinner{overflow:hidden;min-height:0;font-size:12.5px;color:var(--sec);padding:0 2px;}
+  .tl-row.open .tl-dinner{padding-bottom:11px;}
+  .tl-dinner b{color:var(--ink);}
+  .tl-dinner .ev-badges{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px;}
+  .ev-note{font-size:11px;color:var(--muted);margin:14px 0 2px;line-height:1.9;}
+  .ev-note .badge{vertical-align:1px;}
+
+  .best-card{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:10px;padding:12px 14px;margin-bottom:8px;}
+  .best-card.normal{border-left-color:var(--green);}
+  .best-card h5{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:5px;}
+  .best-card p{font-size:12px;color:var(--sec);}
+
+  .foot{font-size:11px;color:var(--muted);line-height:1.9;text-align:center;margin-top:24px;padding-top:15px;border-top:1px solid var(--line);}
+
+  /* ===== アコーディオン（性格・カード） ===== */
+  .acc-bar{display:flex;justify-content:flex-end;margin:0 0 12px;}
+  .acc-all{background:var(--card);border:1px solid var(--line);color:var(--sec);font-family:inherit;
+    font-size:11.5px;font-weight:700;padding:6px 14px;border-radius:999px;cursor:pointer;}
+  .acc{margin-bottom:8px;}
+  .acc-head{display:flex;align-items:center;gap:10px;width:100%;background:var(--card);
+    border:1px solid var(--line);border-radius:11px;font-family:inherit;cursor:pointer;
+    padding:14px 15px;color:var(--ink);text-align:left;transition:background .12s;}
+  .acc:not(.collapsed) .acc-head{background:var(--panel);border-color:transparent;}
+  .acc-dot{width:7px;height:7px;border-radius:2px;background:var(--green);flex-shrink:0;}
+  .acc-title{font-size:15px;font-weight:700;letter-spacing:.02em;flex:1;}
+  .acc-caret{color:var(--muted);font-size:12px;transition:transform .2s;flex-shrink:0;}
+  .acc.collapsed .acc-caret{transform:rotate(-90deg);}
+  .acc-body{display:grid;grid-template-rows:1fr;transition:grid-template-rows .22s ease;}
+  .acc.collapsed .acc-body{grid-template-rows:0fr;}
+  .acc-inner{overflow:hidden;min-height:0;padding:11px 1px 3px;}
+  .acc-inner > :first-child{margin-top:0;}
+  .acc.collapsed .acc-inner{padding-top:0;padding-bottom:0;}
+
+  /* 折りたたみ参考情報（details） */
+  details.ref{margin:8px 0 2px;border:1px solid var(--line);border-radius:10px;background:var(--card);overflow:hidden;}
+  details.ref>summary{cursor:pointer;padding:11px 13px;font-size:12.5px;font-weight:700;color:var(--green);list-style:none;}
+  details.ref>summary::-webkit-details-marker{display:none;}
+  details.ref>summary::before{content:"▸ ";}
+  details.ref[open]>summary::before{content:"▾ ";}
+  details.ref .ref-body{padding:0 13px 12px;}
+  details.ref .ref-body .rc{background:var(--panel);}
+
+  /* ===== 転生OB ===== */
+  .ob-controls{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line);
+    padding:12px 15px 10px;display:flex;flex-direction:column;gap:9px;}
+  .ob-search{position:relative;}
+  .ob-search input{width:100%;font-family:inherit;font-size:15px;color:var(--ink);
+    padding:10px 34px 10px 34px;border:1px solid var(--line);border-radius:10px;background:var(--card);}
+  .ob-search input::placeholder{color:var(--muted);}
+  .ob-search input:focus{outline:none;border-color:var(--green);}
+  .ob-search .mag{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:13px;}
+  .ob-search .clr{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:none;background:none;color:var(--muted);font-size:18px;cursor:pointer;padding:2px 6px;display:none;line-height:1;}
+  .ob-row{display:flex;align-items:center;gap:8px;}
+  .seg{display:inline-flex;background:var(--panel);border-radius:9px;padding:2px;}
+  .seg button{border:none;background:none;font-family:inherit;font-size:12.5px;font-weight:700;color:var(--muted);padding:6px 13px;border-radius:7px;cursor:pointer;}
+  .seg button.on{background:var(--green);color:var(--ondark);}
+  .spacer{flex:1;}
+  .dlc-tgl{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);cursor:pointer;font-weight:700;}
+  .dlc-tgl input{width:15px;height:15px;accent-color:var(--green);}
+  .selwrap{position:relative;}
+  .selwrap select{appearance:none;-webkit-appearance:none;width:100%;font-family:inherit;font-size:15px;color:var(--ink);padding:10px 34px 10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);}
+  .selwrap select:focus{outline:none;border-color:var(--green);}
+  .selwrap::after{content:"▾";position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;font-size:12px;}
+  .pfil{display:flex;gap:6px;align-items:center;}
+  .pfil .lb{font-size:11px;color:var(--muted);font-weight:700;flex-shrink:0;}
+  .chip{border:1px solid var(--line);background:var(--card);font-family:inherit;font-size:12.5px;font-weight:700;color:var(--muted);padding:5px 12px;border-radius:999px;cursor:pointer;}
+  .chip.on{background:var(--green);color:var(--ondark);border-color:var(--green);}
+
+  .ob-results{padding:12px 15px calc(var(--tab-h) + var(--sb) + 24px);}
+  .ob-legend{display:flex;gap:9px;flex-wrap:wrap;align-items:center;font-size:10.5px;color:var(--muted);font-weight:700;margin-bottom:12px;}
+  .ob-legend span{display:inline-flex;align-items:center;gap:3px;}
+  .ob-legend i{width:9px;height:9px;border-radius:2px;display:inline-block;}
+  .summary{margin:2px 2px 12px;}
+  .summary .ttl{font-size:19px;font-weight:700;color:var(--ink);}
+  .summary .meta{font-size:12px;color:var(--muted);font-weight:700;margin-left:8px;}
+  .summary .posline{font-size:11.5px;color:var(--muted);margin-top:3px;}
+  .summary .posline b{color:var(--ink);}
+
+  .grp-head{display:flex;align-items:baseline;gap:8px;padding:16px 4px 7px;}
+  .grp-head .gn{font-size:14px;font-weight:700;color:var(--ink);}
+  .grp-head .gc{font-size:11px;font-weight:700;color:var(--muted);}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;}
+
+  .pc{display:flex;flex-direction:column;gap:5px;border:1px solid var(--line);border-left-width:4px;
+    border-radius:8px;padding:7px 9px 8px;min-width:0;background:var(--card);}
+  .pc.pg-p{border-left-color:var(--pp);background:rgba(224,81,43,.15);}
+  .pc.pg-c{border-left-color:var(--pc);background:rgba(58,111,196,.16);}
+  .pc.pg-i{border-left-color:var(--pi);background:rgba(234,179,8,.16);}
+  .pc.pg-o{border-left-color:var(--po);background:rgba(79,174,67,.15);}
+  .pc-top{display:flex;align-items:center;gap:5px;min-width:0;}
+  .pc-name{font-size:12.5px;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0;}
+  .pc-name .dlc{font-family:var(--mono);font-size:8px;font-weight:500;color:var(--muted);border:1px solid var(--line);border-radius:3px;padding:0 3px;flex-shrink:0;}
+  .star{font-size:10px;color:#e6b552;flex-shrink:0;line-height:1;}
+  .pc-bot{display:flex;align-items:center;gap:6px;}
+  .poschip{font-size:10.5px;font-weight:700;border-radius:5px;padding:2px 7px;color:#fff;flex-shrink:0;}
+  .poschip.pos-p{background:#e0512b;} .poschip.pos-c{background:#3a6fc4;}
+  .poschip.pos-i{background:#eab308;color:#241c00;} .poschip.pos-o{background:#4fae43;color:#10250f;}
+  .prefmini{font-size:9.5px;font-weight:700;color:var(--muted);white-space:nowrap;flex-shrink:0;}
+  .pc-sp{flex:1;min-width:2px;}
+  .pc-ab{display:flex;align-items:baseline;gap:3px;flex-shrink:0;}
+  .pc-ab .num{font-family:var(--mono);font-size:14px;font-weight:500;line-height:1;}
+  .pc-ab .tl{font-size:8.5px;font-weight:700;}
+  .tS .num,.tS .tl{color:var(--tS);} .tA .num,.tA .tl{color:var(--tA);}
+  .tB .num,.tB .tl{color:var(--tB);} .tC .num,.tC .tl{color:var(--tC);} .tD .num,.tD .tl{color:var(--tD);}
+  .bar-p{background:var(--pp);} .bar-c{background:var(--pc);} .bar-i{background:var(--pi);} .bar-o{background:var(--po);}
+  .s-S{background:var(--tS);} .s-A{background:var(--tA);} .s-B{background:var(--tB);} .s-C{background:var(--tC);} .s-D{background:var(--tD);}
+  .empty{text-align:center;color:var(--muted);font-size:13px;padding:44px 20px;}
+
+  .tabbar{flex-shrink:0;display:flex;background:var(--card);border-top:1px solid var(--line);padding-bottom:var(--sb);}
+  .tabbar button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;padding:8px 0 7px;height:var(--tab-h);color:var(--muted);font-family:inherit;transition:color .12s;}
+  .tabbar button svg{width:22px;height:22px;}
+  .tabbar button .lb{font-size:10.5px;font-weight:700;letter-spacing:.02em;}
+  .tabbar button.active{color:var(--green);}
+
+  @media (min-width:600px){
+    .tab{padding-left:22px;padding-right:22px;}
+    .ob-controls,.ob-results{padding-left:22px;padding-right:22px;}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="scroll" id="scroll">
+
+<section class="tab active" id="tab-events">
+      <div class="ev-legend">
+        <span><i style="background:#e5484d"></i>大会</span>
+        <span><i style="background:#3fca8f"></i>育成</span>
+        <span><i style="background:#3f8fd6"></i>学校行事</span>
+        <span><i style="background:#e3ab48"></i>季節・その他</span>
+        <span><i style="background:#a678d8"></i>スカウト・ドラフト</span>
+      </div>
+      <div id="ev-timeline"></div>
+      <div class="ev-note">※ 各行をタップで詳細。<span class="badge b-hidden">隠し</span>＝特定日にちょうど止まる等で発生 ／ <span class="badge b-random">ランダム</span> ／ <span class="badge b-cond">条件</span> ／ <span class="badge b-fixed">固定</span><br><span style="opacity:.8">※特能の取得条件・確率は2024-2025〜の仕様に準拠（2026で細部が変わる場合あり）。</span></div>
+      <div class="tip"><strong>立ち回りのコツ：</strong>特能や赤特消しに関わる隠しマスは1つで試合結果が変わることもあるので最優先で踏む。練習効率アップ系のイベントが近いときは、効率アップ後に使う<b>数字の大きい進行カード（特打・特守・総合練習など）を温存</b>しておくと効果を最大化できる。</div>
+      <div class="warn"><strong>優勝旗の小ネタ：</strong>紫紺（春）・深紅（夏）の優勝旗を所持中は、白マスで体力回復・練習効率アップ・特能習得などのボーナスイベントが発生することがある。マイナス効果はないため、所持中は白マスも積極的に踏んでOK。</div>
+      <div class="foot">⚑ 栄冠ナイン2026 攻略メモ<br>パワフルプロ野球2026-2027（通常モード）対応 ｜ 2026年7月時点の情報</div>
+    </section>
+
+    <!-- ============ TAB 2: 性格 ============ -->
+    <section class="tab" id="tab-seikaku">
+
+      <div class="acc-bar"><button class="acc-all" type="button">すべて閉じる</button></div><div class="acc"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">能力の伸びやすさ</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      <p class="note">練習時、性格に対応した能力に成長ボーナス（+10%）が発生することがある。<span class="mk mk-hi">◎</span>＝高確率（約50%）／<span class="mk mk-mid">◯</span>＝低確率（約20%）／<span class="mk mk-none">－</span>＝なし。<b>天才肌は全能力に高確率で別格。</b></p>
+
+      <div class="note" style="margin-bottom:6px;color:var(--ink);font-weight:700;">▼ 投手能力</div>
+      <div class="matrix-wrap">
+        <table class="matrix">
+          <thead><tr><th class="name">性格</th><th>球速</th><th>制球</th><th>スタミナ</th><th>変化球</th></tr></thead>
+          <tbody>
+            <tr><td class="name">ごくふつう</td><td><span class="mk mk-mid">◯</span></td><td><span class="mk mk-mid">◯</span></td><td><span class="mk mk-mid">◯</span></td><td><span class="mk mk-mid">◯</span></td></tr>
+            <tr><td class="name">やんちゃ</td><td><span class="mk mk-hi">◎</span></td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-none">－</span></td></tr>
+            <tr><td class="name">熱血漢</td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-hi">◎</span></td><td><span class="mk mk-none">－</span></td></tr>
+            <tr><td class="name">クール</td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-hi">◎</span></td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-none">－</span></td></tr>
+            <tr><td class="name">内気</td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-hi">◎</span></td></tr>
+            <tr><td class="name">お調子者</td><td><span class="mk mk-hi">◎</span></td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-none">－</span></td></tr>
+            <tr><td class="name">したたか</td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-hi">◎</span></td></tr>
+            <tr class="row-genius"><td class="name">天才肌</td><td><span class="mk mk-hi">◎</span></td><td><span class="mk mk-hi">◎</span></td><td><span class="mk mk-hi">◎</span></td><td><span class="mk mk-hi">◎</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note" style="margin:14px 0 6px;color:var(--ink);font-weight:700;">▼ 野手能力（横スクロール）</div>
+      <div class="matrix-wrap">
+        <table class="matrix">
+          <thead><tr><th class="name">性格</th><th>ミート</th><th>パワー</th><th>走力</th><th>肩力</th><th>守備</th><th>捕球</th></tr></thead>
+          <tbody>
+            <tr><td class="name">ごくふつう</td><td><span class="mk mk-mid">◯</span></td><td><span class="mk mk-mid">◯</span></td><td><span class="mk mk-mid">◯</span></td><td><span class="mk mk-mid">◯</span></td><td><span class="mk mk-mid">◯</span></td><td><span class="mk mk-mid">◯</span></td></tr>
+            <tr><td class="name">やんちゃ</td><td><span class="mk mk-hi">◎</span></td><td><span class="mk mk-hi">◎</span></td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-none">－</span></td></tr>
+            <tr><td class="name">熱血漢</td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-hi">◎</span></td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-hi">◎</span></td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-none">－</span></td></tr>
+            <tr><td class="name">クール</td><td><span class="mk mk-hi">◎</span></td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-hi">◎</span></td><td><span class="mk mk-none">－</span></td></tr>
+            <tr><td class="name">内気</td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-hi">◎</span></td><td><span class="mk mk-hi">◎</span></td></tr>
+            <tr><td class="name">お調子者</td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-hi">◎</span></td><td><span class="mk mk-hi">◎</span></td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-none">－</span></td></tr>
+            <tr><td class="name">したたか</td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-hi">◎</span></td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-none">－</span></td><td><span class="mk mk-hi">◎</span></td></tr>
+            <tr class="row-genius"><td class="name">天才肌</td><td><span class="mk mk-hi">◎</span></td><td><span class="mk mk-hi">◎</span></td><td><span class="mk mk-hi">◎</span></td><td><span class="mk mk-hi">◎</span></td><td><span class="mk mk-hi">◎</span></td><td><span class="mk mk-hi">◎</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      </div></div></div><div class="acc"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">性格別の伝令</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      <p class="note">数値は <b>1年 → 2年 → 3年</b> の順。攻撃・守備それぞれ<b>3回まで</b>使用可（延長は1イニングにつき+1回）。3年生の伝令は特殊能力が付くものが多い。</p>
+      <div class="card-list">
+        <div class="rc"><div class="rc-head">ごくふつう ／ 内気 …「励ます」系</div>
+          <div class="rc-row"><span class="k">守備</span>投手スタミナ <b>回復+10 → +20 → +30</b>（効果:1試合）<span class="rc-sub">※今作は「増加」でなく「回復」。減ってから使う</span></div>
+          <div class="rc-row"><span class="k">攻撃</span>打者の調子 <b>1段階 → 2段階 → 超ノリノリ</b>（1打席 → 1イニング → 1イニング）</div></div>
+        <div class="rc"><div class="rc-head">やんちゃ …「盛り上げる」系</div>
+          <div class="rc-row"><span class="k">守備</span>野手全員 守備・捕球 <b>+20 → +30 → +40</b>（1イニング）</div>
+          <div class="rc-row"><span class="k">攻撃</span>打者 ミート・パワー <b>+5 → +8 → +10</b>＋チャンス+1（2年でチャンスメーカー、3年で逆境◯付与／1打席）</div></div>
+        <div class="rc"><div class="rc-head">熱血漢 …守備「盛り上げる」／攻撃「発破」系</div>
+          <div class="rc-row"><span class="k">守備</span>野手全員 守備・捕球 <b>+20 → +30 → +40</b>（1イニング）</div>
+          <div class="rc-row"><span class="k">攻撃</span>打者 パワー <b>+10 → +20 → +25</b>（3年でパワーヒッター・逆境◯付与／1打席）</div></div>
+        <div class="rc"><div class="rc-head">クール ／ 天才肌 …「助言する」系</div>
+          <div class="rc-row"><span class="k">守備</span>投手 球速 <b>+1 → +2 → +3km</b>・コントロール <b>+20 → +30 → +40</b>（1イニング）</div>
+          <div class="rc-row"><span class="k">攻撃</span>打者 ミート <b>+10 → +20 → +25</b>（3年でアベレージヒッター付与／1打席）</div></div>
+        <div class="rc"><div class="rc-head">お調子者 …守備「ホメる」／攻撃「盛り上げる」系</div>
+          <div class="rc-row"><span class="k">守備</span>投手の調子 <b>1段階 → 1段階 → 2段階</b>上昇（打者1人 → 1イニング → 1イニング）</div>
+          <div class="rc-row"><span class="k">攻撃</span>打者 ミート・パワー <b>+5 → +8 → +10</b>＋チャンス+1（やんちゃと同じ）</div></div>
+        <div class="rc"><div class="rc-head">したたか …守備「ホメる」／攻撃「発破」系</div>
+          <div class="rc-row"><span class="k">守備</span>投手の調子 <b>1段階 → 1段階 → 2段階</b>上昇（お調子者と同じ）</div>
+          <div class="rc-row"><span class="k">攻撃</span>打者 パワー <b>+10 → +20 → +25</b>（熱血漢と同じ・発破）</div></div>
+      </div>
+      <div class="tip"><strong>キャプテン伝令：</strong>キャプテンを伝令に使うと通常効果に<b>ランダムな追加効果が1つ</b>付く。強力なので、7回以降にキャプテンをベンチへ下げて伝令要員にするのも有効。</div>
+      <div class="tip"><strong>使い分けの目安：</strong>投手スタミナ管理は「励ます」（ごくふつう・内気）、終盤の守備固めは「盛り上げる」（やんちゃ・熱血漢）、エース強化は「助言する」（クール・天才肌）。ベンチに複数の性格を揃えると状況に応じて選べる。</div>
+
+      </div></div></div><div class="acc"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">キャプテンの性格</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      <p class="note">※<b>★</b>＝キャプテンおすすめ。</p>
+      <div class="card-list">
+        <div class="rc pri"><div class="rc-head">お調子者 <span class="pin">★おすすめ筆頭</span></div>
+          <div class="rc-row">3名のテンションアップ／「ダメダメ」の選手が「ふつう」に回復／低確率で3名が「超ノリノリ」に</div>
+          <div class="rc-row"><span class="k">評価</span>お褒めが手に入りにくい序盤に特に強い。</div></div>
+        <div class="rc pri"><div class="rc-head">クール <span class="pin">★おすすめ</span></div>
+          <div class="rc-row">全員の体力回復＋数名のテンションアップ</div>
+          <div class="rc-row"><span class="k">評価</span>体力＝経験値効率なので恩恵が大きい。伝令も助言系で腐りにくい。</div></div>
+        <div class="rc"><div class="rc-head">やんちゃ</div>
+          <div class="rc-row">グラウンドレベル+1（グラウンド整備）</div>
+          <div class="rc-row"><span class="k">評価</span>グラウンドレベル上げ中に有用。守備伝令も終盤に使いやすい。</div></div>
+        <div class="rc"><div class="rc-head">ごくふつう</div>
+          <div class="rc-row">チーム方針に応じて全員に経験値（バランス重視なら各種経験値中アップ）</div>
+          <div class="rc-row"><span class="k">評価</span>手堅い経験値配布。</div></div>
+        <div class="rc"><div class="rc-head">熱血漢</div>
+          <div class="rc-row">方針に応じ全員に経験値<b>大</b>アップ（ただし数名の体力ダウンあり）</div>
+          <div class="rc-row"><span class="k">評価</span>効果は大きいがデメリット付き。</div></div>
+        <div class="rc"><div class="rc-head">内気</div>
+          <div class="rc-row">全員の学力中アップ（勉強会）</div>
+          <div class="rc-row"><span class="k">評価</span>試験対策向け。</div></div>
+        <div class="rc"><div class="rc-head">したたか</div>
+          <div class="rc-row">3名の信頼度中アップ</div>
+          <div class="rc-row"><span class="k">評価</span>信頼度は戦術カードの数字に影響。</div></div>
+        <div class="rc"><div class="rc-head">天才肌</div>
+          <div class="rc-row">全員の練習経験値アップ</div>
+          <div class="rc-row"><span class="k">評価</span>そもそも天才肌自体が貴重。</div></div>
+      </div></div></div></div>
+
+      <div class="foot">⚑ 栄冠ナイン2026 攻略メモ<br>2026年7月時点の情報</div>
+    </section>
+
+    <!-- ============ TAB 3: カード・合宿 ============ -->
+    <section class="tab" id="tab-cards">
+
+      <div class="acc-bar"><button class="acc-all" type="button">すべて閉じる</button></div><div class="acc"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">進行カードの強さ</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      <p class="note"><span class="step">左＝弱</span> → <span class="step top">右＝強</span>（右ほど獲得経験値が多い）</p>
+      <div id="seq-list"></div>
+      <details class="ref"><summary>各カードで上がる能力と獲得経験値（1日の基礎値）を見る</summary>
+        <div class="ref-body">
+          <p class="note">数字は野手の1日あたり基礎経験値。<b>( )内は投手</b>（投手はミート・パワー・走力が半減）。各系統とも弱→強で <b>40 → 60 → 80 → 100</b>。実際の増加量はこれに下の倍率が掛かる。</p>
+          <div class="card-list">
+            <div class="rc"><div class="rc-head">野手系（主能力40→100）</div>
+              <div class="rc-row"><span class="k">ミート</span>素振り／ミートバッティング／ティー／マシン打撃</div>
+              <div class="rc-row"><span class="k">パワー</span>腕立て腹筋／指立て伏せ／ダンベル／ベンチプレス（＋球速10〜25）</div>
+              <div class="rc-row"><span class="k">走力</span>ダッシュ／インターバル走／ベースランニング／ハードル（＋スタミナ10〜25）</div>
+              <div class="rc-row"><span class="k">肩力</span>スローイング／遠投／チューブ／ラットマシン（＋球速10〜25）</div>
+              <div class="rc-row"><span class="k">守備</span>ペッパー／守備連携／ノック／マシンガンノック</div>
+              <div class="rc-row"><span class="k">捕球</span>座禅／メンタル／アロマ／いやしのひととき（＋コン10〜25）</div></div>
+            <div class="rc"><div class="rc-head">投手系（主能力40→100）</div>
+              <div class="rc-row"><span class="k">球速</span>フォームチェック／投げ込み／球速測定／マッスラー（＋肩10〜25）</div>
+              <div class="rc-row"><span class="k">制球</span>フォームチェック／コース投げ込み／的当て／コース的当て（＋守備10〜25）</div>
+              <div class="rc-row"><span class="k">スタミナ</span>スクワット／走り込み／タイヤ引き／ローラー</div>
+              <div class="rc-row"><span class="k">変化球</span>フォームチェック／変化球投げ込み／握力強化／変化球研究</div></div>
+            <div class="rc"><div class="rc-head">経験値が多い特殊カード</div>
+              <div class="rc-row"><span class="k">総合練習</span>全能力 <b>+20</b>（投手は投手能力以外+10）。バランス最良</div>
+              <div class="rc-row"><span class="k">特守</span>守備 <b>+100</b>・捕球 <b>+100</b>（投手も半減なし＝チーム総経験値トップ）</div>
+              <div class="rc-row"><span class="k">特打</span>ミート <b>+100</b>・パワー <b>+100</b></div>
+              <div class="rc-row"><span class="k">握力強化</span>パワー <b>+100</b>・変化球+80（ベンチプレスの上位互換）</div>
+              <div class="rc-row"><span class="k">バント練習</span>ミート・走力・捕球 各+40</div>
+              <div class="rc-row"><span class="k">ストレッチ</span>パワー+20・球速+60・スタミナ+60（投手向け）</div>
+              <div class="rc-row"><span class="k">個別練習</span>練習指示の能力 +100／<span class="k">紅白戦</span>ランダム能力 +90</div></div>
+            <div class="rc"><div class="rc-head">実際の獲得＝基礎値 × 各倍率</div>
+              <div class="rc-row"><span class="k">練習効率</span>通常×1／小×2／中×4／大×6（下がった×0.8・×0.6）</div>
+              <div class="rc-row"><span class="k">グラウンド</span>Lv÷200+1（最大約1.5倍）</div>
+              <div class="rc-row"><span class="k">天候</span>晴・曇×1.67／雨・雪×1.0（実質6割）</div>
+              <div class="rc-row"><span class="k">体力</span>満タン×1.0 〜 最低×0.825（最大17.5%減）</div>
+              <div class="rc-row"><span class="k">黄色マス</span>基礎値×0.75×数字 を追加獲得</div>
+              <div class="rc-sub">※イベントの「経験値が上がった」は固定値（少150／中300／大450、効率倍率は無関係）。数値は2024-2025版の実測に基づく。</div></div>
+          </div>
+        </div>
+      </details>
+
+      </div></div></div><div class="acc"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">練習効率アップと倍率</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      <p class="note">効率アップ中に「数字が大きく右寄りのカード」を切ると獲得経験値が伸びる。</p>
+      <div class="card-list">
+        <div class="rc"><div class="rc-head">グラウンドレベル（常時かかる倍率）</div>
+          <div class="rc-row">1レベルごとに獲得経験値 <b>+0.5%</b>。最大 <b>Lv99＝約+49%（およそ1.5倍）</b>。練習器材＋甲子園の土で上げる<span class="rc-sub">※器材は計25日使用で破損しレベルが下がる。効率アップ中に器材カードを切るのが理想</span></div></div>
+        <div class="rc"><div class="rc-head">練習効率アップ（小・中・大の一時ボーナス）</div>
+          <div class="rc-row"><span class="k">倍率</span>小 <b>×2</b>／中 <b>×4</b>／大 <b>×6</b>（通常×1）。効果は<b>上書き</b>で、重ねても加算はされない</div>
+          <div class="rc-row"><span class="k">観戦</span>小アップ・<b>次の2回</b>の練習に適用（進行カード）</div>
+          <div class="rc-row"><span class="k">グラウンド整備</span>小アップ・<b>次の1回</b>のみ（進行1マス／低確率でグラウンドLv+1）</div>
+          <div class="rc-row"><span class="k">アイドル 新曲披露</span>中アップ（×4）・<b>次の1回</b>（アイドルの卒業生マス）</div>
+          <div class="rc-row"><span class="k">各種イベント</span>体育祭・文化祭・進級・七夕・OBの励まし・特訓成功など＝小〜大アップ</div></div>
+      </div>
+      <div class="tip"><strong>効率アップの重ねワザ：</strong>「観戦（次2回分）→ アイドルマスで新曲披露（中）」を踏むと、<b>中アップが次の練習2回に乗る</b>。その2回に総合練習・特打・特守（数字5）を当てると経験値が最大化。グラウンド整備は1回のみなので重ね不可。</div>
+      <div class="warn"><strong>倍率について：</strong>獲得経験値＝<b>基礎値 × グラウンド補正 × 天候補正 × 体力補正 × 練習効率（小×2／中×4／大×6）</b>。大アップ中に数字5・高経験値カード（総合練習・特打・特守）を切ると伸びが最大化。数値は2024-2025版の実測に基づく参考値（コナミ非公開・過去作準拠のため2026で変わる場合あり）。</div>
+
+      </div></div></div><div class="acc"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">その他の進行カード</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      <div class="card-list">
+        <div class="rc pri"><div class="rc-head">特打 <span class="pin">最強格</span></div><div class="rc-row">ミート＋大、パワー＋大。<b>出たら必ず使いたい</b></div></div>
+        <div class="rc pri"><div class="rc-head">特守 <span class="pin">最優先</span></div><div class="rc-row">守備力＋大、捕球＋大。最優先で使用</div></div>
+        <div class="rc pri"><div class="rc-head">総合練習 <span class="pin">常に優秀</span></div><div class="rc-row">全能力＋小。総獲得経験値が多く常に優秀</div></div>
+        <div class="rc"><div class="rc-head">ストレッチ</div><div class="rc-row">パワー＋小、球速＋中、スタミナ＋中</div></div>
+        <div class="rc"><div class="rc-head">バント練習</div><div class="rc-row">ミート＋小、走力＋小、捕球＋小</div></div>
+        <div class="rc"><div class="rc-head">観戦</div><div class="rc-row">次の2回分の練習効率が小アップ。<b>効率アップマス（アイドル等）と重ねる小技あり</b></div></div>
+        <div class="rc"><div class="rc-head">練習試合申し込み</div><div class="rc-row">格上との練習試合で経験値・信頼度・評判を稼げる。公式大会の約20日前から使えなくなるため<b>出たら早めに消化</b></div></div>
+        <div class="rc"><div class="rc-head">練習指示</div><div class="rc-row">チームの練習指示を変更できる。4月の新入生入学直後に使えるよう<b>3月中に温存</b>すると便利</div></div>
+      </div>
+
+      </div></div></div><div class="acc"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">合宿前に残すカード</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      <p class="note">※夏 7/25〜7/29／冬 12/10〜12/14。入る時点の手札で取れる特能が決まる。下は<b>「残すカード → 取れる主な青特」</b>。<span class="pin">★</span>＝最優先。</p>
+      <div class="card-list">
+        <div class="rc pri"><div class="rc-head"><span class="pin">★</span>まず残したいカード</div>
+          <div class="rc-row"><span class="k">投げ込み・特守</span><b>キャッチャー+1・+2</b>（捕手。失点に直結。B以上が居なければ最優先）</div>
+          <div class="rc-row"><span class="k">守備連携・アロマ・いやし</span><b>ムード◯</b>（チーム全体強化）・勝ち運・チャンス+2・対ピンチ+1</div>
+          <div class="rc-row"><span class="k">ハードル・ベースランニング</span><b>内野安打◯</b>・盗塁+2・かく乱・プレッシャーラン<span class="rc-sub">内野安打◯は最強戦術「転がせ」Lv6の条件</span></div>
+          <div class="rc-row"><span class="k">バント練習</span><b>バント◯</b>・バント職人（バント系戦術Lv6の条件）・高速チャージ</div></div>
+        <div class="rc"><div class="rc-head">打者を強くしたいとき</div>
+          <div class="rc-row"><span class="k">マシン打撃・ティー</span>アベレージヒッター・広角打法・流し打ち・アウトコースヒッター</div>
+          <div class="rc-row"><span class="k">特打・ベンチプレス</span>パワーヒッター・プルヒッター・威圧感・対変化球◯</div></div>
+        <div class="rc"><div class="rc-head">投手を強くしたいとき</div>
+          <div class="rc-row"><span class="k">マッスラー・球速測定</span>奪三振・ノビ+1／+2・ジャイロボール・重い球・球速安定</div>
+          <div class="rc-row"><span class="k">コース的当て・的当て</span>低め◯・内角攻め・逃げ球・要所◯・ストライク先行</div>
+          <div class="rc-row"><span class="k">変化球投げ込み</span>キレ◯・変化量アップ系</div></div>
+        <div class="rc"><div class="rc-head">メンタル・その他</div>
+          <div class="rc-row"><span class="k">座禅・メンタル</span>逆境◯・チャンス+1・対ピンチ+1・尻上がり・調子安定</div></div>
+      </div>
+
+      <div class="tip"><strong>合宿の基本方針：</strong>①<b>戦術Lv6にできる特能</b>（内野安打◯・バント◯など）が取れるカードを最優先に残す。②<b>キャッチャーB以上が不在なら「キャッチャー」、ムード◯持ちが不在なら「ムード◯」</b>を確保。③育成方針で出やすいカードが変わる（走力重視→走塁系、守備・投手力重視→捕手系が出やすい）。</div>
+      <div class="warn"><strong>体力に注意：</strong>合宿は消費体力が大きい。事前に体力を回復しておかないと習得率が下がる。合宿の提案（夏6/20・冬11/10）が来たら、体力回復とカード厳選をセットで準備しよう。微妙な手札は「スケジュール変更手帳」で整えるのも手。</div></div></div></div>
+
+      <div class="foot">⚑ 栄冠ナイン2026 攻略メモ<br>出典：Game8・AppMedia・ゲーミング再生工場ほか各攻略サイトの公開情報（2026年7月時点）をもとに再構成。アップデートで数値・仕様が変わる場合があります。</div>
+    </section>
+<section class="tab" id="tab-tech">
+      <p class="lead">通常プレイ〜やり込み向けの高等テクニック。数値・条件は2024-2025〜2026の攻略情報に基づく。</p>
+
+      <div class="acc-bar"><button class="acc-all" type="button">すべて閉じる</button></div><div class="acc"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">育成効率を最大化する</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      <div class="card-list">
+        <div class="rc"><div class="rc-head">効率アップの重ねワザ</div>
+          <div class="rc-row"><b>観戦（次2回に小アップ）→ アイドルマスで新曲披露（中アップ）</b>を踏むと、中アップが次の練習2回に乗る。その2回に<b>総合練習・特打・特守（数字5）</b>を当てて経験値を最大化。</div></div>
+        <div class="rc"><div class="rc-head">グラウンドレベル維持</div>
+          <div class="rc-row">+0.5%/Lv・最大Lv99で約+49%（およそ1.5倍）。器材は計25日で破損しレベルが下がるので<b>効率アップ中に器材カードを消費</b>。土を多めに入れて上限を維持。</div></div>
+        <div class="rc"><div class="rc-head">端数を伸ばさない</div>
+          <div class="rc-row">戦力はアルファベット平均で計算（<b>D50もD59も同じ</b>）。ランク内の端数上げは無駄になりやすく、次のランクに乗せるのを優先。<b>弾道は戦力に無関係</b>で育成優先度は低い。</div></div>
+        <div class="rc"><div class="rc-head">投手の変化球</div>
+          <div class="rc-row">3球種で総変化量10を狙うより、<b>3球種・総変化量9 →4球種目</b>を取る方が経験値効率が良い。</div></div>
+        <div class="rc"><div class="rc-head">特訓マス稼ぎ</div>
+          <div class="rc-row">ちょうど止まりで出現：夏の大会敗退後（8/10前後・地域で変動）／クリスマス12/24／2月末。狙って特能を取得する。</div></div>
+      </div>
+
+      </div></div></div><div class="acc"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">試合を有利にする</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      <div class="card-list">
+        <div class="rc"><div class="rc-head">キャプテン伝令</div>
+          <div class="rc-row">キャプテンを伝令に使うと通常効果＋<b>ランダム追加効果が1つ</b>。7回以降はキャプテンをベンチに下げて伝令要員にするのも有効。</div></div>
+        <div class="rc"><div class="rc-head">内気の「◯◯の魔物」</div>
+          <div class="rc-row">2年生以上の内気が使う上位固有戦術。発動で<b>相手守備が崩壊</b>し大量得点も。内気を複数ベンチに入れて発動率を上げる。</div></div>
+        <div class="rc"><div class="rc-head">キャッチャー特能</div>
+          <div class="rc-row">捕手のキャッチャーA/Bは投手全体の失点に直結。<b>キャッチャーB以上を最優先</b>で確保（合宿の捕手強化カード）。</div></div>
+        <div class="rc"><div class="rc-head">優勝旗ボーナス</div>
+          <div class="rc-row">紫紺／深紅の優勝旗を所持中は白マスでボーナス（体力回復・効率アップ・特能）。所持中は白マスも積極的に踏む。</div></div>
+      </div>
+
+      </div></div></div><div class="acc"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">選手厳選・チーム運用</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      <div class="card-list">
+        <div class="rc"><div class="rc-head">転生OB・性格厳選</div>
+          <div class="rc-row">入部する転生OBは<b>都道府県で変わる</b>（→転生OBタブ）。育成最強の<b>天才肌</b>、魔物要員の<b>内気</b>は入学時に確保したい。</div></div>
+        <div class="rc"><div class="rc-head">コンバートとベンチ運用</div>
+          <div class="rc-row">弱い投手でも野手能力が高ければ内野へ等、適性でコンバート。<b>ベンチ外は能力の低い選手</b>にする（ベンチ入りは試合戦力に影響する）。</div></div>
+        <div class="rc"><div class="rc-head">パリコレ（総入れ替え）</div>
+          <div class="rc-row">ベンチ全員を<b>代打・代走・守備交代</b>で出すと、控えにも経験値と「経験（試合数）」が入り信頼度も底上げ。</div></div>
+        <div class="rc"><div class="rc-head">序盤の育成方針</div>
+          <div class="rc-row">走力重視が扱いやすい（内野安打○・盗塁を狙い転がせLv6へ）。捕手が弱ければ守備・投手力重視でキャッチャー習得を狙う。</div></div>
+      </div>
+
+      </div></div></div><div class="acc"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">リソース運用</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      <div class="card-list">
+        <div class="rc"><div class="rc-head">5勝ごとのアイテム交換</div>
+          <div class="rc-row">特能本のラインナップは交換数<b>10個ごとに+5種類</b>増える。序盤は毎回交換して種類を増やすと、後で強い特能本を狙いやすい。</div></div>
+        <div class="rc"><div class="rc-head">グラウンド器材</div>
+          <div class="rc-row">まず1000ptの練習器材を全て揃える → お楽しみ交換券で2000pt器材を狙うと効率よくグラウンドレベルが上がる。</div></div>
+        <div class="rc"><div class="rc-head">パワポイント／スカウト</div>
+          <div class="rc-row">ドラフト指名人数でパワポイントが増加。スカウトは11/1〜翌2月末に年10回まで。履歴書・回数は使い切る。</div></div>
+      </div>
+
+      </div></div></div><div class="acc"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">オンスト（リセット）※半裏技</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      <p class="note">セーブ&ロードで抽選をやり直すテクニック。使わない縛りプレイも一般的。</p>
+      <div class="card-list">
+        <div class="rc"><div class="rc-head">インタビュー抽選</div>
+          <div class="rc-row">甲子園出場決定時に発生が抽選される説がある。春は<b>1/25（当落発表）前</b>、夏は決勝前にセーブし、出なければやり直す。</div></div>
+        <div class="rc"><div class="rc-head">隠しマス・合宿前</div>
+          <div class="rc-row">ちょうど止まり系（特訓・クリスマス等）や合宿前のカード厳選も、セーブ&ロードで狙い直せる。</div></div>
+      </div>
+
+      </div></div></div><div class="acc"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">3年モードのコツ</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      <div class="card-list">
+        <div class="rc"><div class="rc-head">今作の新モード</div>
+          <div class="rc-row">能力が上がりやすく難易度低め。初年度から甲子園も狙える。</div></div>
+        <div class="rc"><div class="rc-head">完全試合の恩恵</div>
+          <div class="rc-row"><b>完全試合で選手の「伸び」が+1〜+2</b>（ノーヒットノーランでも伸びUP）。通常モードより達成しやすく積極的に狙う価値大。</div></div>
+        <div class="rc"><div class="rc-head">総入れ替え育成</div>
+          <div class="rc-row">レギュラーと控えを一気に入れ替える枠を作り、チーム全体の信頼度・経験値を底上げする。</div></div>
+      </div></div></div></div>
+
+      <div class="foot">⚑ 栄冠ナイン2026 攻略メモ ｜ 高等テクニック<br>出典：Game8・AppMedia・れぺぱん・白球の戦士ほか（2024-2025〜2026）。アップデートで数値・仕様が変わる場合があります。</div>
+    </section>
+<section class="tab" id="tab-senjutsu">
+      <p class="lead">試合中の戦術に関するまとめ。性格ごとの固有戦術と、戦術レベル6〜7の条件・上げ方を集約。</p>
+<div class="acc-bar"><button class="acc-all" type="button">すべて閉じる</button></div><div class="acc"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">性格別の固有戦術</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      <p class="note">※上位版は<b>2・3年生のみ</b>出現。</p>
+      <div class="card-list">
+        <div class="rc"><div class="rc-head">ごくふつう</div>
+          <div class="rc-row"><span class="k">通常</span><b>ファイト</b>：調子1段階アップ／1イニング</div>
+          <div class="rc-row"><span class="k">上位</span><b>超ファイト</b>：調子2段階アップ／1イニング</div></div>
+        <div class="rc"><div class="rc-head">やんちゃ</div>
+          <div class="rc-row"><span class="k">通常</span><b>強心臓</b>：特能付与（野手はチャンスA）／1イニング</div>
+          <div class="rc-row"><span class="k">上位</span><b>威圧</b>：投手時は相手打者のミート・パワー-20、野手時は威圧感付与／1打席</div></div>
+        <div class="rc"><div class="rc-head">熱血漢</div>
+          <div class="rc-row"><span class="k">通常</span><b>熱血</b>：投手は球速+3km、野手はパワー+30／1打席</div>
+          <div class="rc-row"><span class="k">上位</span><b>闘魂</b>：野手はパワー+50＋特能付与／1打席</div></div>
+        <div class="rc"><div class="rc-head">クール</div>
+          <div class="rc-row"><span class="k">通常</span><b>究極の思考</b>：戦術カードの数字+1／1打席</div>
+          <div class="rc-row"><span class="k">上位</span><b>精密機械</b>：投手はコントロール+50、野手はミート+30＋特能付与／1打席</div></div>
+        <div class="rc pri"><div class="rc-head">内気 <span class="pin">最強格</span></div>
+          <div class="rc-row"><span class="k">通常</span><b>ラッキーボーイ</b>：特能をランダム付与／1打席</div>
+          <div class="rc-row"><span class="k">上位</span><b>◯◯の魔物</b>：相手チーム全員の捕球が1になり赤特付与／1イニング。<b>発動すれば試合を決めうる</b>（投手指示時は発動しない）</div></div>
+        <div class="rc"><div class="rc-head">お調子者</div>
+          <div class="rc-row"><span class="k">通常</span><b>お祭り男</b>：味方全員に特能付与／1イニング（野手時のみ）</div>
+          <div class="rc-row"><span class="k">上位</span><b>黄色い声援</b>：味方全員の調子1段階アップ／1イニング</div></div>
+        <div class="rc"><div class="rc-head">したたか</div>
+          <div class="rc-row"><span class="k">通常</span><b>くせ者</b>：粘り打ち・バント職人・内野安打◯・いぶし銀・意外性などを付与／1イニング</div>
+          <div class="rc-row"><span class="k">上位</span><b>ゆさぶる</b>：相手チームの調子を1段階ダウン／1イニング</div></div>
+        <div class="rc pri"><div class="rc-head">天才肌 <span class="pin">別格</span></div>
+          <div class="rc-row"><span class="k">通常</span><b>急成長</b>：その試合で戦術を選んだ時の経験値アップ／1試合</div>
+          <div class="rc-row"><span class="k">上位</span><b>才能開花</b>：投手は球速+3km・コントロール100・変化量+1、野手はミート・パワー・走力が100に／1打席</div></div>
+      </div>
+
+      </div></div></div><div class="acc"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">戦術レベル6・7を作り込む</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      <p class="note">各戦術はまず能力値で<b>基礎Lv5</b>に届き、さらに下記の<b>青特・能力条件</b>を満たすとLv6〜7に上がる。特に打撃戦術はLvで結果が激変（投球戦術はLv差が小さい）。</p>
+      <div class="card-list">
+        <div class="rc"><div class="rc-head">打撃戦術Lv別の目安（実測）</div>
+          <div class="rc-row"><span class="k">打率</span>Lv5 .441 → Lv6 .571 → <b>Lv7 .652</b></div>
+          <div class="rc-row"><span class="k">長打率</span>Lv7で <b>.957</b>（長打ほぼ確定級）</div></div>
+        <div class="rc"><div class="rc-head">攻撃時：基礎Lv5の能力 ＋ Lv6の青特</div>
+          <div class="rc-row"><span class="k">センター返し</span>Lv5=ミート60(C)／Lv6=アベレージヒッター</div>
+          <div class="rc-row"><span class="k">流し打ち</span>Lv5=ミート75(B)／Lv6=流し打ち・広角打法・アウトコースヒッター</div>
+          <div class="rc-row"><span class="k">引っ張り</span>Lv5=パワー75(B)／Lv6=プルヒッター・インコースヒッター</div>
+          <div class="rc-row"><span class="k">転がせ</span>Lv5=<b>ミート60・走力60（ともにC以上）</b>／Lv6=<b>内野安打○</b></div>
+          <div class="rc-row"><span class="k">犠牲フライ</span>Lv5=弾道4・パワー80(A)／Lv6=ハイボール／ローボールヒッター</div>
+          <div class="rc-row"><span class="k">エンドラン</span>Lv5=ミート80(A)／Lv6=粘り打ち・悪球打ち</div>
+          <div class="rc-row"><span class="k">送りバント</span>Lv5=ミート70(B)／Lv6=バント○・バント職人</div>
+          <div class="rc-row"><span class="k">スクイズ</span>Lv5=ミート80(A)／Lv6=バント○・バント職人</div>
+          <div class="rc-row"><span class="k">セーフティ</span>Lv5=ミート80・走力80(A)／Lv6=バント○・バント職人・内野安打○</div>
+          <div class="rc-row"><span class="k">盗塁</span>Lv5=走力80(A)／Lv6=盗塁B以上</div>
+          <div class="rc-row" style="color:var(--muted)">※ランク目安 S90・A80・B70・C60・D50／「おまかせ」は条件なし</div></div>
+        <div class="rc"><div class="rc-head">守備時：基礎Lv5の能力 ＋ Lv6の条件</div>
+          <div class="rc-row"><span class="k">内角中心</span>Lv5=球速155／Lv6=内角攻め</div>
+          <div class="rc-row"><span class="k">外角中心</span>Lv5=コントロール80(A)／Lv6=コントロールA・総変化量10以上</div>
+          <div class="rc-row"><span class="k">ストライクをとれ</span>Lv5=スタミナ70(B)／Lv6=球速155km/h以上</div>
+          <div class="rc-row"><span class="k">クサイところ</span>Lv5=コントロール90(S)／Lv6=コントロールS</div>
+          <div class="rc-row"><span class="k">打たせてとれ</span>Lv5=スタミナ80(A)・総変化量9／Lv6=キレ○</div>
+          <div class="rc-row"><span class="k">緩急重視</span>Lv5=球速155・総変化量9／Lv6=緩急○・リリース○</div>
+          <div class="rc-row"><span class="k">低め中心</span>Lv5=コントロール80(A)・総変化量10／Lv6=低め○</div></div>
+        <div class="rc"><div class="rc-head">その場でLvを上げる方法</div>
+          <div class="rc-row"><span class="k">信頼度</span>高いほど高Lvが出やすい（試合出場・おまかせ指示・進路相談・食事会でUP）</div>
+          <div class="rc-row"><span class="k">調子</span>スランプ〜超ノリノリで戦術Lvが <b>-2〜+2</b> 変動。勝ちたい試合前はお褒めで調子UP</div>
+          <div class="rc-row"><span class="k">究極の思考</span>クールの固有戦術。<b>全戦術Lv+1</b>（6→7が狙える）</div>
+          <div class="rc-row"><span class="k">大声援</span>◯(A)連打で発動し、次の戦術Lvを確率で+1（メガホン点灯が多いほど確率UP）</div></div>
+      </div></div></div></div>
+
+            <div class="foot">⚑ 栄冠ナイン2026 攻略メモ ｜ 戦術<br>出典：Game8・AppMediaほか（2026）。数値・仕様は変更される場合があります。</div>
+    </section>
+
+    <!-- ============ TAB 4: 転生OB ============ -->
+    <section class="tab" id="tab-ob">
+      <div class="ob-controls">
+        <div class="ob-search">
+          <span class="mag">🔍</span>
+          <input id="q" type="search" placeholder="名前・称号で検索（全国）" autocomplete="off">
+          <button class="clr" id="clr" aria-label="クリア">×</button>
+        </div>
+        <div class="ob-row">
+          <div class="seg" id="obmode">
+            <button data-m="pref" class="on">都道府県</button>
+            <button data-m="region">地区別</button>
+            <button data-m="all">能力順</button>
+          </div>
+          <span class="spacer"></span>
+          <label class="dlc-tgl"><input type="checkbox" id="dlc" checked>DLC</label>
+        </div>
+        <div class="selwrap" id="selwrap"><select id="obsel"></select></div>
+        <div class="pfil" id="pfil">
+          <span class="lb">位置</span>
+          <button class="chip on" data-pg="all">全</button>
+          <button class="chip" data-pg="p">投</button>
+          <button class="chip" data-pg="c">捕</button>
+          <button class="chip" data-pg="i">内</button>
+          <button class="chip" data-pg="o">外</button>
+        </div>
+      </div>
+      <div class="ob-results">
+        <div class="ob-legend">
+          <span><i class="bar-p"></i>投</span><span><i class="bar-c"></i>捕</span><span><i class="bar-i"></i>内</span><span><i class="bar-o"></i>外</span>
+          <span style="width:1px;height:11px;background:var(--line);margin:0 2px"></span>
+          <span><i class="s-S"></i>S 400+</span><span><i class="s-A"></i>A 350+</span>
+          <span><i class="s-B"></i>B 320+</span><span><i class="s-C"></i>C 290+</span><span><i class="s-D"></i>D 250+</span>
+          <span style="width:1px;height:11px;background:var(--line);margin:0 2px"></span>
+          <span><span class="star">★</span>称号あり</span>
+        </div>
+        <div id="obhead"></div>
+        <div id="oblist"></div>
+        <div class="foot">⚑ 栄冠ナイン2026 転生OB名鑑<br>全347名／47都道府県 ｜ 2026年7月時点の情報をもとに再構成</div>
+      </div>
+    </section>
+
+  </div>
+
+  <nav class="tabbar" id="tabbar">
+    <button class="active" data-tab="events" data-title="年間イベント">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 9.5h17M8 3.2v3.4M16 3.2v3.4"/></svg>
+      <span class="lb">イベント</span></button>
+    <button data-tab="seikaku" data-title="性格の違い">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.6 3.1-5.6 7-5.6s7 2 7 5.6"/></svg>
+      <span class="lb">性格</span></button>
+    <button data-tab="senjutsu" data-title="戦術（試合中）">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.2"/><circle cx="12" cy="12" r="3.4"/><path d="M12 1.8v3.2M12 19v3.2M1.8 12h3.2M19 12h3.2"/></svg>
+      <span class="lb">戦術</span></button>
+    <button data-tab="cards" data-title="進行カード・合宿">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="7.5" width="12.5" height="13" rx="2"/><path d="M7.5 7.5V6a1.8 1.8 0 0 1 1.8-1.8H18A1.8 1.8 0 0 1 19.8 6v11"/></svg>
+      <span class="lb">カード</span></button>
+    <button data-tab="ob" data-title="転生OB名鑑">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6l2.5 5.1 5.6.8-4.05 3.95.96 5.6L12 16.4l-5.01 2.65.96-5.6L3.9 9.5l5.6-.8z"/></svg>
+      <span class="lb">転生OB</span></button>
+    <button data-tab="tech" data-title="高等テクニック">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9.2 18h5.6M10.2 21h3.6"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.5.4.9 1 1 1.6l.1.6h5l.1-.6c.1-.6.5-1.2 1-1.6A6 6 0 0 0 12 3Z"/></svg>
+      <span class="lb">コツ</span></button>
+  </nav>
+
+</div>
+
+<script>
+const scroll=document.getElementById('scroll');
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach(s=>s.classList.toggle('active', s.id==='tab-'+name));
+  document.querySelectorAll('#tabbar button').forEach(b=>b.classList.toggle('active', b.dataset.tab===name));
+  scroll.scrollTop=0;
+}
+document.querySelectorAll('#tabbar button').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
+document.querySelectorAll('a.jump').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();switchTab(a.dataset.tab);}));
+
+const seqData=[
+ ['ミート系','素振り','ミートバッティング','ティーバッティング','マシン打撃'],
+ ['パワー系','腕立て腹筋','指立て伏せ','ダンベル','ベンチプレス'],
+ ['走塁系','ダッシュ','インターバル走','ベースランニング','ハードル'],
+ ['肩力系','スローイング','遠投','チューブトレーニング','ラットマシン'],
+ ['守備力系','ペッパー','守備連携','ノック','マシンガンノック'],
+ ['捕球系','座禅','メンタルトレーニング','アロマテラピー','いやしのひととき'],
+ ['球速系','フォームチェック（球速）','投げ込み','球速測定','マッスラー'],
+ ['コントロール系','フォームチェック（制球）','コース投げ込み','的当て','コース的当て'],
+ ['スタミナ系','スクワット','走り込み','タイヤ引き','ローラー'],
+ ['変化球系','フォームチェック（変）','変化球投げ込み','握力強化','変化球研究'],
+];
+const seqEl=document.getElementById('seq-list');
+if(seqEl){
+  const rows=seqData.map(r=>{
+    const cells=r.slice(1).map((s,i)=>`<td class="lv${i+1}">${s}</td>`).join('');
+    return `<tr><td class="name">${r[0]}</td>${cells}</tr>`;
+  }).join('');
+  seqEl.innerHTML='<div class="matrix-wrap"><table class="strtable">'+
+    '<thead><tr><th class="name">系統</th><th class="lv1">弱</th><th class="lv2"></th><th class="lv3"></th><th class="lv4">強</th></tr></thead>'+
+    '<tbody>'+rows+'</tbody></table></div>';
+}
+
+/* イベント タイムライン */
+const BADGE={hidden:['隠し','b-hidden'],random:['ランダム','b-random'],cond:['条件','b-cond'],fixed:['固定','b-fixed']};
+const CATCOL={taikai:'#e5484d',ikusei:'#3fca8f',gakko:'#3f8fd6',kisetsu:'#e3ab48',scout:'#a678d8'};
+const MLEN={1:31,2:28,3:31,4:30,5:31,6:30,7:31,8:31,9:30,10:31,11:30,12:31};
+function mpos(m,d){ const idx=(m>=4?m-4:m+8); return (idx+(d-1)/MLEN[m])/12; }
+const EVENTS=[
+ {l:'4/1',m:4,d:1,t:'進級',c:'kisetsu',b:['hidden'],x:'ちょうど止まると全員の練習効率が少しアップ。年度初めは4/1着地を狙う。'},
+ {l:'4/8',m:4,d:8,t:'入学式',c:'gakko',b:['fixed'],x:'新入生が入部。校名・都道府県・年代の変更が可能（年代は4年ごと）。転生選手の入部チャンス。'},
+ {l:'6/26〜7/2',m:6,d:26,m2:7,d2:2,t:'技術指導（赤特消し）',c:'ikusei',b:['hidden','random'],x:'6月・9月の試合前、期間内の<b>青マス</b>で低確率発生（年2回）。打撃／守備／走塁／投球から選ぶと、<b>対応する赤特を1つ削除</b>、または送球・盗塁などを1段階アップ。赤特持ちの主力がいる年に優先して狙う。'},
+ {l:'7/2',m:7,d:2,t:'夏の都道府県大会 開幕',c:'taikai',b:['fixed'],x:'負けたら3年生は引退。大会前に体力とテンションを整えておく。'},
+ {l:'7/7',m:7,d:7,t:'七夕',c:'kisetsu',b:['fixed'],x:'選択で効果が変化：①練習経験値アップ ②学力アップ ③信頼度・テンションアップ。特能本を多く交換したい周回では②学力（試験・交換対策）も有力。'},
+ {l:'7/21〜7/30',m:7,d:21,m2:7,d2:30,t:'インタビュー（青特取得）',c:'ikusei',b:['hidden','random','cond'],x:'夏の甲子園出場決定後、7/21〜30の<b>青マス</b>で低確率発生。選んだ能力に経験値も入り、条件を満たす選手が各約10%で青特を取得（1選手1つまで）。<br><b>打撃力</b>：ミートB以上→アベレージヒッター／パワーB以上→パワーヒッター・プルヒッター／ミート&パワーC以上→広角打法／ミートC以上→流し打ち・固め打ち／パワーC以上→弾道+1<br><b>機動力</b>：走力C以上→走塁+1・盗塁+1・内野安打○・ヘッドスライディング・プレッシャーラン・かく乱／バント○持ち→バント職人(20%)／パワーE以下→バント○<br><b>守備力</b>：肩力B以上→レーザービーム／守備B以上or捕球C以上→守備職人／守備C以上or肩力C以上→送球+1／捕手→ホーム死守<br><b>投手力</b>：球速150以上→ジャイロボール・重い球／140以上→ノビ+1・球持ち○／制球C以上→低め○／制球E以下→逃げ球／スタミナC以上→尻上がり／変化球1方向Lv4以上→キレ○／3球種以上→リリース○<br><b>努力</b>：全員の信頼度+5＋テンション回復<br>※おすすめは<b>打撃力／機動力</b>。機動力は最強戦術「転がせ」Lv6条件の内野安打○が狙える'},
+ {l:'7/25〜7/29',m:7,d:25,m2:7,d2:29,t:'夏の合宿',c:'ikusei',b:['fixed'],x:'特能を取れる貴重なイベント（6/20に提案）。<b>入る前の進行カード調整が重要</b>（→カードタブの合宿の項）。'},
+ {l:'8/2・8/7',m:8,d:2,m2:8,d2:7,t:'夏の甲子園 抽選会／開幕',c:'taikai',b:['fixed'],x:'甲子園期間中は専用マップに移動。'},
+ {l:'8/10 他',m:8,d:10,t:'特訓マス出現',c:'ikusei',b:['hidden','cond'],x:'夏の大会敗退後、<b>ちょうど止まると</b>高確率で特訓マスが最大4つ出現。日付は地域で異なる：<b>8/10</b>＝北海道・岩手・宮城・山形・福島・長野／<b>8/15</b>＝青森・秋田／<b>8/21</b>＝その他の地域。'},
+ {l:'8/27',m:8,d:27,t:'高校日本代表 選出',c:'ikusei',b:['fixed'],x:'能力・実績の高い主力が選出されると、9月に<b>能力が大きく成長＋特能獲得</b>のチャンス。誰も選ばれなくても全員の練習効率が中アップ。'},
+ {l:'9/8〜9/14',m:9,d:8,m2:9,d2:14,t:'技術指導（赤特消し）',c:'ikusei',b:['hidden','random'],x:'6/26〜7/2と同じ赤特消しイベント。打撃／守備／走塁／投球の選択で対応赤特を削除・ランクアップ。青マスを期間内に配置して狙う。'},
+ {l:'9/13',m:9,d:13,t:'秋の都道府県大会 開幕',c:'taikai',b:['fixed'],x:'新チーム最初の公式戦。勝ち進むと10月の地区大会へ。'},
+ {l:'10/10',m:10,d:10,t:'体育祭',c:'gakko',b:['fixed'],x:'ランダムで練習効率アップ。'},
+ {l:'10/19',m:10,d:19,t:'秋の地区大会',c:'taikai',b:['cond'],x:'9月の大会で2勝していると出場。'},
+ {l:'10/26',m:10,d:26,t:'ドラフト会議',c:'scout',b:['fixed'],x:'卒業生が指名されるとパワポイント獲得（指名人数に応じて増加）。'},
+ {l:'11/1',m:11,d:1,t:'スカウト期間 開始',c:'scout',b:['fixed'],x:'「新入生の履歴書」や進行カード「新入生スカウト」で翌年2月末までスカウト可能（年10回まで）。'},
+ {l:'11/3',m:11,d:3,t:'文化祭',c:'gakko',b:['fixed'],x:'ランダムで練習効率アップ。'},
+ {l:'11/14',m:11,d:14,t:'秋の全国大会（神宮）',c:'taikai',b:['cond'],x:'10月の地区大会で2勝していると出場。'},
+ {l:'11/25',m:11,d:25,t:'2学期末試験',c:'gakko',b:['fixed'],x:'成績によって練習効率が変動。学力も無視しすぎない。'},
+ {l:'12/10〜12/14',m:12,d:10,m2:12,d2:14,t:'冬の合宿',c:'ikusei',b:['fixed'],x:'11/10に提案。夏と同じく<b>直前の進行カード調整</b>が最重要。'},
+ {l:'12/24',m:12,d:24,t:'クリスマスイブ',c:'kisetsu',b:['hidden'],x:'<b>ちょうど止まると</b>ランダムで①全員体力回復＋テンションアップ／②練習効率<b>大</b>アップ＋テンションアップ／③特訓マス最大4つ出現。毎年必ず狙いたい。'},
+ {l:'1/1',m:1,d:1,t:'くじ引き',c:'kisetsu',b:['random'],x:'通り過ぎても発生することがある正月イベント。'},
+ {l:'1/25',m:1,d:25,t:'春の選抜 当落発表',c:'taikai',b:['fixed'],x:'通り過ぎても発生。選抜出場が決まると2月のインタビューが狙える。'},
+ {l:'2/1〜2/10',m:2,d:1,m2:2,d2:10,t:'インタビュー（青特取得）',c:'ikusei',b:['hidden','random','cond'],x:'春の選抜出場が決まっていると2/1〜10の<b>青マス</b>で低確率発生。選択肢と取得できる青特は<b>夏のインタビューと同じ</b>（打撃力／機動力／守備力／投手力／努力）。条件を満たす主力が多いほど取得数が増えるので、選抜前に主力の能力を上げておく。'},
+ {l:'2/28・2/29',m:2,d:28,t:'特訓マス出現',c:'ikusei',b:['hidden'],x:'<b>ちょうど止まると</b>特訓マスが最大4つ出現。うるう年以外は2/28でも発生。'},
+ {l:'3/7',m:3,d:7,t:'卒業式',c:'gakko',b:['fixed'],x:'3年生が引退しOBに。全員の練習効率が小アップ。'},
+ {l:'3/8〜3/31',m:3,d:8,m2:3,d2:31,t:'卒業生からの指導',c:'ikusei',b:['hidden','random'],x:'<b>今作の新イベント。</b>青マスで、プロ入りした卒業生の所持特能からランダムで1つ習得できることがある（甲子園滞在中は発生しない）。'},
+ {l:'3/13・3/18',m:3,d:13,m2:3,d2:18,t:'春の選抜 抽選会／開幕',c:'taikai',b:['fixed'],x:'春の甲子園。優勝すると紫紺の優勝旗を持ち帰れる。'},
+];
+(function(){
+  const el=document.getElementById('ev-timeline'); if(!el) return;
+  function dateHTML(l){
+    const sep = l.indexOf('〜')>=0?'〜':(l.indexOf('・')>=0?'・':null);
+    if(sep){ const i=l.indexOf(sep); return l.slice(0,i+1)+'<small>'+l.slice(i+1)+'</small>'; }
+    return l;
+  }
+  const order=[4,5,6,7,8,9,10,11,12,1,2,3];
+  let html='';
+  order.forEach(mo=>{
+    const evs=EVENTS.filter(e=>e.m===mo);
+    if(!evs.length) return;
+    html+=`<div class="season"><span class="dot"></span>${mo}月</div>`;
+    html+=evs.map(e=>{
+      const badges=e.b.map(k=>`<span class="badge ${BADGE[k][1]}">${BADGE[k][0]}</span>`).join(' ');
+      return `<div class="ev cat-${e.c}"><div class="ev-date">${dateHTML(e.l)}</div>`+
+        `<div class="ev-body"><div class="ev-title">${e.t}</div>`+
+        `<div class="ev-badges">${badges}</div>`+
+        `<div class="ev-detail">${e.x}</div></div></div>`;
+    }).join('');
+  });
+  el.innerHTML=html;
+})();
+
+/* アコーディオン開閉 */
+document.querySelectorAll('.acc-head').forEach(h=>{
+  h.addEventListener('click',()=>h.parentElement.classList.toggle('collapsed'));
+});
+document.querySelectorAll('.acc-all').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const accs=btn.closest('.tab').querySelectorAll('.acc');
+    const anyOpen=[...accs].some(a=>!a.classList.contains('collapsed'));
+    accs.forEach(a=>a.classList.toggle('collapsed',anyOpen));
+    btn.textContent=anyOpen?'すべて開く':'すべて閉じる';
+  });
+});
+
+/* ===== 転生OB ===== */
+const DATA={"players": [{"n": "若松勉", "dlc": false, "pos": "外", "pg": "o", "ab": 313, "y": 1963, "t": "", "pref": "北海道", "region": "北海道・東北地区"}, {"n": "伊藤大海", "dlc": true, "pos": "投", "pg": "p", "ab": 300, "y": 2013, "t": "", "pref": "北海道", "region": "北海道・東北地区"}, {"n": "髙橋慶彦", "dlc": false, "pos": "遊", "pg": "i", "ab": 285, "y": 1972, "t": "", "pref": "北海道", "region": "北海道・東北地区"}, {"n": "伊藤大海", "dlc": false, "pos": "投", "pg": "p", "ab": 280, "y": 2013, "t": "", "pref": "北海道", "region": "北海道・東北地区"}, {"n": "五十嵐亮太", "dlc": false, "pos": "投", "pg": "p", "ab": 257, "y": 1995, "t": "", "pref": "北海道", "region": "北海道・東北地区"}, {"n": "髙島泰都", "dlc": false, "pos": "投", "pg": "p", "ab": 257, "y": 2015, "t": "", "pref": "北海道", "region": "北海道・東北地区"}, {"n": "松山晋也", "dlc": false, "pos": "投", "pg": "p", "ab": 288, "y": 2016, "t": "", "pref": "青森", "region": "北海道・東北地区"}, {"n": "大谷翔平", "dlc": true, "pos": "投", "pg": "p", "ab": 446, "y": 2010, "t": "", "pref": "岩手", "region": "北海道・東北地区"}, {"n": "大谷翔平", "dlc": false, "pos": "投", "pg": "p", "ab": 419, "y": 2010, "t": "", "pref": "岩手", "region": "北海道・東北地区"}, {"n": "菊池雄星", "dlc": false, "pos": "投", "pg": "p", "ab": 263, "y": 2007, "t": "", "pref": "岩手", "region": "北海道・東北地区"}, {"n": "松本裕樹", "dlc": false, "pos": "投", "pg": "p", "ab": 250, "y": 2012, "t": "", "pref": "岩手", "region": "北海道・東北地区"}, {"n": "落合博満", "dlc": false, "pos": "三", "pg": "i", "ab": 373, "y": 1969, "t": "勝負師", "pref": "秋田", "region": "北海道・東北地区"}, {"n": "山田久志", "dlc": false, "pos": "投", "pg": "p", "ab": 280, "y": 1964, "t": "", "pref": "秋田", "region": "北海道・東北地区"}, {"n": "山田久志", "dlc": true, "pos": "投", "pg": "p", "ab": 274, "y": 1964, "t": "", "pref": "秋田", "region": "北海道・東北地区"}, {"n": "石井大智", "dlc": false, "pos": "投", "pg": "p", "ab": 263, "y": 2013, "t": "", "pref": "秋田", "region": "北海道・東北地区"}, {"n": "攝津正", "dlc": false, "pos": "投", "pg": "p", "ab": 257, "y": 1998, "t": "", "pref": "秋田", "region": "北海道・東北地区"}, {"n": "石山泰稚", "dlc": false, "pos": "投", "pg": "p", "ab": 252, "y": 2004, "t": "", "pref": "秋田", "region": "北海道・東北地区"}, {"n": "長谷川勇也", "dlc": false, "pos": "外", "pg": "o", "ab": 275, "y": 2000, "t": "", "pref": "山形", "region": "北海道・東北地区"}, {"n": "皆川睦男", "dlc": false, "pos": "投", "pg": "p", "ab": 260, "y": 1951, "t": "", "pref": "山形", "region": "北海道・東北地区"}, {"n": "小坂誠", "dlc": false, "pos": "遊", "pg": "i", "ab": 282, "y": 1989, "t": "魔術師", "pref": "宮城", "region": "北海道・東北地区"}, {"n": "佐々木主浩", "dlc": false, "pos": "投", "pg": "p", "ab": 267, "y": 1983, "t": "", "pref": "宮城", "region": "北海道・東北地区"}, {"n": "江川卓", "dlc": false, "pos": "投", "pg": "p", "ab": 343, "y": 1971, "t": "怪童", "pref": "福島", "region": "北海道・東北地区"}, {"n": "中畑清", "dlc": false, "pos": "一", "pg": "i", "ab": 277, "y": 1969, "t": "", "pref": "福島", "region": "北海道・東北地区"}, {"n": "長嶋茂雄", "dlc": false, "pos": "三", "pg": "i", "ab": 403, "y": 1951, "t": "", "pref": "千葉", "region": "関東地区"}, {"n": "阿部慎之助", "dlc": true, "pos": "捕", "pg": "c", "ab": 354, "y": 1994, "t": "キャッチャーB", "pref": "千葉", "region": "関東地区"}, {"n": "高橋由伸", "dlc": false, "pos": "外", "pg": "o", "ab": 327, "y": 1991, "t": "", "pref": "千葉", "region": "関東地区"}, {"n": "掛布雅之", "dlc": false, "pos": "三", "pg": "i", "ab": 311, "y": 1971, "t": "", "pref": "千葉", "region": "関東地区"}, {"n": "阿部慎之助", "dlc": false, "pos": "捕", "pg": "c", "ab": 309, "y": 1994, "t": "キャッチャーB", "pref": "千葉", "region": "関東地区"}, {"n": "石毛宏典", "dlc": false, "pos": "三", "pg": "i", "ab": 299, "y": 1972, "t": "切り込み隊長", "pref": "千葉", "region": "関東地区"}, {"n": "小笠原道大", "dlc": true, "pos": "三", "pg": "i", "ab": 297, "y": 1989, "t": "", "pref": "千葉", "region": "関東地区"}, {"n": "近藤健介", "dlc": false, "pos": "外", "pg": "o", "ab": 295, "y": 2009, "t": "", "pref": "千葉", "region": "関東地区"}, {"n": "涌井秀章", "dlc": true, "pos": "投", "pg": "p", "ab": 271, "y": 2002, "t": "", "pref": "千葉", "region": "関東地区"}, {"n": "篠塚和典", "dlc": true, "pos": "二", "pg": "i", "ab": 267, "y": 1973, "t": "", "pref": "千葉", "region": "関東地区"}, {"n": "福浦和也", "dlc": false, "pos": "一", "pg": "i", "ab": 263, "y": 1991, "t": "", "pref": "千葉", "region": "関東地区"}, {"n": "小宮山悟", "dlc": false, "pos": "投", "pg": "p", "ab": 263, "y": 1981, "t": "", "pref": "千葉", "region": "関東地区"}, {"n": "金子誠", "dlc": false, "pos": "遊", "pg": "i", "ab": 261, "y": 1991, "t": "", "pref": "千葉", "region": "関東地区"}, {"n": "古屋英夫", "dlc": false, "pos": "三", "pg": "i", "ab": 259, "y": 1971, "t": "", "pref": "千葉", "region": "関東地区"}, {"n": "及川雅貴", "dlc": false, "pos": "投", "pg": "p", "ab": 259, "y": 2017, "t": "", "pref": "千葉", "region": "関東地区"}, {"n": "谷沢健一", "dlc": false, "pos": "一", "pg": "i", "ab": 258, "y": 1963, "t": "", "pref": "千葉", "region": "関東地区"}, {"n": "早川隆久", "dlc": false, "pos": "投", "pg": "p", "ab": 253, "y": 2014, "t": "", "pref": "千葉", "region": "関東地区"}, {"n": "藤平尚真", "dlc": false, "pos": "投", "pg": "p", "ab": 251, "y": 2014, "t": "", "pref": "千葉", "region": "関東地区"}, {"n": "木樽正明", "dlc": false, "pos": "投", "pg": "p", "ab": 250, "y": 1963, "t": "", "pref": "千葉", "region": "関東地区"}, {"n": "石井一久", "dlc": false, "pos": "投", "pg": "p", "ab": 250, "y": 1989, "t": "", "pref": "千葉", "region": "関東地区"}, {"n": "秋山翔吾", "dlc": true, "pos": "外", "pg": "o", "ab": 324, "y": 2004, "t": "", "pref": "神奈川", "region": "関東地区"}, {"n": "山口鉄也", "dlc": true, "pos": "投", "pg": "p", "ab": 308, "y": 1999, "t": "鉄人", "pref": "神奈川", "region": "関東地区"}, {"n": "秋山翔吾", "dlc": false, "pos": "外", "pg": "o", "ab": 302, "y": 2004, "t": "", "pref": "神奈川", "region": "関東地区"}, {"n": "菅野智之", "dlc": true, "pos": "投", "pg": "p", "ab": 300, "y": 2005, "t": "", "pref": "神奈川", "region": "関東地区"}, {"n": "井端弘和", "dlc": true, "pos": "遊", "pg": "i", "ab": 292, "y": 1991, "t": "", "pref": "神奈川", "region": "関東地区"}, {"n": "井端弘和", "dlc": false, "pos": "遊", "pg": "i", "ab": 275, "y": 1991, "t": "", "pref": "神奈川", "region": "関東地区"}, {"n": "原辰徳", "dlc": true, "pos": "三", "pg": "i", "ab": 286, "y": 1974, "t": "", "pref": "神奈川", "region": "関東地区"}, {"n": "森下翔太", "dlc": false, "pos": "外", "pg": "o", "ab": 283, "y": 2016, "t": "", "pref": "神奈川", "region": "関東地区"}, {"n": "原辰徳", "dlc": false, "pos": "三", "pg": "i", "ab": 283, "y": 1974, "t": "", "pref": "神奈川", "region": "関東地区"}, {"n": "森下翔太", "dlc": true, "pos": "外", "pg": "o", "ab": 277, "y": 2016, "t": "", "pref": "神奈川", "region": "関東地区"}, {"n": "山本昌広", "dlc": false, "pos": "投", "pg": "p", "ab": 265, "y": 1981, "t": "", "pref": "神奈川", "region": "関東地区"}, {"n": "阿波野秀幸", "dlc": false, "pos": "投", "pg": "p", "ab": 260, "y": 1980, "t": "", "pref": "神奈川", "region": "関東地区"}, {"n": "石田裕太郎", "dlc": false, "pos": "投", "pg": "p", "ab": 259, "y": 2017, "t": "", "pref": "神奈川", "region": "関東地区"}, {"n": "田中広輔", "dlc": false, "pos": "遊", "pg": "i", "ab": 258, "y": 2005, "t": "", "pref": "神奈川", "region": "関東地区"}, {"n": "柴田勲", "dlc": false, "pos": "外", "pg": "o", "ab": 257, "y": 1959, "t": "", "pref": "神奈川", "region": "関東地区"}, {"n": "田代富雄", "dlc": false, "pos": "三", "pg": "i", "ab": 254, "y": 1970, "t": "", "pref": "神奈川", "region": "関東地区"}, {"n": "多村仁志", "dlc": false, "pos": "外", "pg": "o", "ab": 253, "y": 1992, "t": "", "pref": "神奈川", "region": "関東地区"}, {"n": "堀内恒夫", "dlc": false, "pos": "投", "pg": "p", "ab": 278, "y": 1963, "t": "", "pref": "山梨", "region": "関東地区"}, {"n": "中沢伸二", "dlc": false, "pos": "捕", "pg": "c", "ab": 218, "y": 1962, "t": "キャッチャーB", "pref": "山梨", "region": "関東地区"}, {"n": "今井達也", "dlc": false, "pos": "投", "pg": "p", "ab": 329, "y": 2014, "t": "", "pref": "栃木", "region": "関東地区"}, {"n": "石井琢朗", "dlc": false, "pos": "遊", "pg": "i", "ab": 325, "y": 1986, "t": "", "pref": "栃木", "region": "関東地区"}, {"n": "王貞治", "dlc": true, "pos": "一", "pg": "i", "ab": 400, "y": 1956, "t": "アーチスト", "pref": "東京", "region": "関東地区"}, {"n": "王貞治", "dlc": false, "pos": "一", "pg": "i", "ab": 391, "y": 1956, "t": "アーチスト", "pref": "東京", "region": "関東地区"}, {"n": "田淵幸一", "dlc": false, "pos": "捕", "pg": "c", "ab": 365, "y": 1962, "t": "アーチスト", "pref": "東京", "region": "関東地区"}, {"n": "菊池涼介", "dlc": true, "pos": "二", "pg": "i", "ab": 363, "y": 2005, "t": "魔術師", "pref": "東京", "region": "関東地区"}, {"n": "菊池涼介", "dlc": false, "pos": "二", "pg": "i", "ab": 336, "y": 2005, "t": "", "pref": "東京", "region": "関東地区"}, {"n": "鈴木誠也", "dlc": true, "pos": "外", "pg": "o", "ab": 335, "y": 2010, "t": "", "pref": "東京", "region": "関東地区"}, {"n": "松坂大輔", "dlc": false, "pos": "投", "pg": "p", "ab": 321, "y": 1996, "t": "", "pref": "東京", "region": "関東地区"}, {"n": "岩隈久志", "dlc": false, "pos": "投", "pg": "p", "ab": 310, "y": 1997, "t": "", "pref": "東京", "region": "関東地区"}, {"n": "鈴木誠也", "dlc": false, "pos": "外", "pg": "o", "ab": 305, "y": 2010, "t": "", "pref": "東京", "region": "関東地区"}, {"n": "土橋正幸", "dlc": false, "pos": "投", "pg": "p", "ab": 302, "y": 1951, "t": "", "pref": "東京", "region": "関東地区"}, {"n": "井口資仁", "dlc": false, "pos": "二", "pg": "i", "ab": 302, "y": 1990, "t": "", "pref": "東京", "region": "関東地区"}, {"n": "江藤智", "dlc": false, "pos": "三", "pg": "i", "ab": 300, "y": 1986, "t": "アーチスト", "pref": "東京", "region": "関東地区"}, {"n": "飯田哲也", "dlc": false, "pos": "外", "pg": "o", "ab": 296, "y": 1984, "t": "", "pref": "東京", "region": "関東地区"}, {"n": "榎本喜八", "dlc": false, "pos": "一", "pg": "i", "ab": 290, "y": 1952, "t": "安打製造機", "pref": "東京", "region": "関東地区"}, {"n": "杉下茂", "dlc": false, "pos": "投", "pg": "p", "ab": 288, "y": 1941, "t": "", "pref": "東京", "region": "関東地区"}, {"n": "鳥谷敬", "dlc": true, "pos": "遊", "pg": "i", "ab": 285, "y": 1997, "t": "", "pref": "東京", "region": "関東地区"}, {"n": "森本稀哲", "dlc": true, "pos": "外", "pg": "o", "ab": 275, "y": 1996, "t": "", "pref": "東京", "region": "関東地区"}, {"n": "鳥谷敬", "dlc": false, "pos": "遊", "pg": "i", "ab": 272, "y": 1997, "t": "", "pref": "東京", "region": "関東地区"}, {"n": "矢澤宏太", "dlc": false, "pos": "投", "pg": "p", "ab": 269, "y": 2016, "t": "", "pref": "東京", "region": "関東地区"}, {"n": "森本稀哲", "dlc": false, "pos": "外", "pg": "o", "ab": 258, "y": 1996, "t": "", "pref": "東京", "region": "関東地区"}, {"n": "横山陸人", "dlc": false, "pos": "投", "pg": "p", "ab": 258, "y": 2017, "t": "", "pref": "東京", "region": "関東地区"}, {"n": "渡部遼人", "dlc": false, "pos": "外", "pg": "o", "ab": 257, "y": 2015, "t": "", "pref": "東京", "region": "関東地区"}, {"n": "赤星優志", "dlc": false, "pos": "投", "pg": "p", "ab": 256, "y": 2015, "t": "", "pref": "東京", "region": "関東地区"}, {"n": "細野晴希", "dlc": false, "pos": "投", "pg": "p", "ab": 254, "y": 2017, "t": "", "pref": "東京", "region": "関東地区"}, {"n": "清宮幸太郎", "dlc": false, "pos": "一", "pg": "i", "ab": 252, "y": 2015, "t": "", "pref": "東京", "region": "関東地区"}, {"n": "大矢明彦", "dlc": false, "pos": "捕", "pg": "c", "ab": 233, "y": 1963, "t": "キャッチャーA", "pref": "東京", "region": "関東地区"}, {"n": "井川慶", "dlc": false, "pos": "投", "pg": "p", "ab": 275, "y": 1995, "t": "", "pref": "茨城", "region": "関東地区"}, {"n": "豊田泰光", "dlc": false, "pos": "遊", "pg": "i", "ab": 269, "y": 1950, "t": "", "pref": "茨城", "region": "関東地区"}, {"n": "木村優人", "dlc": false, "pos": "投", "pg": "p", "ab": 260, "y": 2021, "t": "", "pref": "茨城", "region": "関東地区"}, {"n": "中利夫", "dlc": false, "pos": "外", "pg": "o", "ab": 288, "y": 1952, "t": "", "pref": "群馬", "region": "関東地区"}, {"n": "安達了一", "dlc": false, "pos": "遊", "pg": "i", "ab": 266, "y": 2003, "t": "", "pref": "群馬", "region": "関東地区"}, {"n": "毒島章一", "dlc": false, "pos": "外", "pg": "o", "ab": 260, "y": 1951, "t": "精神的支柱", "pref": "群馬", "region": "関東地区"}, {"n": "髙橋光成", "dlc": false, "pos": "投", "pg": "p", "ab": 258, "y": 2012, "t": "", "pref": "群馬", "region": "関東地区"}, {"n": "斎藤雅樹", "dlc": false, "pos": "投", "pg": "p", "ab": 304, "y": 1980, "t": "", "pref": "埼玉", "region": "関東地区"}, {"n": "羽田慎之介", "dlc": false, "pos": "投", "pg": "p", "ab": 270, "y": 2019, "t": "", "pref": "埼玉", "region": "関東地区"}, {"n": "真中満", "dlc": false, "pos": "外", "pg": "o", "ab": 261, "y": 1986, "t": "", "pref": "埼玉", "region": "関東地区"}, {"n": "松原誠", "dlc": false, "pos": "外", "pg": "o", "ab": 260, "y": 1959, "t": "", "pref": "埼玉", "region": "関東地区"}, {"n": "若月健矢", "dlc": false, "pos": "捕", "pg": "c", "ab": 256, "y": 2011, "t": "", "pref": "埼玉", "region": "関東地区"}, {"n": "上林誠知", "dlc": false, "pos": "外", "pg": "o", "ab": 254, "y": 2011, "t": "", "pref": "埼玉", "region": "関東地区"}, {"n": "金子千尋", "dlc": false, "pos": "投", "pg": "p", "ab": 269, "y": 1999, "t": "", "pref": "新潟", "region": "北信越地区"}, {"n": "牧秀悟", "dlc": false, "pos": "二", "pg": "i", "ab": 277, "y": 2014, "t": "", "pref": "長野", "region": "北信越地区"}, {"n": "岩城颯空", "dlc": false, "pos": "投", "pg": "p", "ab": 276, "y": 2019, "t": "", "pref": "富山", "region": "北信越地区"}, {"n": "松井秀喜", "dlc": false, "pos": "外", "pg": "o", "ab": 355, "y": 1990, "t": "", "pref": "石川", "region": "北信越地区"}, {"n": "村松有人", "dlc": false, "pos": "外", "pg": "o", "ab": 285, "y": 1988, "t": "", "pref": "石川", "region": "北信越地区"}, {"n": "角中勝也", "dlc": true, "pos": "外", "pg": "o", "ab": 270, "y": 2003, "t": "", "pref": "石川", "region": "北信越地区"}, {"n": "角中勝也", "dlc": false, "pos": "外", "pg": "o", "ab": 253, "y": 2003, "t": "", "pref": "石川", "region": "北信越地区"}, {"n": "吉田正尚", "dlc": true, "pos": "外", "pg": "o", "ab": 304, "y": 2009, "t": "", "pref": "福井", "region": "北信越地区"}, {"n": "吉田正尚", "dlc": false, "pos": "外", "pg": "o", "ab": 290, "y": 2009, "t": "", "pref": "福井", "region": "北信越地区"}, {"n": "中村悠平", "dlc": false, "pos": "捕", "pg": "c", "ab": 235, "y": 2006, "t": "キャッチャーB", "pref": "福井", "region": "北信越地区"}, {"n": "加藤英司", "dlc": false, "pos": "一", "pg": "i", "ab": 292, "y": 1964, "t": "", "pref": "静岡", "region": "東海地区"}, {"n": "髙橋遥人", "dlc": false, "pos": "投", "pg": "p", "ab": 272, "y": 2011, "t": "", "pref": "静岡", "region": "東海地区"}, {"n": "大石大二郎", "dlc": false, "pos": "二", "pg": "i", "ab": 271, "y": 1974, "t": "", "pref": "静岡", "region": "東海地区"}, {"n": "赤堀元之", "dlc": false, "pos": "投", "pg": "p", "ab": 260, "y": 1986, "t": "", "pref": "静岡", "region": "東海地区"}, {"n": "山下大輔", "dlc": false, "pos": "遊", "pg": "i", "ab": 251, "y": 1967, "t": "", "pref": "静岡", "region": "東海地区"}, {"n": "増井浩俊", "dlc": false, "pos": "投", "pg": "p", "ab": 250, "y": 2000, "t": "", "pref": "静岡", "region": "東海地区"}, {"n": "袴田英利", "dlc": false, "pos": "捕", "pg": "c", "ab": 202, "y": 1971, "t": "キャッチャーB", "pref": "静岡", "region": "東海地区"}, {"n": "イチロー", "dlc": false, "pos": "外", "pg": "o", "ab": 400, "y": 1989, "t": "安打製造機", "pref": "愛知", "region": "東海地区"}, {"n": "山内和弘", "dlc": false, "pos": "外", "pg": "o", "ab": 358, "y": 1948, "t": "", "pref": "愛知", "region": "東海地区"}, {"n": "金田正一", "dlc": false, "pos": "投", "pg": "p", "ab": 349, "y": 1949, "t": "闘魂", "pref": "愛知", "region": "東海地区"}, {"n": "篠原響", "dlc": false, "pos": "投", "pg": "p", "ab": 341, "y": 2022, "t": "", "pref": "愛知", "region": "東海地区"}, {"n": "杉浦忠", "dlc": false, "pos": "投", "pg": "p", "ab": 318, "y": 1951, "t": "", "pref": "愛知", "region": "東海地区"}, {"n": "岩瀬仁紀", "dlc": false, "pos": "投", "pg": "p", "ab": 314, "y": 1990, "t": "驚異の切れ味", "pref": "愛知", "region": "東海地区"}, {"n": "髙橋宏斗", "dlc": false, "pos": "投", "pg": "p", "ab": 312, "y": 2018, "t": "", "pref": "愛知", "region": "東海地区"}, {"n": "野口二郎", "dlc": false, "pos": "投", "pg": "p", "ab": 309, "y": 1935, "t": "", "pref": "愛知", "region": "東海地区"}, {"n": "稲葉篤紀", "dlc": true, "pos": "外", "pg": "o", "ab": 303, "y": 1988, "t": "", "pref": "愛知", "region": "東海地区"}, {"n": "赤星憲広", "dlc": false, "pos": "外", "pg": "o", "ab": 298, "y": 1992, "t": "電光石化", "pref": "愛知", "region": "東海地区"}, {"n": "平野謙", "dlc": false, "pos": "外", "pg": "o", "ab": 291, "y": 1971, "t": "", "pref": "愛知", "region": "東海地区"}, {"n": "稲葉篤紀", "dlc": false, "pos": "外", "pg": "o", "ab": 285, "y": 1988, "t": "", "pref": "愛知", "region": "東海地区"}, {"n": "浅尾拓也", "dlc": false, "pos": "投", "pg": "p", "ab": 283, "y": 2000, "t": "", "pref": "愛知", "region": "東海地区"}, {"n": "槙原寛己", "dlc": false, "pos": "投", "pg": "p", "ab": 267, "y": 1979, "t": "", "pref": "愛知", "region": "東海地区"}, {"n": "大島洋平", "dlc": false, "pos": "外", "pg": "o", "ab": 260, "y": 2001, "t": "", "pref": "愛知", "region": "東海地区"}, {"n": "山﨑武司", "dlc": false, "pos": "外", "pg": "o", "ab": 251, "y": 1984, "t": "", "pref": "愛知", "region": "東海地区"}, {"n": "千賀滉大", "dlc": true, "pos": "投", "pg": "p", "ab": 251, "y": 2008, "t": "", "pref": "愛知", "region": "東海地区"}, {"n": "和田一浩", "dlc": true, "pos": "外", "pg": "o", "ab": 333, "y": 1988, "t": "", "pref": "岐阜", "region": "東海地区"}, {"n": "高木守道", "dlc": false, "pos": "二", "pg": "i", "ab": 286, "y": 1957, "t": "", "pref": "岐阜", "region": "東海地区"}, {"n": "森昌彦", "dlc": false, "pos": "捕", "pg": "c", "ab": 262, "y": 1952, "t": "キャッチャーA", "pref": "岐阜", "region": "東海地区"}, {"n": "石原慶幸", "dlc": false, "pos": "捕", "pg": "c", "ab": 235, "y": 1995, "t": "キャッチャーB", "pref": "岐阜", "region": "東海地区"}, {"n": "豊田清", "dlc": true, "pos": "投", "pg": "p", "ab": 299, "y": 1986, "t": "", "pref": "三重", "region": "東海地区"}, {"n": "西勇輝", "dlc": false, "pos": "投", "pg": "p", "ab": 274, "y": 2006, "t": "", "pref": "三重", "region": "東海地区"}, {"n": "岡林勇希", "dlc": false, "pos": "外", "pg": "o", "ab": 267, "y": 2017, "t": "", "pref": "三重", "region": "東海地区"}, {"n": "東克樹", "dlc": false, "pos": "投", "pg": "p", "ab": 258, "y": 2011, "t": "", "pref": "三重", "region": "東海地区"}, {"n": "則本昂大", "dlc": true, "pos": "投", "pg": "p", "ab": 270, "y": 2006, "t": "", "pref": "滋賀", "region": "近畿地方"}, {"n": "松田宣浩", "dlc": true, "pos": "三", "pg": "i", "ab": 269, "y": 1999, "t": "", "pref": "滋賀", "region": "近畿地方"}, {"n": "前田悠伍", "dlc": false, "pos": "投", "pg": "p", "ab": 263, "y": 2021, "t": "", "pref": "滋賀", "region": "近畿地方"}, {"n": "松田宣浩", "dlc": false, "pos": "三", "pg": "i", "ab": 261, "y": 1999, "t": "", "pref": "滋賀", "region": "近畿地方"}, {"n": "西崎幸広", "dlc": false, "pos": "投", "pg": "p", "ab": 252, "y": 1980, "t": "", "pref": "滋賀", "region": "近畿地方"}, {"n": "山田陽翔", "dlc": false, "pos": "投", "pg": "p", "ab": 250, "y": 2020, "t": "", "pref": "滋賀", "region": "近畿地方"}, {"n": "野村克也", "dlc": false, "pos": "捕", "pg": "c", "ab": 344, "y": 1951, "t": "球界の頭脳", "pref": "京都", "region": "近畿地方"}, {"n": "糸井嘉男", "dlc": true, "pos": "外", "pg": "o", "ab": 316, "y": 1997, "t": "", "pref": "京都", "region": "近畿地方"}, {"n": "衣笠祥雄", "dlc": false, "pos": "三", "pg": "i", "ab": 304, "y": 1962, "t": "鉄人", "pref": "京都", "region": "近畿地方"}, {"n": "斉藤和巳", "dlc": false, "pos": "投", "pg": "p", "ab": 297, "y": 1993, "t": "", "pref": "京都", "region": "近畿地方"}, {"n": "吉田義男", "dlc": false, "pos": "遊", "pg": "i", "ab": 287, "y": 1949, "t": "魔術師", "pref": "京都", "region": "近畿地方"}, {"n": "北山亘基", "dlc": false, "pos": "投", "pg": "p", "ab": 286, "y": 2015, "t": "", "pref": "京都", "region": "近畿地方"}, {"n": "平野佳寿", "dlc": true, "pos": "投", "pg": "p", "ab": 281, "y": 1999, "t": "", "pref": "京都", "region": "近畿地方"}, {"n": "伊藤智仁", "dlc": false, "pos": "投", "pg": "p", "ab": 275, "y": 1986, "t": "驚異の切れ味", "pref": "京都", "region": "近畿地方"}, {"n": "糸井嘉男", "dlc": false, "pos": "外", "pg": "o", "ab": 270, "y": 1997, "t": "", "pref": "京都", "region": "近畿地方"}, {"n": "平田良介", "dlc": false, "pos": "外", "pg": "o", "ab": 265, "y": 2003, "t": "", "pref": "京都", "region": "近畿地方"}, {"n": "片岡篤史", "dlc": false, "pos": "三", "pg": "i", "ab": 255, "y": 1985, "t": "", "pref": "京都", "region": "近畿地方"}, {"n": "波留敏夫", "dlc": false, "pos": "外", "pg": "o", "ab": 254, "y": 1986, "t": "", "pref": "京都", "region": "近畿地方"}, {"n": "西岡剛", "dlc": true, "pos": "遊", "pg": "i", "ab": 284, "y": 2000, "t": "", "pref": "奈良", "region": "近畿地方"}, {"n": "大西広樹", "dlc": false, "pos": "投", "pg": "p", "ab": 281, "y": 2013, "t": "", "pref": "奈良", "region": "近畿地方"}, {"n": "岡本和真", "dlc": false, "pos": "三", "pg": "i", "ab": 280, "y": 2012, "t": "", "pref": "奈良", "region": "近畿地方"}, {"n": "岡本和真", "dlc": true, "pos": "三", "pg": "i", "ab": 273, "y": 2012, "t": "", "pref": "奈良", "region": "近畿地方"}, {"n": "吉村禎章", "dlc": false, "pos": "外", "pg": "o", "ab": 270, "y": 1979, "t": "", "pref": "奈良", "region": "近畿地方"}, {"n": "門田博光", "dlc": false, "pos": "外", "pg": "o", "ab": 270, "y": 1963, "t": "", "pref": "奈良", "region": "近畿地方"}, {"n": "駒田徳広", "dlc": false, "pos": "一", "pg": "i", "ab": 260, "y": 1978, "t": "恐怖の満塁男", "pref": "奈良", "region": "近畿地方"}, {"n": "三浦大輔", "dlc": false, "pos": "投", "pg": "p", "ab": 260, "y": 1989, "t": "", "pref": "奈良", "region": "近畿地方"}, {"n": "筒香嘉智", "dlc": false, "pos": "外", "pg": "o", "ab": 326, "y": 2007, "t": "", "pref": "和歌山", "region": "近畿地方"}, {"n": "小久保裕紀", "dlc": true, "pos": "三", "pg": "i", "ab": 290, "y": 1987, "t": "", "pref": "和歌山", "region": "近畿地方"}, {"n": "小久保裕紀", "dlc": false, "pos": "三", "pg": "i", "ab": 278, "y": 1987, "t": "", "pref": "和歌山", "region": "近畿地方"}, {"n": "東尾修", "dlc": true, "pos": "投", "pg": "p", "ab": 268, "y": 1966, "t": "内角無双", "pref": "和歌山", "region": "近畿地方"}, {"n": "西口文也", "dlc": false, "pos": "投", "pg": "p", "ab": 265, "y": 1988, "t": "", "pref": "和歌山", "region": "近畿地方"}, {"n": "中川虎大", "dlc": false, "pos": "投", "pg": "p", "ab": 261, "y": 2015, "t": "", "pref": "和歌山", "region": "近畿地方"}, {"n": "森浦大輔", "dlc": false, "pos": "投", "pg": "p", "ab": 257, "y": 2014, "t": "", "pref": "和歌山", "region": "近畿地方"}, {"n": "益田直也", "dlc": false, "pos": "投", "pg": "p", "ab": 254, "y": 2005, "t": "", "pref": "和歌山", "region": "近畿地方"}, {"n": "西川史礁", "dlc": false, "pos": "外", "pg": "o", "ab": 253, "y": 2018, "t": "", "pref": "和歌山", "region": "近畿地方"}, {"n": "東尾修", "dlc": false, "pos": "投", "pg": "p", "ab": 253, "y": 1966, "t": "", "pref": "和歌山", "region": "近畿地方"}, {"n": "吉井理人", "dlc": false, "pos": "投", "pg": "p", "ab": 250, "y": 1981, "t": "", "pref": "和歌山", "region": "近畿地方"}, {"n": "松井稼頭央", "dlc": true, "pos": "遊", "pg": "i", "ab": 376, "y": 1991, "t": "切り込み隊長", "pref": "大阪", "region": "近畿地方"}, {"n": "黒田博樹", "dlc": false, "pos": "投", "pg": "p", "ab": 343, "y": 1990, "t": "", "pref": "大阪", "region": "近畿地方"}, {"n": "ダルビッシュ有", "dlc": true, "pos": "投", "pg": "p", "ab": 342, "y": 2002, "t": "", "pref": "大阪", "region": "近畿地方"}, {"n": "上原浩治", "dlc": true, "pos": "投", "pg": "p", "ab": 337, "y": 1991, "t": "", "pref": "大阪", "region": "近畿地方"}, {"n": "岡田彰布", "dlc": false, "pos": "二", "pg": "i", "ab": 322, "y": 1973, "t": "", "pref": "大阪", "region": "近畿地方"}, {"n": "清原和博", "dlc": false, "pos": "一", "pg": "i", "ab": 318, "y": 1983, "t": "", "pref": "大阪", "region": "近畿地方"}, {"n": "中村紀洋", "dlc": false, "pos": "三", "pg": "i", "ab": 317, "y": 1989, "t": "", "pref": "大阪", "region": "近畿地方"}, {"n": "上原浩治", "dlc": false, "pos": "投", "pg": "p", "ab": 308, "y": 1991, "t": "", "pref": "大阪", "region": "近畿地方"}, {"n": "尾崎行雄", "dlc": false, "pos": "投", "pg": "p", "ab": 306, "y": 1960, "t": "怪童", "pref": "大阪", "region": "近畿地方"}, {"n": "前田健太", "dlc": false, "pos": "投", "pg": "p", "ab": 305, "y": 2004, "t": "", "pref": "大阪", "region": "近畿地方"}, {"n": "土井正博", "dlc": false, "pos": "外", "pg": "o", "ab": 303, "y": 1959, "t": "引っ張り屋", "pref": "大阪", "region": "近畿地方"}, {"n": "森友哉", "dlc": false, "pos": "捕", "pg": "c", "ab": 303, "y": 2011, "t": "", "pref": "大阪", "region": "近畿地方"}, {"n": "谷佳知", "dlc": false, "pos": "外", "pg": "o", "ab": 300, "y": 1988, "t": "", "pref": "大阪", "region": "近畿地方"}, {"n": "宮本慎也", "dlc": true, "pos": "遊", "pg": "i", "ab": 295, "y": 1986, "t": "", "pref": "大阪", "region": "近畿地方"}, {"n": "福本豊", "dlc": false, "pos": "外", "pg": "o", "ab": 294, "y": 1963, "t": "電光石火", "pref": "大阪", "region": "近畿地方"}, {"n": "中村剛也", "dlc": false, "pos": "三", "pg": "i", "ab": 292, "y": 1999, "t": "恐怖の満塁男", "pref": "大阪", "region": "近畿地方"}, {"n": "桑田真澄", "dlc": false, "pos": "投", "pg": "p", "ab": 288, "y": 1983, "t": "", "pref": "大阪", "region": "近畿地方"}, {"n": "立浪和義", "dlc": false, "pos": "二", "pg": "i", "ab": 282, "y": 1985, "t": "", "pref": "大阪", "region": "近畿地方"}, {"n": "新井宏昌", "dlc": false, "pos": "外", "pg": "o", "ab": 279, "y": 1968, "t": "安打製造機", "pref": "大阪", "region": "近畿地方"}, {"n": "桑原将志", "dlc": false, "pos": "外", "pg": "o", "ab": 278, "y": 2009, "t": "", "pref": "大阪", "region": "近畿地方"}, {"n": "西川愛也", "dlc": false, "pos": "外", "pg": "o", "ab": 276, "y": 2015, "t": "", "pref": "大阪", "region": "近畿地方"}, {"n": "達孝太", "dlc": false, "pos": "投", "pg": "p", "ab": 273, "y": 2019, "t": "", "pref": "大阪", "region": "近畿地方"}, {"n": "金城龍彦", "dlc": false, "pos": "外", "pg": "o", "ab": 272, "y": 1992, "t": "", "pref": "大阪", "region": "近畿地方"}, {"n": "宮本慎也", "dlc": false, "pos": "遊", "pg": "i", "ab": 272, "y": 1986, "t": "", "pref": "大阪", "region": "近畿地方"}, {"n": "今中慎二", "dlc": false, "pos": "投", "pg": "p", "ab": 268, "y": 1986, "t": "", "pref": "大阪", "region": "近畿地方"}, {"n": "ダルビッシュ有", "dlc": false, "pos": "投", "pg": "p", "ab": 266, "y": 2002, "t": "", "pref": "大阪", "region": "近畿地方"}, {"n": "松井稼頭央", "dlc": false, "pos": "遊", "pg": "i", "ab": 266, "y": 1991, "t": "", "pref": "大阪", "region": "近畿地方"}, {"n": "足立光宏", "dlc": false, "pos": "投", "pg": "p", "ab": 263, "y": 1955, "t": "", "pref": "大阪", "region": "近畿地方"}, {"n": "内星龍", "dlc": false, "pos": "投", "pg": "p", "ab": 263, "y": 2018, "t": "", "pref": "大阪", "region": "近畿地方"}, {"n": "矢野燿大", "dlc": false, "pos": "捕", "pg": "c", "ab": 261, "y": 1984, "t": "キャッチャーB", "pref": "大阪", "region": "近畿地方"}, {"n": "藤浪晋太郎", "dlc": false, "pos": "投", "pg": "p", "ab": 258, "y": 2010, "t": "", "pref": "大阪", "region": "近畿地方"}, {"n": "川端慎吾", "dlc": false, "pos": "三", "pg": "i", "ab": 256, "y": 2003, "t": "", "pref": "大阪", "region": "近畿地方"}, {"n": "田中将大", "dlc": true, "pos": "投", "pg": "p", "ab": 417, "y": 2004, "t": "勝利の星", "pref": "兵庫", "region": "近畿地方"}, {"n": "古田敦也", "dlc": false, "pos": "捕", "pg": "c", "ab": 392, "y": 1981, "t": "球界の頭脳", "pref": "兵庫", "region": "近畿地方"}, {"n": "別所昭", "dlc": false, "pos": "投", "pg": "p", "ab": 384, "y": 1938, "t": "鉄人", "pref": "兵庫", "region": "近畿地方"}, {"n": "江夏豊", "dlc": false, "pos": "投", "pg": "p", "ab": 382, "y": 1964, "t": "怪童", "pref": "兵庫", "region": "近畿地方"}, {"n": "山田哲人", "dlc": true, "pos": "二", "pg": "i", "ab": 343, "y": 2008, "t": "", "pref": "兵庫", "region": "近畿地方"}, {"n": "坂本勇人", "dlc": false, "pos": "遊", "pg": "i", "ab": 341, "y": 2004, "t": "", "pref": "兵庫", "region": "近畿地方"}, {"n": "山田哲人", "dlc": false, "pos": "二", "pg": "i", "ab": 341, "y": 2008, "t": "", "pref": "兵庫", "region": "近畿地方"}, {"n": "小山正明", "dlc": false, "pos": "投", "pg": "p", "ab": 340, "y": 1950, "t": "精密機械", "pref": "兵庫", "region": "近畿地方"}, {"n": "鈴木啓示", "dlc": false, "pos": "投", "pg": "p", "ab": 335, "y": 1963, "t": "不屈の魂", "pref": "兵庫", "region": "近畿地方"}, {"n": "佐藤輝明", "dlc": true, "pos": "三", "pg": "i", "ab": 323, "y": 2014, "t": "", "pref": "兵庫", "region": "近畿地方"}, {"n": "村山実", "dlc": false, "pos": "投", "pg": "p", "ab": 319, "y": 1952, "t": "", "pref": "兵庫", "region": "近畿地方"}, {"n": "佐藤輝明", "dlc": false, "pos": "三", "pg": "i", "ab": 317, "y": 2014, "t": "", "pref": "兵庫", "region": "近畿地方"}, {"n": "田中将大", "dlc": false, "pos": "投", "pg": "p", "ab": 309, "y": 2004, "t": "", "pref": "兵庫", "region": "近畿地方"}, {"n": "才木浩人", "dlc": false, "pos": "投", "pg": "p", "ab": 303, "y": 2014, "t": "", "pref": "兵庫", "region": "近畿地方"}, {"n": "池山隆寛", "dlc": true, "pos": "遊", "pg": "i", "ab": 284, "y": 1981, "t": "", "pref": "兵庫", "region": "近畿地方"}, {"n": "田口壮", "dlc": false, "pos": "外", "pg": "o", "ab": 283, "y": 1985, "t": "", "pref": "兵庫", "region": "近畿地方"}, {"n": "宮西尚生", "dlc": true, "pos": "投", "pg": "p", "ab": 282, "y": 2001, "t": "鉄腕", "pref": "兵庫", "region": "近畿地方"}, {"n": "中森俊介", "dlc": false, "pos": "投", "pg": "p", "ab": 278, "y": 2018, "t": "", "pref": "兵庫", "region": "近畿地方"}, {"n": "中島裕之", "dlc": false, "pos": "遊", "pg": "i", "ab": 277, "y": 1998, "t": "", "pref": "兵庫", "region": "近畿地方"}, {"n": "山﨑伊織", "dlc": false, "pos": "投", "pg": "p", "ab": 276, "y": 2014, "t": "", "pref": "兵庫", "region": "近畿地方"}, {"n": "池山隆寛", "dlc": false, "pos": "遊", "pg": "i", "ab": 271, "y": 1981, "t": "", "pref": "兵庫", "region": "近畿地方"}, {"n": "大勢", "dlc": false, "pos": "投", "pg": "p", "ab": 264, "y": 2015, "t": "", "pref": "兵庫", "region": "近畿地方"}, {"n": "近本光司", "dlc": false, "pos": "外", "pg": "o", "ab": 263, "y": 2010, "t": "", "pref": "兵庫", "region": "近畿地方"}, {"n": "屋鋪要", "dlc": false, "pos": "外", "pg": "o", "ab": 262, "y": 1975, "t": "", "pref": "兵庫", "region": "近畿地方"}, {"n": "能見篤史", "dlc": true, "pos": "投", "pg": "p", "ab": 262, "y": 1995, "t": "", "pref": "兵庫", "region": "近畿地方"}, {"n": "辰己涼介", "dlc": false, "pos": "外", "pg": "o", "ab": 261, "y": 2012, "t": "", "pref": "兵庫", "region": "近畿地方"}, {"n": "今岡誠", "dlc": false, "pos": "二", "pg": "i", "ab": 253, "y": 1990, "t": "恐怖の満塁男", "pref": "兵庫", "region": "近畿地方"}, {"n": "宮西尚生", "dlc": false, "pos": "投", "pg": "p", "ab": 250, "y": 2001, "t": "鉄腕", "pref": "兵庫", "region": "近畿地方"}, {"n": "坂本誠志郎", "dlc": false, "pos": "捕", "pg": "c", "ab": 202, "y": 2009, "t": "キャッチャーB", "pref": "兵庫", "region": "近畿地方"}, {"n": "和田毅", "dlc": true, "pos": "投", "pg": "p", "ab": 284, "y": 1996, "t": "", "pref": "島根", "region": "中国地方"}, {"n": "大野豊", "dlc": false, "pos": "投", "pg": "p", "ab": 282, "y": 1971, "t": "", "pref": "島根", "region": "中国地方"}, {"n": "佐々岡真司", "dlc": false, "pos": "投", "pg": "p", "ab": 266, "y": 1983, "t": "", "pref": "島根", "region": "中国地方"}, {"n": "梨田昌崇", "dlc": false, "pos": "捕", "pg": "c", "ab": 218, "y": 1986, "t": "キャッチャーB", "pref": "島根", "region": "中国地方"}, {"n": "米田哲也", "dlc": false, "pos": "投", "pg": "p", "ab": 281, "y": 1953, "t": "ガソリンタンク", "pref": "鳥取", "region": "中国地方"}, {"n": "山本由伸", "dlc": false, "pos": "投", "pg": "p", "ab": 332, "y": 2014, "t": "", "pref": "岡山", "region": "中国地方"}, {"n": "平松政次", "dlc": false, "pos": "投", "pg": "p", "ab": 326, "y": 1963, "t": "怪物球威", "pref": "岡山", "region": "中国地方"}, {"n": "大杉勝男", "dlc": false, "pos": "一", "pg": "i", "ab": 297, "y": 1960, "t": "", "pref": "岡山", "region": "中国地方"}, {"n": "佐々木誠", "dlc": false, "pos": "外", "pg": "o", "ab": 286, "y": 1981, "t": "", "pref": "岡山", "region": "中国地方"}, {"n": "サブロー", "dlc": true, "pos": "外", "pg": "o", "ab": 270, "y": 1992, "t": "", "pref": "岡山", "region": "中国地方"}, {"n": "秋山登", "dlc": false, "pos": "投", "pg": "p", "ab": 261, "y": 1949, "t": "", "pref": "岡山", "region": "中国地方"}, {"n": "岡大海", "dlc": false, "pos": "外", "pg": "o", "ab": 257, "y": 2007, "t": "", "pref": "岡山", "region": "中国地方"}, {"n": "サブロー", "dlc": false, "pos": "外", "pg": "o", "ab": 253, "y": 1992, "t": "", "pref": "岡山", "region": "中国地方"}, {"n": "柳田悠岐", "dlc": false, "pos": "外", "pg": "o", "ab": 381, "y": 2004, "t": "", "pref": "広島", "region": "中国地方"}, {"n": "山本浩二", "dlc": false, "pos": "外", "pg": "o", "ab": 367, "y": 1962, "t": "", "pref": "広島", "region": "中国地方"}, {"n": "山本浩二", "dlc": true, "pos": "外", "pg": "o", "ab": 365, "y": 1962, "t": "", "pref": "広島", "region": "中国地方"}, {"n": "藤村富美男", "dlc": false, "pos": "三", "pg": "i", "ab": 364, "y": 1932, "t": "", "pref": "広島", "region": "中国地方"}, {"n": "広瀬叔功", "dlc": false, "pos": "外", "pg": "o", "ab": 358, "y": 1952, "t": "", "pref": "広島", "region": "中国地方"}, {"n": "金本知憲", "dlc": false, "pos": "外", "pg": "o", "ab": 352, "y": 1984, "t": "鉄人", "pref": "広島", "region": "中国地方"}, {"n": "簑田浩二", "dlc": false, "pos": "外", "pg": "o", "ab": 337, "y": 1967, "t": "", "pref": "広島", "region": "中国地方"}, {"n": "張本勲", "dlc": false, "pos": "外", "pg": "o", "ab": 333, "y": 1956, "t": "安打製造機", "pref": "広島", "region": "中国地方"}, {"n": "村田兆治", "dlc": false, "pos": "投", "pg": "p", "ab": 296, "y": 1965, "t": "", "pref": "広島", "region": "中国地方"}, {"n": "中田翔", "dlc": false, "pos": "一", "pg": "i", "ab": 291, "y": 2005, "t": "", "pref": "広島", "region": "中国地方"}, {"n": "西村健太朗", "dlc": false, "pos": "投", "pg": "p", "ab": 283, "y": 2001, "t": "本塁打厳禁", "pref": "広島", "region": "中国地方"}, {"n": "竹丸和幸", "dlc": false, "pos": "投", "pg": "p", "ab": 269, "y": 2017, "t": "", "pref": "広島", "region": "中国地方"}, {"n": "梵英心", "dlc": false, "pos": "遊", "pg": "i", "ab": 269, "y": 1996, "t": "", "pref": "広島", "region": "中国地方"}, {"n": "谷繁元信", "dlc": true, "pos": "捕", "pg": "c", "ab": 268, "y": 1986, "t": "キャッチャーA", "pref": "広島", "region": "中国地方"}, {"n": "藤井康雄", "dlc": false, "pos": "外", "pg": "o", "ab": 268, "y": 1978, "t": "", "pref": "広島", "region": "中国地方"}, {"n": "山崎隆造", "dlc": false, "pos": "外", "pg": "o", "ab": 263, "y": 1974, "t": "", "pref": "広島", "region": "中国地方"}, {"n": "二岡智宏", "dlc": false, "pos": "遊", "pg": "i", "ab": 250, "y": 1992, "t": "", "pref": "広島", "region": "中国地方"}, {"n": "高木豊", "dlc": false, "pos": "遊", "pg": "i", "ab": 280, "y": 1974, "t": "", "pref": "山口", "region": "中国地方"}, {"n": "津田恒実", "dlc": false, "pos": "投", "pg": "p", "ab": 270, "y": 1976, "t": "", "pref": "山口", "region": "中国地方"}, {"n": "有田修三", "dlc": false, "pos": "捕", "pg": "c", "ab": 226, "y": 1967, "t": "キャッチャーB", "pref": "山口", "region": "中国地方"}, {"n": "中西太", "dlc": false, "pos": "三", "pg": "i", "ab": 318, "y": 1949, "t": "", "pref": "香川", "region": "四国地方"}, {"n": "島谷金二", "dlc": false, "pos": "三", "pg": "i", "ab": 252, "y": 1960, "t": "", "pref": "香川", "region": "四国地方"}, {"n": "岡村浩二", "dlc": false, "pos": "捕", "pg": "c", "ab": 236, "y": 1956, "t": "キャッチャーB", "pref": "香川", "region": "四国地方"}, {"n": "里崎智也", "dlc": false, "pos": "捕", "pg": "c", "ab": 301, "y": 1992, "t": "", "pref": "徳島", "region": "四国地方"}, {"n": "長池徳二", "dlc": false, "pos": "外", "pg": "o", "ab": 293, "y": 1959, "t": "", "pref": "徳島", "region": "四国地方"}, {"n": "川上憲伸", "dlc": false, "pos": "投", "pg": "p", "ab": 290, "y": 1991, "t": "", "pref": "徳島", "region": "四国地方"}, {"n": "武田久", "dlc": false, "pos": "投", "pg": "p", "ab": 278, "y": 1994, "t": "本塁打厳禁", "pref": "徳島", "region": "四国地方"}, {"n": "潮崎哲也", "dlc": false, "pos": "投", "pg": "p", "ab": 261, "y": 1984, "t": "", "pref": "徳島", "region": "四国地方"}, {"n": "岡本駿", "dlc": false, "pos": "投", "pg": "p", "ab": 254, "y": 2018, "t": "", "pref": "徳島", "region": "四国地方"}, {"n": "岩村明憲", "dlc": false, "pos": "三", "pg": "i", "ab": 293, "y": 1994, "t": "", "pref": "愛媛", "region": "四国地方"}, {"n": "平井正史", "dlc": true, "pos": "投", "pg": "p", "ab": 271, "y": 1991, "t": "", "pref": "愛媛", "region": "四国地方"}, {"n": "高井保弘", "dlc": false, "pos": "一", "pg": "i", "ab": 264, "y": 1960, "t": "代打の神様", "pref": "愛媛", "region": "四国地方"}, {"n": "藤原満", "dlc": false, "pos": "三", "pg": "i", "ab": 256, "y": 1962, "t": "", "pref": "愛媛", "region": "四国地方"}, {"n": "藤川球児", "dlc": true, "pos": "投", "pg": "p", "ab": 310, "y": 1996, "t": "怪童", "pref": "高知", "region": "四国地方"}, {"n": "藤川球児", "dlc": false, "pos": "投", "pg": "p", "ab": 307, "y": 1996, "t": "怪童", "pref": "高知", "region": "四国地方"}, {"n": "有藤道世", "dlc": false, "pos": "三", "pg": "i", "ab": 281, "y": 1962, "t": "", "pref": "高知", "region": "四国地方"}, {"n": "新庄剛志", "dlc": false, "pos": "外", "pg": "o", "ab": 307, "y": 1987, "t": "", "pref": "福岡", "region": "九州地方"}, {"n": "村田修一", "dlc": false, "pos": "三", "pg": "i", "ab": 307, "y": 1996, "t": "", "pref": "福岡", "region": "九州地方"}, {"n": "杉内俊哉", "dlc": false, "pos": "投", "pg": "p", "ab": 303, "y": 1996, "t": "", "pref": "福岡", "region": "九州地方"}, {"n": "今永昇太", "dlc": false, "pos": "投", "pg": "p", "ab": 285, "y": 2009, "t": "", "pref": "福岡", "region": "九州地方"}, {"n": "松永浩美", "dlc": false, "pos": "三", "pg": "i", "ab": 283, "y": 1976, "t": "", "pref": "福岡", "region": "九州地方"}, {"n": "真弓明信", "dlc": false, "pos": "外", "pg": "o", "ab": 279, "y": 1969, "t": "", "pref": "福岡", "region": "九州地方"}, {"n": "柴田獅子", "dlc": false, "pos": "投", "pg": "p", "ab": 276, "y": 2022, "t": "", "pref": "福岡", "region": "九州地方"}, {"n": "本多雄一", "dlc": true, "pos": "二", "pg": "i", "ab": 273, "y": 2000, "t": "", "pref": "福岡", "region": "九州地方"}, {"n": "島田誠", "dlc": false, "pos": "外", "pg": "o", "ab": 262, "y": 1970, "t": "", "pref": "福岡", "region": "九州地方"}, {"n": "柴原洋", "dlc": false, "pos": "外", "pg": "o", "ab": 257, "y": 1990, "t": "", "pref": "福岡", "region": "九州地方"}, {"n": "武内夏暉", "dlc": false, "pos": "投", "pg": "p", "ab": 255, "y": 2017, "t": "", "pref": "福岡", "region": "九州地方"}, {"n": "権藤博", "dlc": true, "pos": "投", "pg": "p", "ab": 298, "y": 1954, "t": "", "pref": "佐賀", "region": "九州地方"}, {"n": "権藤博", "dlc": false, "pos": "投", "pg": "p", "ab": 271, "y": 1954, "t": "", "pref": "佐賀", "region": "九州地方"}, {"n": "辻発彦", "dlc": true, "pos": "二", "pg": "i", "ab": 269, "y": 1974, "t": "", "pref": "佐賀", "region": "九州地方"}, {"n": "長野久義", "dlc": false, "pos": "外", "pg": "o", "ab": 264, "y": 2000, "t": "", "pref": "佐賀", "region": "九州地方"}, {"n": "緒方孝市", "dlc": false, "pos": "外", "pg": "o", "ab": 260, "y": 1984, "t": "", "pref": "佐賀", "region": "九州地方"}, {"n": "福地寿樹", "dlc": false, "pos": "外", "pg": "o", "ab": 259, "y": 1991, "t": "", "pref": "佐賀", "region": "九州地方"}, {"n": "辻発彦", "dlc": false, "pos": "二", "pg": "i", "ab": 254, "y": 1974, "t": "", "pref": "佐賀", "region": "九州地方"}, {"n": "城島健司", "dlc": true, "pos": "捕", "pg": "c", "ab": 324, "y": 1992, "t": "バズーカ送球", "pref": "長崎", "region": "九州地方"}, {"n": "隅田知一郎", "dlc": false, "pos": "投", "pg": "p", "ab": 253, "y": 2015, "t": "", "pref": "長崎", "region": "九州地方"}, {"n": "中村優斗", "dlc": false, "pos": "投", "pg": "p", "ab": 253, "y": 2018, "t": "", "pref": "長崎", "region": "九州地方"}, {"n": "秋山幸二", "dlc": false, "pos": "外", "pg": "o", "ab": 393, "y": 1978, "t": "", "pref": "熊本", "region": "九州地方"}, {"n": "村上宗隆", "dlc": true, "pos": "三", "pg": "i", "ab": 330, "y": 2015, "t": "", "pref": "熊本", "region": "九州地方"}, {"n": "松中信彦", "dlc": true, "pos": "一", "pg": "i", "ab": 302, "y": 1989, "t": "", "pref": "熊本", "region": "九州地方"}, {"n": "川上哲治", "dlc": false, "pos": "一", "pg": "i", "ab": 300, "y": 1935, "t": "安打製造機", "pref": "熊本", "region": "九州地方"}, {"n": "前田智徳", "dlc": false, "pos": "外", "pg": "o", "ab": 298, "y": 1987, "t": "", "pref": "熊本", "region": "九州地方"}, {"n": "松中信彦", "dlc": false, "pos": "一", "pg": "i", "ab": 297, "y": 1989, "t": "", "pref": "熊本", "region": "九州地方"}, {"n": "村上宗隆", "dlc": false, "pos": "三", "pg": "i", "ab": 293, "y": 2015, "t": "", "pref": "熊本", "region": "九州地方"}, {"n": "野田浩司", "dlc": false, "pos": "投", "pg": "p", "ab": 258, "y": 1983, "t": "", "pref": "熊本", "region": "九州地方"}, {"n": "牧原大成", "dlc": false, "pos": "二", "pg": "i", "ab": 258, "y": 2008, "t": "", "pref": "熊本", "region": "九州地方"}, {"n": "荒木雅博", "dlc": false, "pos": "二", "pg": "i", "ab": 256, "y": 1993, "t": "", "pref": "熊本", "region": "九州地方"}, {"n": "伊藤勤", "dlc": false, "pos": "捕", "pg": "c", "ab": 233, "y": 1978, "t": "キャッチャーA", "pref": "熊本", "region": "九州地方"}, {"n": "稲尾和久", "dlc": false, "pos": "投", "pg": "p", "ab": 366, "y": 1953, "t": "鉄腕", "pref": "大分", "region": "九州地方"}, {"n": "野村謙二郎", "dlc": false, "pos": "二", "pg": "i", "ab": 311, "y": 1982, "t": "", "pref": "大分", "region": "九州地方"}, {"n": "内川聖一", "dlc": false, "pos": "一", "pg": "i", "ab": 292, "y": 1998, "t": "", "pref": "大分", "region": "九州地方"}, {"n": "源田壮亮", "dlc": true, "pos": "遊", "pg": "i", "ab": 282, "y": 2008, "t": "", "pref": "大分", "region": "九州地方"}, {"n": "源田壮亮", "dlc": false, "pos": "遊", "pg": "i", "ab": 271, "y": 2008, "t": "", "pref": "大分", "region": "九州地方"}, {"n": "大島康徳", "dlc": false, "pos": "外", "pg": "o", "ab": 266, "y": 1966, "t": "", "pref": "大分", "region": "九州地方"}, {"n": "土谷鉄平", "dlc": false, "pos": "外", "pg": "o", "ab": 260, "y": 1998, "t": "", "pref": "大分", "region": "九州地方"}, {"n": "森下暢仁", "dlc": false, "pos": "投", "pg": "p", "ab": 253, "y": 2013, "t": "", "pref": "大分", "region": "九州地方"}, {"n": "青木宣親", "dlc": false, "pos": "外", "pg": "o", "ab": 333, "y": 1997, "t": "", "pref": "宮崎", "region": "九州地方"}, {"n": "黒木知宏", "dlc": true, "pos": "投", "pg": "p", "ab": 271, "y": 1989, "t": "", "pref": "宮崎", "region": "九州地方"}, {"n": "田中幸雄", "dlc": false, "pos": "遊", "pg": "i", "ab": 261, "y": 1983, "t": "", "pref": "宮崎", "region": "九州地方"}, {"n": "廣池康志郎", "dlc": false, "pos": "投", "pg": "p", "ab": 255, "y": 2018, "t": "", "pref": "宮崎", "region": "九州地方"}, {"n": "西村徳文", "dlc": false, "pos": "外", "pg": "o", "ab": 251, "y": 1975, "t": "", "pref": "宮崎", "region": "九州地方"}, {"n": "福留孝介", "dlc": true, "pos": "外", "pg": "o", "ab": 357, "y": 1993, "t": "", "pref": "鹿児島", "region": "九州地方"}, {"n": "北別府学", "dlc": false, "pos": "投", "pg": "p", "ab": 308, "y": 1973, "t": "精密機械", "pref": "鹿児島", "region": "九州地方"}, {"n": "福留孝介", "dlc": false, "pos": "外", "pg": "o", "ab": 287, "y": 1993, "t": "", "pref": "鹿児島", "region": "九州地方"}, {"n": "外木場義郎", "dlc": false, "pos": "投", "pg": "p", "ab": 277, "y": 1961, "t": "", "pref": "鹿児島", "region": "九州地方"}, {"n": "宮城大弥", "dlc": false, "pos": "投", "pg": "p", "ab": 316, "y": 2017, "t": "", "pref": "沖縄", "region": "九州地方"}, {"n": "平良海馬", "dlc": false, "pos": "投", "pg": "p", "ab": 312, "y": 2015, "t": "", "pref": "沖縄", "region": "九州地方"}, {"n": "山川穂高", "dlc": false, "pos": "一", "pg": "i", "ab": 273, "y": 2007, "t": "", "pref": "沖縄", "region": "九州地方"}, {"n": "石嶺和彦", "dlc": false, "pos": "外", "pg": "o", "ab": 271, "y": 1976, "t": "", "pref": "沖縄", "region": "九州地方"}, {"n": "山川穂高", "dlc": true, "pos": "一", "pg": "i", "ab": 266, "y": 2007, "t": "", "pref": "沖縄", "region": "九州地方"}, {"n": "金村尚真", "dlc": false, "pos": "投", "pg": "p", "ab": 261, "y": 2016, "t": "", "pref": "沖縄", "region": "九州地方"}], "regions": ["北海道・東北地区", "関東地区", "北信越地区", "東海地区", "近畿地方", "中国地方", "四国地方", "九州地方"], "prefsByRegion": {"北海道・東北地区": ["北海道", "青森", "岩手", "秋田", "山形", "宮城", "福島"], "関東地区": ["千葉", "神奈川", "山梨", "栃木", "東京", "茨城", "群馬", "埼玉"], "北信越地区": ["新潟", "長野", "富山", "石川", "福井"], "東海地区": ["静岡", "愛知", "岐阜", "三重"], "近畿地方": ["滋賀", "京都", "奈良", "和歌山", "大阪", "兵庫"], "中国地方": ["島根", "鳥取", "岡山", "広島", "山口"], "四国地方": ["香川", "徳島", "愛媛", "高知"], "九州地方": ["福岡", "佐賀", "長崎", "熊本", "大分", "宮崎", "鹿児島", "沖縄"]}};
+function tier(a){ if(a>=400)return'S'; if(a>=350)return'A'; if(a>=320)return'B'; if(a>=290)return'C'; return'D'; }
+function prefCount(pf,inc){ return DATA.players.filter(p=>p.pref===pf&&(inc||!p.dlc)).length; }
+function regionOf(pf){ for(const r of DATA.regions){ if(DATA.prefsByRegion[r].includes(pf)) return r; } return DATA.regions[0]; }
+const sortFn=(a,b)=> b.ab-a.ab || (a.dlc-b.dlc);
+const EMPTY='<div class="empty">該当する選手がいません。<br>位置フィルタや検索条件を変えてみてください。</div>';
+
+const ob={ mode:'pref', pref:'神奈川', region:'__all__', pg:'all', q:'', dlc:true };
+const $=s=>document.querySelector(s);
+
+function buildSelect(){
+  const wrap=$('#selwrap'), sel=$('#obsel');
+  if(ob.mode==='all'){ wrap.style.display='none'; return; }
+  wrap.style.display='block';
+  if(ob.mode==='pref'){
+    sel.innerHTML=DATA.regions.map(r=>{
+      const opts=DATA.prefsByRegion[r].map(pf=>`<option value="${pf}"${pf===ob.pref?' selected':''}>${pf}（${prefCount(pf,ob.dlc)}）</option>`).join('');
+      return `<optgroup label="${r}">${opts}</optgroup>`;
+    }).join('');
+  } else {
+    const total=DATA.players.filter(p=>ob.dlc||!p.dlc).length;
+    const allo=`<option value="__all__"${ob.region==='__all__'?' selected':''}>すべて（${total}）</option>`;
+    sel.innerHTML=allo+DATA.regions.map(r=>{
+      const c=DATA.players.filter(p=>p.region===r&&(ob.dlc||!p.dlc)).length;
+      return `<option value="${r}"${r===ob.region?' selected':''}>${r}（${c}）</option>`;
+    }).join('');
+  }
+}
+
+function rowHTML(p,showPref){
+  const t=tier(p.ab);
+  const dlc=p.dlc?'<span class="dlc">DLC</span>':'';
+  const star=p.t?`<span class="star" title="${p.t}">★</span>`:'';
+  const pref=showPref?`<span class="prefmini">${p.pref}</span>`:'';
+  return `<div class="pc pg-${p.pg} t${t}">`+
+    `<div class="pc-top"><span class="pc-name">${p.n}</span>${dlc}${star}</div>`+
+    `<div class="pc-bot"><span class="poschip pos-${p.pg}">${p.pos}</span>${pref}<span class="pc-sp"></span>`+
+    `<span class="pc-ab"><span class="num">${p.ab}</span><span class="tl">${t}</span></span></div></div>`;
+}
+function listCard(arr,showPref){ return '<div class="grid">'+arr.map(p=>rowHTML(p,showPref)).join('')+'</div>'; }
+function applyFilters(list){
+  return list.filter(p=>{
+    if(!ob.dlc&&p.dlc) return false;
+    if(ob.pg!=='all'&&p.pg!==ob.pg) return false;
+    if(ob.q){ if(p.n.indexOf(ob.q)<0&&p.t.indexOf(ob.q)<0) return false; }
+    return true;
+  });
+}
+function summary(ttl,meta,posline){
+  return `<div class="summary"><span class="ttl">${ttl}</span><span class="meta">${meta}</span>${posline||''}</div>`;
+}
+
+function renderOB(){
+  buildSelect();
+  const head=$('#obhead'), listEl=$('#oblist');
+  let h='', body='';
+  if(ob.q){
+    const list=applyFilters(DATA.players).sort(sortFn);
+    h=summary('検索','「'+ob.q+'」・'+list.length+'名');
+    body=list.length?listCard(list,true):EMPTY;
+  } else if(ob.mode==='all'){
+    const list=applyFilters(DATA.players).sort(sortFn);
+    h=summary('能力順','全'+list.length+'名');
+    body=list.length?listCard(list,true):EMPTY;
+  } else if(ob.mode==='region'){
+    const scope = ob.region==='__all__'
+      ? DATA.regions.reduce((a,r)=>a.concat(DATA.prefsByRegion[r]),[])
+      : DATA.prefsByRegion[ob.region];
+    let total=0, blocks='';
+    scope.forEach(pf=>{
+      const plist=applyFilters(DATA.players.filter(p=>p.pref===pf)).sort(sortFn);
+      if(!plist.length) return;
+      total+=plist.length;
+      blocks+=`<div class="grp-head"><span class="gn">${pf}</span><span class="gc">${plist.length}名</span></div>`+listCard(plist,false);
+    });
+    const label = ob.region==='__all__' ? '全国（県別）' : ob.region+'（県別）';
+    h=summary(label,total+'名');
+    body=blocks||EMPTY;
+  } else {
+    const list=applyFilters(DATA.players.filter(p=>p.pref===ob.pref)).sort(sortFn);
+    const cP=list.filter(p=>p.pg==='p').length,cC=list.filter(p=>p.pg==='c').length,cI=list.filter(p=>p.pg==='i').length,cO=list.filter(p=>p.pg==='o').length;
+    const top=list.length?Math.max(...list.map(p=>p.ab)):0;
+    const posline=`<div class="posline">投 <b>${cP}</b>　捕 <b>${cC}</b>　内 <b>${cI}</b>　外 <b>${cO}</b></div>`;
+    h=summary(ob.pref,list.length+'名・最高 '+top,posline);
+    body=list.length?listCard(list,false):EMPTY;
+  }
+  head.innerHTML=h; listEl.innerHTML=body;
+}
+
+$('#obmode').querySelectorAll('button').forEach(b=>{
+  b.onclick=()=>{ ob.mode=b.dataset.m;
+    $('#obmode').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
+    renderOB(); document.querySelector('.ob-results').scrollIntoView({block:'nearest'});
+  };
+});
+$('#obsel').onchange=e=>{ if(ob.mode==='pref') ob.pref=e.target.value; else ob.region=e.target.value; renderOB(); };
+$('#pfil').querySelectorAll('.chip').forEach(b=>{
+  b.onclick=()=>{ ob.pg=b.dataset.pg; $('#pfil').querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===b)); renderOB(); };
+});
+$('#dlc').onchange=e=>{ ob.dlc=e.target.checked; renderOB(); };
+$('#q').oninput=e=>{ ob.q=e.target.value.trim(); $('#clr').style.display=ob.q?'block':'none'; renderOB(); };
+$('#clr').onclick=()=>{ ob.q=''; $('#q').value=''; $('#clr').style.display='none'; renderOB(); };
+
+renderOB();
+</script>
+</body>
+</html>
