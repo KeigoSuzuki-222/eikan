@@ -267,11 +267,151 @@
     .tab{padding-left:22px;padding-right:22px;}
     .ob-controls,.ob-results{padding-left:22px;padding-right:22px;}
   }
+
+  /* ============================================================
+     PC レイアウト（900px以上）
+     左：固定サイドナビ 220px
+     右：コンテンツ（上限 800px）
+  ============================================================ */
+  /* ================================================================
+   PC レイアウト (960px+)
+   左：固定サイドナビ 190px
+   右：コンテンツエリア（タブごとに最適なレイアウト）
+================================================================ */
+@media (min-width: 960px) {
+  :root{ --tab-h:0px; --sb:0px; }
+
+  /* ── シェル ── */
+  .app{
+    flex-direction:row;
+    max-width:none;
+    width:100%;
+    height:100vh;height:100dvh;
+    padding-top:0;
+  }
+
+  /* ── 左サイドナビ ── */
+  .tabbar{
+    flex-direction:column;
+    width:160px;
+    min-width:160px;
+    flex-shrink:0;
+    height:100%;
+    border-top:none;
+    border-right:1px solid var(--line);
+    background:var(--card);
+    padding:16px 8px;
+    justify-content:flex-start;
+    align-items:stretch;
+    gap:2px;
+    padding-bottom:20px;
+  }
+  .tabbar::before{
+    content:"栄冠ナイン 2026";
+    display:block;
+    font-size:10.5px;
+    font-weight:700;
+    color:var(--muted);
+    letter-spacing:.06em;
+    padding:0 6px 12px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:8px;
+  }
+  .tabbar button{
+    flex-direction:row;
+    width:100%;
+    height:auto;
+    padding:8px 10px;
+    border-radius:7px;
+    gap:8px;
+    justify-content:flex-start;
+    color:var(--muted);
+  }
+  .tabbar button svg{ width:16px; height:16px; flex-shrink:0; }
+  .tabbar button .lb{ font-size:12.5px; font-weight:700; }
+  .tabbar button.active{
+    background:rgba(63,202,143,.12);
+    color:var(--green);
+    box-shadow:none;
+  }
+
+  /* ── コンテンツエリア ── */
+  .scroll{ flex:1; min-width:0; overflow-y:auto; background:var(--bg); }
+
+  /* ── タブ共通 ── */
+  .tab{ padding:20px 24px 48px; max-width:none; }
+  #tab-ob.active{ padding:0; }
+
+  /* ── OBタブ ── */
+  /* OBコントロール：1行に収める */
+  .ob-controls{
+    display:flex;
+    flex-direction:row;
+    flex-wrap:nowrap;
+    gap:8px;
+    padding:10px 24px 8px;
+    align-items:center;
+  }
+  .ob-search{ flex:0 0 220px; }
+  .ob-search input{ font-size:13px; padding:7px 30px; }
+  #obmode{ flex-shrink:0; }
+  #obmode button{ font-size:12px; padding:5px 10px; }
+  #selwrap{ flex:1; min-width:140px; max-width:220px; }
+  #selwrap select{ font-size:13px; padding:7px 28px 7px 10px; }
+  .dlc-tgl{ flex-shrink:0; font-size:12px; }
+  #pfil{ flex-shrink:0; gap:4px; }
+  #pfil .lb{ font-size:11px; }
+  #pfil .chip{ font-size:11.5px; padding:4px 9px; }
+  .ob-results{ padding:10px 24px 48px; }
+  .grid{ grid-template-columns:repeat(4,1fr); gap:7px; }
+
+  /* ── アコーディオン（PCでも有効・compact） ── */
+  .acc-head{ padding:10px 13px; }
+  .acc-title{ font-size:14.5px; }
+  .acc-bar{ margin-bottom:8px; }
+
+  /* ── 表 ── */
+  table.matrix th,table.matrix td{ padding:6px 5px; font-size:12px; }
+  table.strtable th,table.strtable td{ padding:7px 10px; font-size:12px; }
+
+  /* ── 文字サイズ微調整 ── */
+  .rc-row{ font-size:12.5px; }
+  .note{ font-size:12px; }
+  .tip,.warn{ font-size:12.5px; }
+}
+
+@media (min-width:1280px){
+  .tabbar{ width:180px; min-width:180px; }
+  .grid{ grid-template-columns:repeat(5,1fr); }
+  .tab{ padding:20px 32px 56px; }
+  .ob-controls{ padding:14px 32px 10px; }
+  .ob-results{ padding:10px 32px 56px; }
+}
 </style>
 </head>
 <body>
 <div class="app">
 
+  <nav class="tabbar" id="tabbar">
+    <button class="active" data-tab="events" data-title="年間イベント">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 9.5h17M8 3.2v3.4M16 3.2v3.4"/></svg>
+      <span class="lb">イベント</span></button>
+    <button data-tab="seikaku" data-title="性格の違い">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.6 3.1-5.6 7-5.6s7 2 7 5.6"/></svg>
+      <span class="lb">性格</span></button>
+    <button data-tab="senjutsu" data-title="戦術（試合中）">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.2"/><circle cx="12" cy="12" r="3.4"/><path d="M12 1.8v3.2M12 19v3.2M1.8 12h3.2M19 12h3.2"/></svg>
+      <span class="lb">戦術</span></button>
+    <button data-tab="cards" data-title="進行カード・合宿">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="7.5" width="12.5" height="13" rx="2"/><path d="M7.5 7.5V6a1.8 1.8 0 0 1 1.8-1.8H18A1.8 1.8 0 0 1 19.8 6v11"/></svg>
+      <span class="lb">カード</span></button>
+    <button data-tab="ob" data-title="転生OB名鑑">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6l2.5 5.1 5.6.8-4.05 3.95.96 5.6L12 16.4l-5.01 2.65.96-5.6L3.9 9.5l5.6-.8z"/></svg>
+      <span class="lb">転生OB</span></button>
+    <button data-tab="tech" data-title="高等テクニック">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9.2 18h5.6M10.2 21h3.6"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.5.4.9 1 1 1.6l.1.6h5l.1-.6c.1-.6.5-1.2 1-1.6A6 6 0 0 0 12 3Z"/></svg>
+      <span class="lb">コツ</span></button>
+  </nav>
   <div class="scroll" id="scroll">
 
 <section class="tab active" id="tab-events">
@@ -292,7 +432,7 @@
     <!-- ============ TAB 2: 性格 ============ -->
     <section class="tab" id="tab-seikaku">
 
-      <div class="acc-bar"><button class="acc-all" type="button">すべて閉じる</button></div><div class="acc"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">能力の伸びやすさ</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      <div class="acc-bar"><button class="acc-all" type="button">すべて開く</button></div><div class="acc collapsed"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">能力の伸びやすさ</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
       <p class="note">練習時、性格に対応した能力に成長ボーナス（+10%）が発生することがある。<span class="mk mk-hi">◎</span>＝高確率（約50%）／<span class="mk mk-mid">◯</span>＝低確率（約20%）／<span class="mk mk-none">－</span>＝なし。<b>天才肌は全能力に高確率で別格。</b></p>
 
       <div class="note" style="margin-bottom:6px;color:var(--ink);font-weight:700;">▼ 投手能力</div>
@@ -329,7 +469,7 @@
         </table>
       </div>
 
-      </div></div></div><div class="acc"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">性格別の伝令</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      </div></div></div><div class="acc collapsed"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">性格別の伝令</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
       <p class="note">数値は <b>1年 → 2年 → 3年</b> の順。攻撃・守備それぞれ<b>3回まで</b>使用可（延長は1イニングにつき+1回）。3年生の伝令は特殊能力が付くものが多い。</p>
       <div class="card-list">
         <div class="rc"><div class="rc-head">ごくふつう ／ 内気 …「励ます」系</div>
@@ -354,7 +494,7 @@
       <div class="tip"><strong>キャプテン伝令：</strong>キャプテンを伝令に使うと通常効果に<b>ランダムな追加効果が1つ</b>付く。強力なので、7回以降にキャプテンをベンチへ下げて伝令要員にするのも有効。</div>
       <div class="tip"><strong>使い分けの目安：</strong>投手スタミナ管理は「励ます」（ごくふつう・内気）、終盤の守備固めは「盛り上げる」（やんちゃ・熱血漢）、エース強化は「助言する」（クール・天才肌）。ベンチに複数の性格を揃えると状況に応じて選べる。</div>
 
-      </div></div></div><div class="acc"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">キャプテンの性格</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      </div></div></div><div class="acc collapsed"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">キャプテンの性格</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
       <p class="note">※<b>★</b>＝キャプテンおすすめ。</p>
       <div class="card-list">
         <div class="rc pri"><div class="rc-head">お調子者 <span class="pin">★おすすめ筆頭</span></div>
@@ -389,7 +529,7 @@
     <!-- ============ TAB 3: カード・合宿 ============ -->
     <section class="tab" id="tab-cards">
 
-      <div class="acc-bar"><button class="acc-all" type="button">すべて閉じる</button></div><div class="acc"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">進行カードの強さ</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      <div class="acc-bar"><button class="acc-all" type="button">すべて開く</button></div><div class="acc collapsed"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">進行カードの強さ</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
       <p class="note"><span class="step">左＝弱</span> → <span class="step top">右＝強</span>（右ほど獲得経験値が多い）</p>
       <div id="seq-list"></div>
       <details class="ref"><summary>各カードの獲得経験値（1日の基礎値）を見る ※出典：ゲーミング再生工場</summary>
@@ -472,7 +612,7 @@
         </div>
       </details>
 
-      </div></div></div><div class="acc"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">練習効率アップと倍率</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      </div></div></div><div class="acc collapsed"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">練習効率アップと倍率</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
       <p class="note">効率アップ中に「数字が大きく右寄りのカード」を切ると獲得経験値が伸びる。</p>
       <div class="card-list">
         <div class="rc"><div class="rc-head">グラウンドレベル（常時かかる倍率）</div>
@@ -487,7 +627,7 @@
       <div class="tip"><strong>効率アップの重ねワザ：</strong>「観戦（次2回分）→ アイドルマスで新曲披露（中）」を踏むと、<b>中アップが次の練習2回に乗る</b>。その2回に総合練習・特打・特守（数字5）を当てると経験値が最大化。グラウンド整備は1回のみなので重ね不可。</div>
       <div class="warn"><strong>倍率について：</strong>獲得経験値＝<b>基礎値 × グラウンド補正 × 天候補正 × 体力補正 × 練習効率（小×2／中×4／大×6）</b>。大アップ中に数字5・高経験値カード（総合練習・特打・特守）を切ると伸びが最大化。数値は2024-2025版の実測に基づく参考値（コナミ非公開・過去作準拠のため2026で変わる場合あり）。</div>
 
-      </div></div></div><div class="acc"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">その他の進行カード</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      </div></div></div><div class="acc collapsed"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">その他の進行カード</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
       <div class="card-list">
         <div class="rc pri"><div class="rc-head">特打 <span class="pin">最強格</span></div><div class="rc-row">ミート＋大、パワー＋大。<b>出たら必ず使いたい</b></div></div>
         <div class="rc pri"><div class="rc-head">特守 <span class="pin">最優先</span></div><div class="rc-row">守備力＋大、捕球＋大。最優先で使用</div></div>
@@ -499,7 +639,7 @@
         <div class="rc"><div class="rc-head">練習指示</div><div class="rc-row">チームの練習指示を変更できる。4月の新入生入学直後に使えるよう<b>3月中に温存</b>すると便利</div></div>
       </div>
 
-      </div></div></div><div class="acc"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">合宿前に残すカード</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      </div></div></div><div class="acc collapsed"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">合宿前に残すカード</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
       <p class="note">※夏 7/25〜7/29／冬 12/10〜12/14。入る時点の手札で取れる特能が決まる。下は<b>「残すカード → 取れる主な青特」</b>。<span class="pin">★</span>＝最優先。</p>
       <div class="card-list">
         <div class="rc pri"><div class="rc-head"><span class="pin">★</span>まず残したいカード</div>
@@ -526,7 +666,7 @@
 <section class="tab" id="tab-tech">
       <p class="lead">通常プレイ〜やり込み向けの高等テクニック。数値・条件は2024-2025〜2026の攻略情報に基づく。</p>
 
-      <div class="acc-bar"><button class="acc-all" type="button">すべて閉じる</button></div><div class="acc"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">育成効率を最大化する</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      <div class="acc-bar"><button class="acc-all" type="button">すべて開く</button></div><div class="acc collapsed"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">育成効率を最大化する</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
       <div class="card-list">
         <div class="rc"><div class="rc-head">効率アップの重ねワザ</div>
           <div class="rc-row"><b>観戦（次2回に小アップ）→ アイドルマスで新曲披露（中アップ）</b>を踏むと、中アップが次の練習2回に乗る。その2回に<b>総合練習・特打・特守（数字5）</b>を当てて経験値を最大化。</div></div>
@@ -540,7 +680,7 @@
           <div class="rc-row">ちょうど止まりで出現：夏の大会敗退後（8/10前後・地域で変動）／クリスマス12/24／2月末。狙って特能を取得する。</div></div>
       </div>
 
-      </div></div></div><div class="acc"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">試合を有利にする</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      </div></div></div><div class="acc collapsed"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">試合を有利にする</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
       <div class="card-list">
         <div class="rc"><div class="rc-head">キャプテン伝令</div>
           <div class="rc-row">キャプテンを伝令に使うと通常効果＋<b>ランダム追加効果が1つ</b>。7回以降はキャプテンをベンチに下げて伝令要員にするのも有効。</div></div>
@@ -552,7 +692,7 @@
           <div class="rc-row">紫紺／深紅の優勝旗を所持中は白マスでボーナス（体力回復・効率アップ・特能）。所持中は白マスも積極的に踏む。</div></div>
       </div>
 
-      </div></div></div><div class="acc"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">選手厳選・チーム運用</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      </div></div></div><div class="acc collapsed"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">選手厳選・チーム運用</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
       <div class="card-list">
         <div class="rc"><div class="rc-head">転生OB・性格厳選</div>
           <div class="rc-row">入部する転生OBは<b>都道府県で変わる</b>（→転生OBタブ）。育成最強の<b>天才肌</b>、魔物要員の<b>内気</b>は入学時に確保したい。</div></div>
@@ -564,7 +704,7 @@
           <div class="rc-row">走力重視が扱いやすい（内野安打○・盗塁を狙い転がせLv6へ）。捕手が弱ければ守備・投手力重視でキャッチャー習得を狙う。</div></div>
       </div>
 
-      </div></div></div><div class="acc"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">リソース運用</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      </div></div></div><div class="acc collapsed"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">リソース運用</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
       <div class="card-list">
         <div class="rc"><div class="rc-head">5勝ごとのアイテム交換</div>
           <div class="rc-row">特能本のラインナップは交換数<b>10個ごとに+5種類</b>増える。序盤は毎回交換して種類を増やすと、後で強い特能本を狙いやすい。</div></div>
@@ -574,7 +714,7 @@
           <div class="rc-row">ドラフト指名人数でパワポイントが増加。スカウトは11/1〜翌2月末に年10回まで。履歴書・回数は使い切る。</div></div>
       </div>
 
-      </div></div></div><div class="acc"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">オンスト（リセット）※半裏技</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      </div></div></div><div class="acc collapsed"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">オンスト（リセット）※半裏技</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
       <p class="note">セーブ&ロードで抽選をやり直すテクニック。使わない縛りプレイも一般的。</p>
       <div class="card-list">
         <div class="rc"><div class="rc-head">インタビュー抽選</div>
@@ -583,7 +723,7 @@
           <div class="rc-row">ちょうど止まり系（特訓・クリスマス等）や合宿前のカード厳選も、セーブ&ロードで狙い直せる。</div></div>
       </div>
 
-      </div></div></div><div class="acc"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">3年モードのコツ</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      </div></div></div><div class="acc collapsed"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">3年モードのコツ</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
       <div class="card-list">
         <div class="rc"><div class="rc-head">今作の新モード</div>
           <div class="rc-row">能力が上がりやすく難易度低め。初年度から甲子園も狙える。</div></div>
@@ -597,7 +737,7 @@
     </section>
 <section class="tab" id="tab-senjutsu">
       <p class="lead">試合中の戦術に関するまとめ。性格ごとの固有戦術と、戦術レベル6〜7の条件・上げ方を集約。</p>
-<div class="acc-bar"><button class="acc-all" type="button">すべて閉じる</button></div><div class="acc"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">性格別の固有戦術</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+<div class="acc-bar"><button class="acc-all" type="button">すべて開く</button></div><div class="acc collapsed"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">性格別の固有戦術</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
       <p class="note">※上位版は<b>2・3年生のみ</b>出現。</p>
       <div class="card-list">
         <div class="rc"><div class="rc-head">ごくふつう</div>
@@ -626,7 +766,7 @@
           <div class="rc-row"><span class="k">上位</span><b>才能開花</b>：投手は球速+3km・コントロール100・変化量+1、野手はミート・パワー・走力が100に／1打席</div></div>
       </div>
 
-      </div></div></div><div class="acc"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">戦術レベル6・7を作り込む</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      </div></div></div><div class="acc collapsed"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">戦術レベル6・7を作り込む</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
       <p class="note">各戦術はまず能力値で<b>基礎Lv5</b>に届き、さらに下記の<b>青特・能力条件</b>を満たすとLv6〜7に上がる。特に打撃戦術はLvで結果が激変（投球戦術はLv差が小さい）。</p>
       <div class="card-list">
         <div class="rc"><div class="rc-head">打撃戦術Lv別の目安（実測）</div>
@@ -706,26 +846,6 @@
 
   </div>
 
-  <nav class="tabbar" id="tabbar">
-    <button class="active" data-tab="events" data-title="年間イベント">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 9.5h17M8 3.2v3.4M16 3.2v3.4"/></svg>
-      <span class="lb">イベント</span></button>
-    <button data-tab="seikaku" data-title="性格の違い">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.6 3.1-5.6 7-5.6s7 2 7 5.6"/></svg>
-      <span class="lb">性格</span></button>
-    <button data-tab="senjutsu" data-title="戦術（試合中）">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.2"/><circle cx="12" cy="12" r="3.4"/><path d="M12 1.8v3.2M12 19v3.2M1.8 12h3.2M19 12h3.2"/></svg>
-      <span class="lb">戦術</span></button>
-    <button data-tab="cards" data-title="進行カード・合宿">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="7.5" width="12.5" height="13" rx="2"/><path d="M7.5 7.5V6a1.8 1.8 0 0 1 1.8-1.8H18A1.8 1.8 0 0 1 19.8 6v11"/></svg>
-      <span class="lb">カード</span></button>
-    <button data-tab="ob" data-title="転生OB名鑑">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6l2.5 5.1 5.6.8-4.05 3.95.96 5.6L12 16.4l-5.01 2.65.96-5.6L3.9 9.5l5.6-.8z"/></svg>
-      <span class="lb">転生OB</span></button>
-    <button data-tab="tech" data-title="高等テクニック">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9.2 18h5.6M10.2 21h3.6"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.5.4.9 1 1 1.6l.1.6h5l.1-.6c.1-.6.5-1.2 1-1.6A6 6 0 0 0 12 3Z"/></svg>
-      <span class="lb">コツ</span></button>
-  </nav>
 
 </div>
 
@@ -737,6 +857,7 @@ function switchTab(name){
   scroll.scrollTop=0;
 }
 document.querySelectorAll('#tabbar button').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
+
 document.querySelectorAll('a.jump').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();switchTab(a.dataset.tab);}));
 
 const seqData=[
