@@ -392,38 +392,83 @@
       <div class="acc-bar"><button class="acc-all" type="button">すべて閉じる</button></div><div class="acc"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">進行カードの強さ</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
       <p class="note"><span class="step">左＝弱</span> → <span class="step top">右＝強</span>（右ほど獲得経験値が多い）</p>
       <div id="seq-list"></div>
-      <details class="ref"><summary>各カードで上がる能力と獲得経験値（1日の基礎値）を見る</summary>
+      <details class="ref"><summary>各カードの獲得経験値（1日の基礎値）を見る ※出典：ゲーミング再生工場</summary>
         <div class="ref-body">
-          <p class="note">数字は野手の1日あたり基礎経験値。<b>( )内は投手</b>（投手はミート・パワー・走力が半減）。各系統とも弱→強で <b>40 → 60 → 80 → 100</b>。実際の増加量はこれに下の倍率が掛かる。</p>
-          <div class="card-list">
-            <div class="rc"><div class="rc-head">野手系（主能力40→100）</div>
-              <div class="rc-row"><span class="k">ミート</span>素振り／ミートバッティング／ティー／マシン打撃</div>
-              <div class="rc-row"><span class="k">パワー</span>腕立て腹筋／指立て伏せ／ダンベル／ベンチプレス（＋球速10〜25）</div>
-              <div class="rc-row"><span class="k">走力</span>ダッシュ／インターバル走／ベースランニング／ハードル（＋スタミナ10〜25）</div>
-              <div class="rc-row"><span class="k">肩力</span>スローイング／遠投／チューブ／ラットマシン（＋球速10〜25）</div>
-              <div class="rc-row"><span class="k">守備</span>ペッパー／守備連携／ノック／マシンガンノック</div>
-              <div class="rc-row"><span class="k">捕球</span>座禅／メンタル／アロマ／いやしのひととき（＋コン10〜25）</div></div>
-            <div class="rc"><div class="rc-head">投手系（主能力40→100）</div>
-              <div class="rc-row"><span class="k">球速</span>フォームチェック／投げ込み／球速測定／マッスラー（＋肩10〜25）</div>
-              <div class="rc-row"><span class="k">制球</span>フォームチェック／コース投げ込み／的当て／コース的当て（＋守備10〜25）</div>
-              <div class="rc-row"><span class="k">スタミナ</span>スクワット／走り込み／タイヤ引き／ローラー</div>
-              <div class="rc-row"><span class="k">変化球</span>フォームチェック／変化球投げ込み／握力強化／変化球研究</div></div>
-            <div class="rc"><div class="rc-head">経験値が多い特殊カード</div>
-              <div class="rc-row"><span class="k">総合練習</span>全能力 <b>+20</b>（投手は投手能力以外+10）。バランス最良</div>
-              <div class="rc-row"><span class="k">特守</span>守備 <b>+100</b>・捕球 <b>+100</b>（投手も半減なし＝チーム総経験値トップ）</div>
-              <div class="rc-row"><span class="k">特打</span>ミート <b>+100</b>・パワー <b>+100</b></div>
-              <div class="rc-row"><span class="k">握力強化</span>パワー <b>+100</b>・変化球+80（ベンチプレスの上位互換）</div>
-              <div class="rc-row"><span class="k">バント練習</span>ミート・走力・捕球 各+40</div>
-              <div class="rc-row"><span class="k">ストレッチ</span>パワー+20・球速+60・スタミナ+60（投手向け）</div>
-              <div class="rc-row"><span class="k">個別練習</span>練習指示の能力 +100／<span class="k">紅白戦</span>ランダム能力 +90</div></div>
-            <div class="rc"><div class="rc-head">実際の獲得＝基礎値 × 各倍率</div>
-              <div class="rc-row"><span class="k">練習効率</span>通常×1／小×2／中×4／大×6（下がった×0.8・×0.6）</div>
-              <div class="rc-row"><span class="k">グラウンド</span>Lv÷200+1（最大約1.5倍）</div>
-              <div class="rc-row"><span class="k">天候</span>晴・曇×1.67／雨・雪×1.0（実質6割）</div>
-              <div class="rc-row"><span class="k">体力</span>満タン×1.0 〜 最低×0.825（最大17.5%減）</div>
-              <div class="rc-row"><span class="k">黄色マス</span>基礎値×0.75×数字 を追加獲得</div>
-              <div class="rc-sub">※イベントの「経験値が上がった」は固定値（少150／中300／大450、効率倍率は無関係）。数値は2024-2025版の実測に基づく。</div></div>
+          <p class="note">数値はパワプロ2022実測。<b>投手はミート・パワー・走力が半減</b>、総合練習はさらにミパ走肩守捕が半減。野手は投手力系が半減。<br>実際の獲得経験値＝基礎値 × 練習効率（小×2／中×4／大×6） × グラウンド補正 × 体力補正 × 天候補正。</p>
+          <div class="matrix-wrap">
+            <table class="matrix">
+              <thead><tr><th class="name">カード</th><th>ミ</th><th>パ</th><th>走</th><th>肩</th><th>守</th><th>捕</th><th>球速</th><th>コン</th><th>スタ</th><th>変</th></tr></thead>
+              <tbody>
+                <tr><td class="name" style="color:var(--amber);font-weight:700">特打</td><td>100</td><td>100</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="name" style="color:var(--amber);font-weight:700">特守</td><td></td><td></td><td></td><td></td><td>100</td><td>100</td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="name" style="color:var(--amber);font-weight:700">総合練習</td><td>20</td><td>20</td><td>20</td><td>20</td><td>20</td><td>20</td><td>20</td><td>20</td><td>20</td><td>20</td></tr>
+                <tr><td class="name" style="color:var(--amber);font-weight:700">握力強化</td><td></td><td>100</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>80</td></tr>
+                <tr><td class="name">バント練習</td><td>40</td><td></td><td>40</td><td></td><td></td><td>40</td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="name">ストレッチ</td><td></td><td>20</td><td></td><td></td><td></td><td></td><td>60</td><td></td><td>60</td><td></td></tr>
+                <tr><td class="name">素振り</td><td>40</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="name">ミートバッティング</td><td>60</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="name">ティーバッティング</td><td>80</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="name" style="color:var(--green);font-weight:700">マシン打撃</td><td>100</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="name">腕立て・腹筋</td><td></td><td>40</td><td></td><td></td><td></td><td></td><td>10</td><td></td><td></td><td></td></tr>
+                <tr><td class="name">指立て伏せ</td><td></td><td>60</td><td></td><td></td><td></td><td></td><td>15</td><td></td><td></td><td></td></tr>
+                <tr><td class="name">ダンベル</td><td></td><td>80</td><td></td><td></td><td></td><td></td><td>20</td><td></td><td></td><td></td></tr>
+                <tr><td class="name" style="color:var(--green);font-weight:700">ベンチプレス</td><td></td><td>100</td><td></td><td></td><td></td><td></td><td>25</td><td></td><td></td><td></td></tr>
+                <tr><td class="name">ダッシュ</td><td></td><td></td><td>40</td><td></td><td></td><td></td><td></td><td></td><td>10</td><td></td></tr>
+                <tr><td class="name">インターバル走</td><td></td><td></td><td>60</td><td></td><td></td><td></td><td></td><td></td><td>15</td><td></td></tr>
+                <tr><td class="name">ベースランニング</td><td></td><td></td><td>80</td><td></td><td></td><td></td><td></td><td></td><td>20</td><td></td></tr>
+                <tr><td class="name" style="color:var(--green);font-weight:700">ハードル</td><td></td><td></td><td>100</td><td></td><td></td><td></td><td></td><td></td><td>25</td><td></td></tr>
+                <tr><td class="name">スローイング</td><td></td><td></td><td></td><td>40</td><td></td><td></td><td>10</td><td></td><td></td><td></td></tr>
+                <tr><td class="name">遠投</td><td></td><td></td><td></td><td>60</td><td></td><td></td><td>15</td><td></td><td></td><td></td></tr>
+                <tr><td class="name">チューブトレーニング</td><td></td><td></td><td></td><td>80</td><td></td><td></td><td>20</td><td></td><td></td><td></td></tr>
+                <tr><td class="name" style="color:var(--green);font-weight:700">ラットマシン</td><td></td><td></td><td></td><td>100</td><td></td><td></td><td>25</td><td></td><td></td><td></td></tr>
+                <tr><td class="name">ペッパー</td><td></td><td></td><td></td><td></td><td>40</td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="name">守備連携</td><td></td><td></td><td></td><td></td><td>60</td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="name">ノック</td><td></td><td></td><td></td><td></td><td>80</td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="name" style="color:var(--green);font-weight:700">マシンガンノック</td><td></td><td></td><td></td><td></td><td>100</td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="name">座禅</td><td></td><td></td><td></td><td></td><td></td><td>40</td><td></td><td>10</td><td></td><td></td></tr>
+                <tr><td class="name">メンタルトレーニング</td><td></td><td></td><td></td><td></td><td></td><td>60</td><td></td><td>15</td><td></td><td></td></tr>
+                <tr><td class="name">アロマテラピー</td><td></td><td></td><td></td><td></td><td></td><td>80</td><td></td><td>20</td><td></td><td></td></tr>
+                <tr><td class="name" style="color:var(--green);font-weight:700">いやしのひととき</td><td></td><td></td><td></td><td></td><td></td><td>100</td><td></td><td>25</td><td></td><td></td></tr>
+                <tr><td class="name">フォームチェック(球速)</td><td></td><td></td><td></td><td>10</td><td></td><td></td><td>40</td><td></td><td></td><td></td></tr>
+                <tr><td class="name">投げ込み</td><td></td><td></td><td></td><td>15</td><td></td><td></td><td>60</td><td></td><td></td><td></td></tr>
+                <tr><td class="name">球速測定</td><td></td><td></td><td></td><td>20</td><td></td><td></td><td>80</td><td></td><td></td><td></td></tr>
+                <tr><td class="name" style="color:var(--green);font-weight:700">マッスラー</td><td></td><td></td><td></td><td>25</td><td></td><td></td><td>100</td><td></td><td></td><td></td></tr>
+                <tr><td class="name">フォームチェック(制球)</td><td></td><td></td><td></td><td></td><td>10</td><td></td><td></td><td>40</td><td></td><td></td></tr>
+                <tr><td class="name">コース投げ込み</td><td></td><td></td><td></td><td></td><td>15</td><td></td><td></td><td>60</td><td></td><td></td></tr>
+                <tr><td class="name">的当て</td><td></td><td></td><td></td><td></td><td>20</td><td></td><td></td><td>80</td><td></td><td></td></tr>
+                <tr><td class="name" style="color:var(--green);font-weight:700">コース的当て</td><td></td><td></td><td></td><td></td><td>25</td><td></td><td></td><td>100</td><td></td><td></td></tr>
+                <tr><td class="name">スクワット</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>40</td><td></td></tr>
+                <tr><td class="name">走り込み</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>60</td><td></td></tr>
+                <tr><td class="name">タイヤ引き</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>80</td><td></td></tr>
+                <tr><td class="name" style="color:var(--green);font-weight:700">ローラー</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>100</td><td></td></tr>
+                <tr><td class="name">フォームチェック(変)</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>40</td></tr>
+                <tr><td class="name">変化球投げ込み</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>60</td></tr>
+                <tr><td class="name" style="color:var(--green);font-weight:700">変化球研究</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>100</td></tr>
+                <tr><td class="name">紅白戦</td><td colspan="10" style="text-align:left;font-size:11px;color:var(--sec)">ランダムな能力に60（ミートバッティング相当）</td></tr>
+              </tbody>
+            </table>
           </div>
+          <p class="note" style="margin-top:8px"><span style="color:var(--amber);font-weight:700">■</span> 複数能力に入る優秀カード　<span style="color:var(--green);font-weight:700">■</span> 系統最強（主能力100）<br>Lv99・体力MAX・効率補正なしの環境で基礎値の<b>約2.4倍</b>が実際の獲得量。</p>
+          <p class="note" style="margin-top:14px;font-weight:700;color:var(--ink)">育成方針別の出現確率（参考）</p>
+          <div class="matrix-wrap" style="margin-top:6px">
+            <table class="matrix">
+              <thead><tr><th class="name">系統</th><th>バランス</th><th>打撃力</th><th>機動力</th><th>守備・投手</th></tr></thead>
+              <tbody>
+                <tr><td class="name">ミート系</td><td>9%</td><td style="color:var(--amber);font-weight:700">18%</td><td>12%</td><td>2.25%</td></tr>
+                <tr><td class="name">パワー系</td><td>9%</td><td style="color:var(--amber);font-weight:700">15%</td><td>7.5%</td><td>2.25%</td></tr>
+                <tr><td class="name">走力系</td><td>7.5%</td><td>5.25%</td><td style="color:var(--amber);font-weight:700">18.75%</td><td>7.5%</td></tr>
+                <tr><td class="name">肩力系</td><td>7.5%</td><td>5.25%</td><td>5.25%</td><td style="color:var(--amber);font-weight:700">9.75%</td></tr>
+                <tr><td class="name">守備系</td><td>7.5%</td><td>5.25%</td><td>5.25%</td><td style="color:var(--amber);font-weight:700">9.75%</td></tr>
+                <tr><td class="name">捕球系</td><td>7.5%</td><td>5.25%</td><td>5.25%</td><td>7.5%</td></tr>
+                <tr><td class="name">球速系</td><td>6.75%</td><td>5.25%</td><td>5.25%</td><td style="color:var(--amber);font-weight:700">9%</td></tr>
+                <tr><td class="name">コン系</td><td>6.75%</td><td>5.25%</td><td>5.25%</td><td style="color:var(--amber);font-weight:700">9%</td></tr>
+                <tr><td class="name">スタミナ系</td><td>6.75%</td><td>5.25%</td><td>5.25%</td><td style="color:var(--amber);font-weight:700">9%</td></tr>
+                <tr><td class="name">変化球系</td><td>6.75%</td><td>5.25%</td><td>5.25%</td><td style="color:var(--amber);font-weight:700">9%</td></tr>
+                <tr><td class="name">その他</td><td>25%</td><td>25%</td><td>25%</td><td>25%</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="note" style="margin-top:6px">特打は<b>打撃力重視のみ</b>出現、特守は<b>守備・投手力重視のみ</b>出現。<b>打撃力重視</b>がおすすめ（特打が出る＋ミパは必要経験値が他能力の1.3倍と多く投資効率が良い）。</p>
         </div>
       </details>
 
