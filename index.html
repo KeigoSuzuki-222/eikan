@@ -33,6 +33,8 @@
 
   .app{display:flex;flex-direction:column;height:100vh;height:100dvh;max-width:720px;margin:0 auto;
     background:var(--bg);padding-top:env(safe-area-inset-top,0px);}
+  .scroll{order:1;flex:1 1 auto;min-height:0;}
+  .tabbar{order:2;flex:0 0 auto;}
 
   .scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;background:var(--bg);}
   .tab{display:none;padding:18px 15px calc(var(--tab-h) + var(--sb) + 24px);}
@@ -292,7 +294,9 @@
   }
 
   /* ── 左サイドナビ ── */
+  .scroll{ order:2; }
   .tabbar{
+    order:1;
     flex-direction:column;
     overflow-x:visible;
     overflow-y:auto;
@@ -472,7 +476,7 @@
 
   /* ダイヤモンド */
   .diamond{position:relative;width:100%;max-width:420px;margin:0 auto 16px;
-    aspect-ratio:1/0.92;background:
+    min-height:300px;aspect-ratio:1/0.92;background:
       radial-gradient(circle at 50% 88%, rgba(63,202,143,.10) 0 38%, transparent 39%),
       linear-gradient(var(--card),var(--card));
     border:1px solid var(--line);border-radius:12px;overflow:hidden;}
@@ -523,7 +527,7 @@
   .lu-empty{text-align:center;color:var(--muted);font-size:12.5px;padding:30px 16px;}
 
   /* モーダル */
-  .lu-modal{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100;
+  .lu-modal{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;
     display:flex;align-items:flex-end;justify-content:center;}
   .lu-modal.hide{display:none;}
   .lu-sheet{background:var(--card);border-radius:16px 16px 0 0;width:100%;max-width:520px;
