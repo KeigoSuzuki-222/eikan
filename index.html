@@ -257,10 +257,11 @@
   .s-S{background:var(--tS);} .s-A{background:var(--tA);} .s-B{background:var(--tB);} .s-C{background:var(--tC);} .s-D{background:var(--tD);}
   .empty{text-align:center;color:var(--muted);font-size:13px;padding:44px 20px;}
 
-  .tabbar{flex-shrink:0;display:flex;background:var(--card);border-top:1px solid var(--line);padding-bottom:var(--sb);}
-  .tabbar button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;padding:8px 0 7px;height:var(--tab-h);color:var(--muted);font-family:inherit;transition:color .12s;}
+  .tabbar{flex-shrink:0;display:flex;background:var(--card);border-top:1px solid var(--line);padding-bottom:var(--sb);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  .tabbar::-webkit-scrollbar{display:none;}
+  .tabbar button{flex:1 0 auto;min-width:58px;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;padding:8px 4px 7px;height:var(--tab-h);color:var(--muted);font-family:inherit;transition:color .12s;}
   .tabbar button svg{width:22px;height:22px;}
-  .tabbar button .lb{font-size:10.5px;font-weight:700;letter-spacing:.02em;}
+  .tabbar button .lb{font-size:9.5px;font-weight:700;letter-spacing:0;white-space:nowrap;}
   .tabbar button.active{color:var(--green);}
 
   @media (min-width:600px){
@@ -293,6 +294,8 @@
   /* ── 左サイドナビ ── */
   .tabbar{
     flex-direction:column;
+    overflow-x:visible;
+    overflow-y:auto;
     width:160px;
     min-width:160px;
     flex-shrink:0;
@@ -318,6 +321,8 @@
     margin-bottom:8px;
   }
   .tabbar button{
+    flex:0 0 auto;
+    min-width:0;
     flex-direction:row;
     width:100%;
     height:auto;
@@ -328,7 +333,7 @@
     color:var(--muted);
   }
   .tabbar button svg{ width:16px; height:16px; flex-shrink:0; }
-  .tabbar button .lb{ font-size:12.5px; font-weight:700; }
+  .tabbar button .lb{ font-size:12.5px; font-weight:700; white-space:nowrap; }
   .tabbar button.active{
     background:rgba(63,202,143,.12);
     color:var(--green);
@@ -387,6 +392,163 @@
   .ob-controls{ padding:14px 32px 10px; }
   .ob-results{ padding:10px 32px 56px; }
 }
+
+  /* ===== 年間ルーティン ===== */
+  .rt-reset{background:var(--card);border:1px solid var(--line);color:var(--sec);font-family:inherit;
+    font-size:11.5px;font-weight:700;padding:6px 14px;border-radius:999px;cursor:pointer;}
+  .rt-group{display:flex;flex-direction:column;gap:6px;}
+  .rt-item{display:flex;gap:10px;background:var(--card);border:1px solid var(--line);
+    border-radius:10px;padding:10px 12px;cursor:pointer;align-items:flex-start;}
+  .rt-box{width:17px;height:17px;border:2px solid var(--muted);border-radius:5px;flex-shrink:0;
+    margin-top:1px;position:relative;transition:.15s;}
+  .rt-item.rt-done .rt-box{background:var(--green);border-color:var(--green);}
+  .rt-item.rt-done .rt-box::after{content:"";position:absolute;left:4.5px;top:1px;width:4px;height:9px;
+    border:solid var(--bg);border-width:0 2.5px 2.5px 0;transform:rotate(45deg);}
+  .rt-body{display:flex;flex-direction:column;gap:2px;min-width:0;}
+  .rt-t{font-size:13.5px;font-weight:700;color:var(--ink);}
+  .rt-d{font-size:12px;color:var(--muted);}
+  .rt-item.rt-done .rt-t{color:var(--muted);text-decoration:line-through;}
+  .rt-item.rt-done{opacity:.55;}
+
+  /* ===== 横断検索 ===== */
+  .gs-wrap{position:sticky;top:0;z-index:30;background:var(--bg);padding:10px 0 8px;}
+  .gs-box{position:relative;}
+  .gs-box input{width:100%;font-family:inherit;font-size:14px;color:var(--ink);
+    padding:9px 32px 9px 32px;border:1px solid var(--line);border-radius:10px;background:var(--card);}
+  .gs-box input::placeholder{color:var(--muted);}
+  .gs-box input:focus{outline:none;border-color:var(--green);}
+  .gs-box .gs-ic{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:13px;}
+  .gs-box .gs-clr{position:absolute;right:7px;top:50%;transform:translateY(-50%);border:none;background:none;
+    color:var(--muted);font-size:18px;cursor:pointer;padding:2px 6px;display:none;line-height:1;}
+  .gs-results{margin-top:10px;}
+  .gs-hit{background:var(--card);border:1px solid var(--line);border-radius:10px;
+    padding:10px 12px;margin-bottom:6px;cursor:pointer;}
+  .gs-hit-top{display:flex;align-items:center;gap:7px;margin-bottom:4px;flex-wrap:wrap;}
+  .gs-tab{font-size:10px;font-weight:700;color:var(--green);background:var(--accent-soft);
+    border-radius:4px;padding:1px 7px;}
+  .gs-sec{font-size:12.5px;font-weight:700;color:var(--ink);}
+  .gs-txt{font-size:12px;color:var(--sec);line-height:1.6;}
+  .gs-txt mark{background:rgba(227,171,72,.3);color:var(--ink);border-radius:2px;padding:0 2px;}
+  .gs-none{text-align:center;color:var(--muted);font-size:13px;padding:30px 20px;}
+
+
+  /* 戦術チェッカー */
+  .chk-sel{display:inline-flex;gap:4px;flex-wrap:wrap;}
+  .chk-sel button,.chk-abis button{border:1px solid var(--line);background:var(--card);color:var(--muted);
+    font-family:inherit;font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:6px;cursor:pointer;}
+  .chk-sel button.on,.chk-abis button.on{background:var(--green);color:var(--ondark);border-color:var(--green);}
+  .chk-abis{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px;}
+  .chk-out{margin-top:10px;display:flex;flex-direction:column;gap:5px;}
+  .chk-ok,.chk-ng{display:flex;align-items:center;gap:8px;border-radius:9px;padding:9px 12px;font-size:12.5px;}
+  .chk-ok{background:rgba(63,202,143,.12);border:1px solid rgba(63,202,143,.3);color:var(--ink);}
+  .chk-ng{background:var(--card);border:1px solid var(--line);color:var(--muted);}
+  .chk-ok b{color:var(--green);}
+
+
+  /* OB お気に入り・絞込 */
+  .fav-btn{background:none;border:none;color:var(--muted);font-size:13px;line-height:1;
+    cursor:pointer;padding:0 0 0 3px;flex-shrink:0;}
+  .fav-btn.on{color:#e6b552;}
+  #ofil{flex-wrap:wrap;}
+  #ofil .seg{padding:2px;}
+  #ofil .seg button{font-size:11.5px;padding:4px 9px;}
+  #obGuide{margin-bottom:10px;}
+
+
+  .ab-link{font-size:9.5px;font-weight:700;color:var(--muted);border:1px solid var(--line);
+    border-radius:4px;padding:1px 5px;text-decoration:none;flex-shrink:0;line-height:1.5;}
+  .ab-link.known{color:var(--green);border-color:rgba(63,202,143,.4);}
+  .ab-link:active{opacity:.6;}
+
+
+  /* ===== スタメン ===== */
+  .lu-top{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+  .lu-btn{background:var(--green);color:var(--ondark);border:none;font-family:inherit;
+    font-size:12.5px;font-weight:700;padding:8px 14px;border-radius:8px;cursor:pointer;}
+  .lu-tabs{display:flex;gap:6px;margin-bottom:14px;}
+  .lu-vtab{flex:1;background:var(--card);border:1px solid var(--line);color:var(--muted);
+    font-family:inherit;font-size:12.5px;font-weight:700;padding:8px 0;border-radius:8px;cursor:pointer;}
+  .lu-vtab.on{background:var(--panel);color:var(--green);border-color:transparent;}
+
+  /* ダイヤモンド */
+  .diamond{position:relative;width:100%;max-width:420px;margin:0 auto 16px;
+    aspect-ratio:1/0.92;background:
+      radial-gradient(circle at 50% 88%, rgba(63,202,143,.10) 0 38%, transparent 39%),
+      linear-gradient(var(--card),var(--card));
+    border:1px solid var(--line);border-radius:12px;overflow:hidden;}
+  .dm-line{position:absolute;background:rgba(255,255,255,.07);}
+  .pos-slot{position:absolute;transform:translate(-50%,-50%);width:62px;text-align:center;cursor:pointer;}
+  .pos-slot .ps-lbl{font-size:9.5px;font-weight:700;color:var(--muted);margin-bottom:2px;letter-spacing:.04em;}
+  .pos-slot .ps-card{background:var(--panel);border:1px solid var(--line);border-radius:7px;
+    padding:5px 3px;min-height:34px;display:flex;flex-direction:column;justify-content:center;gap:1px;}
+  .pos-slot.filled .ps-card{background:rgba(63,202,143,.16);border-color:rgba(63,202,143,.4);}
+  .pos-slot.sel .ps-card{outline:2px solid var(--amber);}
+  .pos-slot .ps-n{font-size:11px;font-weight:700;color:var(--ink);line-height:1.25;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .pos-slot .ps-sub{font-size:8.5px;color:var(--muted);}
+  .pos-slot .ps-empty{font-size:10px;color:var(--muted);}
+  .pos-slot.warn-sub .ps-card{border-color:rgba(227,171,72,.5);background:rgba(227,171,72,.12);}
+
+  /* ベンチ */
+  .lu-bench-h{font-size:12px;font-weight:700;color:var(--muted);margin-bottom:7px;}
+  .lu-bench-list{display:flex;flex-wrap:wrap;gap:6px;}
+  .bn{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 9px;
+    cursor:pointer;display:flex;align-items:center;gap:6px;}
+  .bn.sel{border-color:var(--amber);background:rgba(227,171,72,.12);}
+  .bn-n{font-size:12px;font-weight:700;color:var(--ink);}
+  .bn-p{font-size:9.5px;font-weight:700;border-radius:4px;padding:1px 5px;color:#fff;}
+  .bn-s{font-size:9.5px;color:var(--muted);}
+
+  /* 打順 */
+  .ord-row{display:flex;align-items:center;gap:9px;background:var(--card);border:1px solid var(--line);
+    border-radius:9px;padding:8px 11px;margin-bottom:5px;}
+  .ord-no{font-family:var(--mono);font-size:13px;color:var(--green);width:18px;flex-shrink:0;font-weight:500;}
+  .ord-n{font-size:13px;font-weight:700;color:var(--ink);flex:1;min-width:0;}
+  .ord-pos{font-size:10px;font-weight:700;border-radius:4px;padding:1px 6px;color:#fff;flex-shrink:0;}
+  .ord-mv{display:flex;gap:3px;flex-shrink:0;}
+  .ord-mv button{background:var(--panel);border:1px solid var(--line);color:var(--sec);
+    font-size:11px;width:24px;height:24px;border-radius:5px;cursor:pointer;line-height:1;}
+
+  /* 選手一覧 */
+  .rs{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);
+    border-radius:9px;padding:8px 11px;margin-bottom:5px;}
+  .rs-n{font-size:13px;font-weight:700;color:var(--ink);flex:1;min-width:0;}
+  .rs-tags{display:flex;gap:5px;align-items:center;flex-shrink:0;}
+  .rs-seik{font-size:9.5px;font-weight:700;color:var(--sec);background:var(--panel);
+    border-radius:4px;padding:1px 6px;}
+  .rs-del{background:none;border:none;color:var(--muted);font-size:15px;cursor:pointer;padding:0 2px;}
+  .lu-danger{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);}
+  .lu-reset{background:none;border:1px solid rgba(255,91,96,.4);color:var(--red);
+    font-family:inherit;font-size:12px;font-weight:700;padding:8px 14px;border-radius:8px;cursor:pointer;}
+  .lu-empty{text-align:center;color:var(--muted);font-size:12.5px;padding:30px 16px;}
+
+  /* モーダル */
+  .lu-modal{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100;
+    display:flex;align-items:flex-end;justify-content:center;}
+  .lu-modal.hide{display:none;}
+  .lu-sheet{background:var(--card);border-radius:16px 16px 0 0;width:100%;max-width:520px;
+    padding:18px 18px calc(18px + env(safe-area-inset-bottom,0px));max-height:88vh;overflow-y:auto;}
+  .lu-sheet h4{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:14px;}
+  .lu-f{margin-bottom:13px;}
+  .lu-f label{display:block;font-size:11.5px;font-weight:700;color:var(--muted);margin-bottom:5px;}
+  .lu-f input[type=text]{width:100%;font-family:inherit;font-size:15px;color:var(--ink);
+    padding:9px 11px;border:1px solid var(--line);border-radius:9px;background:var(--panel);}
+  .lu-f input:focus{outline:none;border-color:var(--green);}
+  .lu-chips{display:flex;flex-wrap:wrap;gap:5px;}
+  .lu-chips button{border:1px solid var(--line);background:var(--panel);color:var(--muted);
+    font-family:inherit;font-size:12px;font-weight:700;padding:6px 11px;border-radius:7px;cursor:pointer;}
+  .lu-chips button.on{background:var(--green);color:var(--ondark);border-color:var(--green);}
+  .lu-acts{display:flex;gap:8px;margin-top:16px;}
+  .lu-acts button{flex:1;font-family:inherit;font-size:13px;font-weight:700;padding:11px 0;
+    border-radius:9px;cursor:pointer;border:1px solid var(--line);}
+  .lu-cancel{background:var(--panel);color:var(--sec);}
+  .lu-save{background:var(--green);color:var(--ondark);border-color:var(--green);}
+
+  @media (min-width:960px){
+    .diamond{max-width:480px;}
+    .lu-view{max-width:900px;}
+  }
+
 </style>
 </head>
 <body>
@@ -396,21 +558,30 @@
     <button class="active" data-tab="events" data-title="年間イベント">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 9.5h17M8 3.2v3.4M16 3.2v3.4"/></svg>
       <span class="lb">イベント</span></button>
-    <button data-tab="seikaku" data-title="性格の違い">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.6 3.1-5.6 7-5.6s7 2 7 5.6"/></svg>
-      <span class="lb">性格</span></button>
+    <button data-tab="routine" data-title="年間ルーティン">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 13l2 2 4-4"/></svg>
+      <span class="lb">ルーティン</span></button>
     <button data-tab="senjutsu" data-title="戦術（試合中）">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.2"/><circle cx="12" cy="12" r="3.4"/><path d="M12 1.8v3.2M12 19v3.2M1.8 12h3.2M19 12h3.2"/></svg>
       <span class="lb">戦術</span></button>
     <button data-tab="cards" data-title="進行カード・合宿">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="7.5" width="12.5" height="13" rx="2"/><path d="M7.5 7.5V6a1.8 1.8 0 0 1 1.8-1.8H18A1.8 1.8 0 0 1 19.8 6v11"/></svg>
       <span class="lb">カード</span></button>
+    <button data-tab="seikaku" data-title="性格の違い">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.6 3.1-5.6 7-5.6s7 2 7 5.6"/></svg>
+      <span class="lb">性格</span></button>
+    <button data-tab="lineup" data-title="スタメン">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 20.5 12 12 20.5 3.5 12z"/><circle cx="12" cy="12" r="2.2"/></svg>
+      <span class="lb">スタメン</span></button>
     <button data-tab="ob" data-title="転生OB名鑑">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6l2.5 5.1 5.6.8-4.05 3.95.96 5.6L12 16.4l-5.01 2.65.96-5.6L3.9 9.5l5.6-.8z"/></svg>
       <span class="lb">転生OB</span></button>
     <button data-tab="tech" data-title="高等テクニック">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9.2 18h5.6M10.2 21h3.6"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.5.4.9 1 1 1.6l.1.6h5l.1-.6c.1-.6.5-1.2 1-1.6A6 6 0 0 0 12 3Z"/></svg>
       <span class="lb">コツ</span></button>
+    <button data-tab="search" data-title="検索">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg>
+      <span class="lb">検索</span></button>
   </nav>
   <div class="scroll" id="scroll">
 
@@ -661,7 +832,47 @@
       <div class="tip"><strong>合宿の基本方針：</strong>①<b>戦術Lv6にできる特能</b>（内野安打◯・バント◯など）が取れるカードを最優先に残す。②<b>キャッチャーB以上が不在なら「キャッチャー」、ムード◯持ちが不在なら「ムード◯」</b>を確保。③育成方針で出やすいカードが変わる（走力重視→走塁系、守備・投手力重視→捕手系が出やすい）。</div>
       <div class="warn"><strong>体力に注意：</strong>合宿は消費体力が大きい。事前に体力を回復しておかないと習得率が下がる。合宿の提案（夏6/20・冬11/10）が来たら、体力回復とカード厳選をセットで準備しよう。微妙な手札は「スケジュール変更手帳」で整えるのも手。</div></div></div></div>
 
-      <div class="foot">⚑ 栄冠ナイン2026 攻略メモ<br>出典：Game8・AppMedia・ゲーミング再生工場ほか各攻略サイトの公開情報（2026年7月時点）をもとに再構成。アップデートで数値・仕様が変わる場合があります。</div>
+      <div class="acc collapsed"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">アイテム交換（戦績ショップ）</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      <p class="note">試合（練習試合含む）で<b>5勝ごと</b>にアイテム業者が訪問。戦績ポイントで購入。<b>10個購入ごとにラインナップが+5種類</b>増えるので序盤は毎回買って種類を広げる。</p>
+      <div class="card-list">
+        <div class="rc pri"><div class="rc-head"><span class="pin">★</span>最優先で買うもの</div>
+          <div class="rc-row"><span class="k">お褒めの言葉</span><b>700P</b>・1選手のテンション上昇。<b>先発投手の調子を上げると勝率が大きく伸びる</b>。大型大会前に2〜3個持っておく</div>
+          <div class="rc-row"><span class="k">弾道バット</span><b>800P</b>・弾道+1。手動育成なら約1〜1.5か月分の練習を短縮できる</div>
+          <div class="rc-row"><span class="k">自分探しの本</span><b>400P</b>・性格を変更。<b>内気を量産して「魔物」発動率を上げる</b>のが定番</div></div>
+        <div class="rc pri"><div class="rc-head"><span class="pin">★</span>器材交換券（1000P → 揃えたら1600Pのお楽しみ）</div>
+          <div class="rc-row"><span class="k">むにむにボール</span>変化球＋パワー経験値。投手・野手どちらにも有効で獲得経験値が多い</div>
+          <div class="rc-row"><span class="k">ストップウォッチ</span>走力。<b>合宿で「内野安打○」が付く可能性</b>（転がせLv6条件）</div>
+          <div class="rc-row"><span class="k">アロマグッズ</span>合宿で<b>「ムード○」</b>が付く可能性</div>
+          <div class="rc-row"><span class="k">ティー・ダンベル</span><b>特打マスの出現条件</b>（打撃重視＋ミート/パワー器材）</div>
+          <div class="rc-row"><span class="k">ノックバット</span><b>特守マスの出現条件</b>（守備・投手力重視＋守備器材）</div>
+          <div class="rc-row"><span class="k">仮設シャワー</span>看護師が来るまでの貴重な回復マス。1マス確定で進行調整に便利</div>
+          <div class="rc-row"><span class="k">お楽しみ交換券</span><b>1600P</b>・1000P器材を全て持っていれば<b>2000P器材が確定</b>で出るのでお得</div>
+          <div class="rc-sub">器材はグラウンドレベルを1000P品＝+3／2000P品＝+4 上げる。まず1000P品を全て揃える→お楽しみ券が定石。</div></div>
+        <div class="rc"><div class="rc-head">スケジュール調整（1〜2個常備）</div>
+          <div class="rc-row"><span class="k">変更手帳</span>500P・進行アイコンを総入れ替え（<b>合宿前の厳選に必須</b>）</div>
+          <div class="rc-row"><span class="k">強化極意書</span>500P・進行アイコンの数字を<b>全て最大</b>に</div>
+          <div class="rc-row"><span class="k">強化/緩和指南書</span>各300P・数字を全て+1／-1</div>
+          <div class="rc-row"><span class="k">ポジティブシンキング</span>500P・<b>赤パネルを青パネルに</b>（逆転の発想のススメ300Pは青と赤を入れ替え）</div></div>
+        <div class="rc"><div class="rc-head">能力アップ系（ポイントに余裕があれば）</div>
+          <div class="rc-row"><span class="k">捕球グラブ</span>700P/+3・<b>1400P/+5</b>。単価が安く効率が良い</div>
+          <div class="rc-row"><span class="k">スタミナドリンク</span>800P/+3・1600P/+5</div>
+          <div class="rc-row"><span class="k">ミート/パワー/走力</span>1500P/+3・3000P/+5</div>
+          <div class="rc-row"><span class="k">肩力/守備力グラブ</span>1200P/+3・2400P/+5</div>
+          <div class="rc-row"><span class="k">球速ボール</span>1500P/+1・<b>5000P/+2</b>（割高）</div>
+          <div class="rc-row"><span class="k">変化球上達ボール</span>各4000P・方向別の変化球Lvアップ／ふしぎな変化球ボール4000Pで1球種習得</div></div>
+        <div class="rc"><div class="rc-head">その他</div>
+          <div class="rc-row"><span class="k">新入生の履歴書</span>2000P・スカウト回数を増やせる（11月〜翌2月に使用）</div>
+          <div class="rc-row"><span class="k">甲子園の土</span>1600P・グラウンドLv+4（黒土時）／良質な黒土1000P=+2</div>
+          <div class="rc-row"><span class="k">スポンジとバケツ/雪かき</span>500P/200P・悪天候の効率ダウンを約2週間カット</div>
+          <div class="rc-row"><span class="k">参考書</span>400P・学力アップ。<b>学力不足だと特能本が使えない</b>ので保険に</div>
+          <div class="rc-row"><span class="k">メンテナンスキット</span>1800P・器材を手入れ（破損によるグラウンドLv低下を防ぐ）</div></div>
+        <div class="rc"><div class="rc-head">特能本（今作の新要素）</div>
+          <div class="rc-row">戦績ショップに<b>特殊能力本がランダムで並ぶ</b>ようになった。低確率で<b>金特本</b>も登場（OBからの入手は約5%程度と低確率）。ポイントに余裕がある年は必ずラインナップを確認する</div></div>
+      </div>
+      <div class="warn"><strong>注意：</strong>今作では栄冠ナイン内で入手したアイテムは栄冠のセーブデータに保存されるため、<b>オンストによる本の増殖はできない</b>（2025までの手法は不可）。</div>
+    </div></div></div>
+
+      <div class="foot">⚑ 栄冠ナイン2026 攻略メモ　<span style="opacity:.7">最終更新 2026-08-14</span><br>出典：Game8・AppMedia・ゲーミング再生工場ほか各攻略サイトの公開情報（2026年7月時点）をもとに再構成。アップデートで数値・仕様が変わる場合があります。</div>
     </section>
 <section class="tab" id="tab-tech">
       <p class="lead">通常プレイ〜やり込み向けの高等テクニック。数値・条件は2024-2025〜2026の攻略情報に基づく。</p>
@@ -733,6 +944,49 @@
           <div class="rc-row">レギュラーと控えを一気に入れ替える枠を作り、チーム全体の信頼度・経験値を底上げする。</div></div>
       </div></div></div></div>
 
+      <div class="acc collapsed"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">赤特の消し方</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      <p class="note">赤特は試合結果が悪いと付く（被本塁打・三振過多など）。<b>対応する青特で上書き</b>／<b>プロ野球選手マス</b>／<b>技術指導イベント</b>の3通りで消せる。</p>
+      <div class="card-list">
+        <div class="rc pri"><div class="rc-head">① 対応する青特で上書き（確実）</div>
+          <div class="rc-row"><span class="k">三振</span>→ <b>粘り打ち</b></div>
+          <div class="rc-row"><span class="k">軽い球</span>→ <b>重い球</b></div>
+          <div class="rc-row"><span class="k">スロースターター</span>→ <b>立ち上がり◯</b></div>
+          <div class="rc-row"><span class="k">負け運</span>→ <b>勝ち運</b></div>
+          <div class="rc-row"><span class="k">対ランナー</span>→ <b>対ランナー◯</b></div>
+          <div class="rc-row"><span class="k">一発</span>→ <b>逃げ球</b></div>
+          <div class="rc-row"><span class="k">ムード✕</span>→ <b>ムード◯</b></div>
+          <div class="rc-sub">チャンス・対左投手などランク制の赤特は、そのランクが上がれば消える。本屋さんマスで該当の青特本が出たら優先して使う。</div></div>
+        <div class="rc pri"><div class="rc-head">② 技術指導イベント（6/26〜7/2・9/8〜9/14の青マス）</div>
+          <div class="rc-row"><span class="k">打撃</span>ミート・パワー経験値＋確率で<b>「三振」</b>が消える</div>
+          <div class="rc-row"><span class="k">守備</span>守備・捕球経験値＋確率で<b>「エラー」</b>／送球E以下が1段階UP</div>
+          <div class="rc-row"><span class="k">走塁</span>走力経験値＋確率で走塁・盗塁E以下が1段階UP</div>
+          <div class="rc-row"><span class="k">投球</span><b>投手の赤特を最も多く消せる</b>：寸前・一発・四球・スロースターター・力配分・短気・抜け球・軽い球・乱調</div>
+          <div class="rc-sub">投手に赤特が溜まっている年は、この期間に青マスを踏めるよう日程を調整する価値が高い。</div></div>
+        <div class="rc"><div class="rc-head">③ プロ野球選手マス</div>
+          <div class="rc-row">止まると<b>選手1人の赤特をランダムで1つ消してくれる</b>ことがある。他にも良い効果があるので見かけたら止まりたい</div></div>
+        <div class="rc"><div class="rc-head">④ 試合で活躍（おまけ）</div>
+          <div class="rc-row">活躍した選手が青特を取得し、結果的に赤特を上書きすることがある。狙ってはできないので<b>消せたらラッキー</b>程度に</div></div>
+      </div>
+    </div></div></div>
+
+      <div class="acc collapsed"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">OBマス（卒業生）の効果</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      <p class="note">ドラフト指名されなかった卒業生は就職先に応じたOBマスとして出現。<b>進行カード「進路相談」で就職先を誘導できる</b>（マネージャーは介入不可・完全ランダム）。</p>
+      <div class="card-list">
+        <div class="rc pri"><div class="rc-head"><span class="pin">★</span>踏むべきOBマス</div>
+          <div class="rc-row"><span class="k">アイドル</span><b>女子マネ限定・最強</b>。全員の練習効率アップ（新曲披露＝中アップ）。<b>観戦カード→アイドル</b>で効果が次の2回に延長</div>
+          <div class="rc-row"><span class="k">プロ野球選手</span><b>赤特をランダムで1つ消してくれる</b>ことがある。他の良効果も</div>
+          <div class="rc-row"><span class="k">本屋さん</span><b>特能本が手に入る</b>。赤特の上書きや戦術Lv6条件の青特を狙える</div>
+          <div class="rc-row"><span class="k">スカウト</span><b>「新入生の履歴書」</b>をランダムでくれる。スカウト回数を増やせる</div>
+          <div class="rc-row"><span class="k">ミゾット社員</span>練習器材の売買・修理。<b>グラウンドLvが上がりきる前の序盤〜中盤に重宝</b></div></div>
+        <div class="rc"><div class="rc-head">その他のOB</div>
+          <div class="rc-row"><span class="k">占い師</span>性格を変更できる（<b>天才肌にはできない</b>）。内気狙いに使える</div>
+          <div class="rc-row"><span class="k">看護師</span>体力回復。仮設シャワーが無い序盤の回復手段</div>
+          <div class="rc-row"><span class="k">監督・コーチ系</span>練習効率や経験値のアップ</div>
+          <div class="rc-sub">プロ入りした卒業生は必ずプロ野球選手マスとして出現する。3/8〜3/31には「卒業生からの指導」で所持特能を1つ習得できるイベントもある（今作の新要素）。</div></div>
+      </div>
+      <div class="tip"><strong>進路相談の使い方：</strong>進行カード「進路相談」で就職先を指定すると、その進路に進む確率が上がる（確定ではない）。<b>アイドル・本屋さん・スカウトを狙って指定</b>しておくと、翌年以降のマスが強くなる。</div>
+    </div></div></div>
+
       <div class="foot">⚑ 栄冠ナイン2026 攻略メモ ｜ 高等テクニック<br>出典：Game8・AppMedia・れぺぱん・白球の戦士ほか（2024-2025〜2026）。アップデートで数値・仕様が変わる場合があります。</div>
     </section>
 <section class="tab" id="tab-senjutsu">
@@ -799,10 +1053,78 @@
           <div class="rc-row"><span class="k">大声援</span>◯(A)連打で発動し、次の戦術Lvを確率で+1（メガホン点灯が多いほど確率UP）</div></div>
       </div></div></div></div>
 
-            <div class="foot">⚑ 栄冠ナイン2026 攻略メモ ｜ 戦術<br>出典：Game8・AppMediaほか（2026）。数値・仕様は変更される場合があります。</div>
+            <div class="acc collapsed"><button class="acc-head" type="button"><span class="acc-dot"></span><span class="acc-title">戦術Lv6 達成チェッカー</span><span class="acc-caret">▾</span></button><div class="acc-body"><div class="acc-inner">
+      <p class="note">選手の能力ランクと所持特能を選ぶと、どの戦術がLv6になるか判定します。</p>
+      <div class="rc">
+        <div class="rc-row"><span class="k">ミート</span><span class="chk-sel" data-k="meet"></span></div>
+        <div class="rc-row"><span class="k">パワー</span><span class="chk-sel" data-k="power"></span></div>
+        <div class="rc-row"><span class="k">走力</span><span class="chk-sel" data-k="speed"></span></div>
+        <div class="rc-row"><span class="k">特能</span><div class="chk-abis" id="chkAbis"></div></div>
+      </div>
+      <div id="chkResult"></div>
+    </div></div></div>
+
+      <div class="foot">⚑ 栄冠ナイン2026 攻略メモ ｜ 戦術<br>出典：Game8・AppMediaほか（2026）。数値・仕様は変更される場合があります。</div>
     </section>
 
     <!-- ============ TAB 4: 転生OB ============ -->
+    <section class="tab" id="tab-search">
+      <div class="gs-wrap">
+        <div class="gs-box">
+          <span class="gs-ic">🔍</span>
+          <input id="gsInput" type="search" placeholder="全タブから検索（例：内野安打、合宿、天才肌）" autocomplete="off">
+          <button class="gs-clr" id="gsClr" aria-label="クリア">×</button>
+        </div>
+      </div>
+      <div class="gs-results" id="gsResults"></div>
+    </section>
+
+    <section class="tab" id="tab-routine">
+      <p class="lead">月ごとの「やること」チェックリスト。タップで完了、年度が変わったらリセット。</p>
+      <div class="acc-bar"><button class="rt-reset" type="button">チェックをリセット</button></div>
+      <div id="routine-list"></div>
+      <div class="foot">⚑ 栄冠ナイン2026 攻略メモ ｜ 年間ルーティン<br>チェック状態はこの端末に保存されます。</div>
+    </section>
+
+    <section class="tab" id="tab-lineup">
+      <div class="lu-top">
+        <div class="seg" id="luGrade">
+          <button data-g="3" class="on">3年</button>
+          <button data-g="2">2年</button>
+          <button data-g="1">1年</button>
+        </div>
+        <span class="spacer"></span>
+        <button class="lu-btn" id="luAdd">＋ 選手を登録</button>
+      </div>
+
+      <div class="lu-tabs">
+        <button class="lu-vtab on" data-v="field">守備配置</button>
+        <button class="lu-vtab" data-v="order">打順</button>
+        <button class="lu-vtab" data-v="roster">選手一覧</button>
+      </div>
+
+      <div id="luField" class="lu-view">
+        <div class="diamond" id="diamond"></div>
+        <div class="lu-bench">
+          <div class="lu-bench-h">控え（タップして配置）</div>
+          <div id="luBench" class="lu-bench-list"></div>
+        </div>
+      </div>
+
+      <div id="luOrder" class="lu-view" style="display:none">
+        <div id="luOrderList"></div>
+      </div>
+
+      <div id="luRoster" class="lu-view" style="display:none">
+        <div id="luRosterList"></div>
+        <div class="lu-danger">
+          <button class="lu-reset" id="luReset">この学年の登録をリセット</button>
+        </div>
+      </div>
+
+      <div class="foot">⚑ 栄冠ナイン2026 攻略メモ ｜ スタメン<br>登録内容はこの端末に保存されます。</div>
+    </section>
+
     <section class="tab" id="tab-ob">
       <div class="ob-controls">
         <div class="ob-search">
@@ -828,6 +1150,18 @@
           <button class="chip" data-pg="i">内</button>
           <button class="chip" data-pg="o">外</button>
         </div>
+        <div class="pfil" id="ofil">
+          <span class="lb">絞込</span>
+          <button class="chip" data-f="fav">★お気に入り</button>
+          <button class="chip" data-f="title">称号持ち</button>
+          <button class="chip" data-f="hi">能力300+</button>
+          <span class="lb" style="margin-left:6px">並び</span>
+          <div class="seg" id="obsort">
+            <button data-s="ab" class="on">能力</button>
+            <button data-s="name">名前</button>
+            <button data-s="year">年代</button>
+          </div>
+        </div>
       </div>
       <div class="ob-results">
         <div class="ob-legend">
@@ -836,8 +1170,9 @@
           <span><i class="s-S"></i>S 400+</span><span><i class="s-A"></i>A 350+</span>
           <span><i class="s-B"></i>B 320+</span><span><i class="s-C"></i>C 290+</span><span><i class="s-D"></i>D 250+</span>
           <span style="width:1px;height:11px;background:var(--line);margin:0 2px"></span>
-          <span><span class="star">★</span>称号あり</span>
+          <span><span class="star">★</span>称号あり</span><span style="width:1px;height:11px;background:var(--line);margin:0 2px"></span><span><span class="ab-link known" style="pointer-events:none">能力</span>＝タップで能力画像へ（緑＝直接リンク）</span>
         </div>
+        <div id="obGuide"></div>
         <div id="obhead"></div>
         <div id="oblist"></div>
         <div class="foot">⚑ 栄冠ナイン2026 転生OB名鑑<br>全347名／47都道府県 ｜ 2026年7月時点の情報をもとに再構成</div>
@@ -963,8 +1298,43 @@ function regionOf(pf){ for(const r of DATA.regions){ if(DATA.prefsByRegion[r].in
 const sortFn=(a,b)=> b.ab-a.ab || (a.dlc-b.dlc);
 const EMPTY='<div class="empty">該当する選手がいません。<br>位置フィルタや検索条件を変えてみてください。</div>';
 
-const ob={ mode:'pref', pref:'神奈川', region:'__all__', pg:'all', q:'', dlc:true };
+const ob={ mode:'pref', pref:'神奈川', region:'__all__', pg:'all', q:'', dlc:true, sort:'ab', fav:false, title:false, hi:false };
 const $=s=>document.querySelector(s);
+
+/* お気に入り（ローカル保存） */
+const FAVKEY='eikan-ob-fav-v1';
+let FAV={};
+try{ FAV=JSON.parse(localStorage.getItem(FAVKEY)||'{}'); }catch(e){ FAV={}; }
+function favSave(){ try{ localStorage.setItem(FAVKEY,JSON.stringify(FAV)); }catch(e){} }
+function favId(p){ return p.pref+'|'+p.n+'|'+p.pos+(p.dlc?'|d':''); }
+
+/* 個別ページが判明している選手（直接リンク） */
+const OBPAGE={
+ '大谷翔平':'554169','田中将大':'553968','金田正一':'626098','イチロー':'553852',
+ '野村克也':'626991','長嶋茂雄':'553753','王貞治':'553758'
+};
+function obLink(p){
+  const id=OBPAGE[p.n];
+  if(id) return 'https://game8.jp/eikan-nine/'+id;
+  return 'https://www.google.com/search?q='+encodeURIComponent('栄冠ナイン 2026 転生OB '+p.n+' 能力');
+}
+
+
+/* 都道府県ランキング（全国での位置づけ） */
+let PREFSTATS=null;
+function prefStats(){
+  if(PREFSTATS) return PREFSTATS;
+  const all=[];
+  DATA.regions.forEach(r=>DATA.prefsByRegion[r].forEach(pf=>{
+    const list=DATA.players.filter(p=>p.pref===pf);
+    const top=list.length?Math.max(...list.map(p=>p.ab)):0;
+    const sum=list.reduce((a,b)=>a+b.ab,0);
+    all.push({pref:pf,n:list.length,top:top,avg:list.length?Math.round(sum/list.length):0,sum:sum});
+  }));
+  all.sort((a,b)=>b.sum-a.sum);
+  const rank={}; all.forEach((x,i)=>rank[x.pref]={...x,rank:i+1});
+  PREFSTATS=rank; return rank;
+}
 
 function buildSelect(){
   const wrap=$('#selwrap'), sel=$('#obsel');
@@ -990,9 +1360,15 @@ function rowHTML(p,showPref){
   const dlc=p.dlc?'<span class="dlc">DLC</span>':'';
   const star=p.t?`<span class="star" title="${p.t}">★</span>`:'';
   const pref=showPref?`<span class="prefmini">${p.pref}</span>`:'';
+  const id=favId(p);
+  const on=FAV[id]?' on':'';
+  const known=!!OBPAGE[p.n];
   return `<div class="pc pg-${p.pg} t${t}">`+
-    `<div class="pc-top"><span class="pc-name">${p.n}</span>${dlc}${star}</div>`+
-    `<div class="pc-bot"><span class="poschip pos-${p.pg}">${p.pos}</span>${pref}<span class="pc-sp"></span>`+
+    `<div class="pc-top"><span class="pc-name">${p.n}</span>${dlc}${star}`+
+    `<button class="fav-btn${on}" data-fav="${id}" title="お気に入り">${FAV[id]?'★':'☆'}</button></div>`+
+    `<div class="pc-bot"><span class="poschip pos-${p.pg}">${p.pos}</span>${pref}`+
+    `<a class="ab-link${known?' known':''}" href="${obLink(p)}" target="_blank" rel="noopener" title="能力を調べる">能力</a>`+
+    `<span class="pc-sp"></span>`+
     `<span class="pc-ab"><span class="num">${p.ab}</span><span class="tl">${t}</span></span></div></div>`;
 }
 function listCard(arr,showPref){ return '<div class="grid">'+arr.map(p=>rowHTML(p,showPref)).join('')+'</div>'; }
@@ -1000,9 +1376,17 @@ function applyFilters(list){
   return list.filter(p=>{
     if(!ob.dlc&&p.dlc) return false;
     if(ob.pg!=='all'&&p.pg!==ob.pg) return false;
+    if(ob.fav&&!FAV[favId(p)]) return false;
+    if(ob.title&&!p.t) return false;
+    if(ob.hi&&p.ab<300) return false;
     if(ob.q){ if(p.n.indexOf(ob.q)<0&&p.t.indexOf(ob.q)<0) return false; }
     return true;
   });
+}
+function sortList(a){
+  if(ob.sort==='name') return a.sort((x,y)=>x.n.localeCompare(y.n,'ja'));
+  if(ob.sort==='year') return a.sort((x,y)=>(y.y||0)-(x.y||0)||y.ab-x.ab);
+  return a;
 }
 function summary(ttl,meta,posline){
   return `<div class="summary"><span class="ttl">${ttl}</span><span class="meta">${meta}</span>${posline||''}</div>`;
@@ -1013,11 +1397,11 @@ function renderOB(){
   const head=$('#obhead'), listEl=$('#oblist');
   let h='', body='';
   if(ob.q){
-    const list=applyFilters(DATA.players).sort(sortFn);
+    const list=sortList(applyFilters(DATA.players));
     h=summary('検索','「'+ob.q+'」・'+list.length+'名');
     body=list.length?listCard(list,true):EMPTY;
   } else if(ob.mode==='all'){
-    const list=applyFilters(DATA.players).sort(sortFn);
+    const list=sortList(applyFilters(DATA.players));
     h=summary('能力順','全'+list.length+'名');
     body=list.length?listCard(list,true):EMPTY;
   } else if(ob.mode==='region'){
@@ -1026,7 +1410,7 @@ function renderOB(){
       : DATA.prefsByRegion[ob.region];
     let total=0, blocks='';
     scope.forEach(pf=>{
-      const plist=applyFilters(DATA.players.filter(p=>p.pref===pf)).sort(sortFn);
+      const plist=sortList(applyFilters(DATA.players.filter(p=>p.pref===pf)));
       if(!plist.length) return;
       total+=plist.length;
       blocks+=`<div class="grp-head"><span class="gn">${pf}</span><span class="gc">${plist.length}名</span></div>`+listCard(plist,false);
@@ -1035,10 +1419,14 @@ function renderOB(){
     h=summary(label,total+'名');
     body=blocks||EMPTY;
   } else {
-    const list=applyFilters(DATA.players.filter(p=>p.pref===ob.pref)).sort(sortFn);
+    const list=sortList(applyFilters(DATA.players.filter(p=>p.pref===ob.pref)));
     const cP=list.filter(p=>p.pg==='p').length,cC=list.filter(p=>p.pg==='c').length,cI=list.filter(p=>p.pg==='i').length,cO=list.filter(p=>p.pg==='o').length;
     const top=list.length?Math.max(...list.map(p=>p.ab)):0;
-    const posline=`<div class="posline">投 <b>${cP}</b>　捕 <b>${cC}</b>　内 <b>${cI}</b>　外 <b>${cO}</b></div>`;
+    const st=prefStats()[ob.pref];
+    const best=DATA.players.filter(p=>p.pref===ob.pref).sort(sortFn)[0];
+    const rankTxt=st?`<div class="posline">全国 <b>${st.rank}位</b>／47　平均 <b>${st.avg}</b>`+
+      (best?`　筆頭 <b>${best.n}</b>(${best.ab})`:'')+`</div>`:'';
+    const posline=`<div class="posline">投 <b>${cP}</b>　捕 <b>${cC}</b>　内 <b>${cI}</b>　外 <b>${cO}</b></div>`+rankTxt;
     h=summary(ob.pref,list.length+'名・最高 '+top,posline);
     body=list.length?listCard(list,false):EMPTY;
   }
@@ -1056,10 +1444,500 @@ $('#pfil').querySelectorAll('.chip').forEach(b=>{
   b.onclick=()=>{ ob.pg=b.dataset.pg; $('#pfil').querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===b)); renderOB(); };
 });
 $('#dlc').onchange=e=>{ ob.dlc=e.target.checked; renderOB(); };
+/* 絞込チップ */
+const ofil=$('#ofil');
+if(ofil){
+  ofil.querySelectorAll('.chip').forEach(b=>{
+    b.onclick=()=>{ const f=b.dataset.f; ob[f]=!ob[f]; b.classList.toggle('on',ob[f]); renderOB(); };
+  });
+}
+/* 並び替え */
+const obsort=$('#obsort');
+if(obsort){
+  obsort.querySelectorAll('button').forEach(b=>{
+    b.onclick=()=>{ ob.sort=b.dataset.s;
+      obsort.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
+      renderOB(); };
+  });
+}
+/* お気に入りトグル（イベント委譲） */
+$('#oblist').addEventListener('click',e=>{
+  const b=e.target.closest('.fav-btn'); if(!b) return;
+  e.stopPropagation();
+  const id=b.dataset.fav;
+  if(FAV[id]) delete FAV[id]; else FAV[id]=1;
+  favSave();
+  b.classList.toggle('on',!!FAV[id]);
+  b.textContent=FAV[id]?'★':'☆';
+  if(ob.fav) renderOB();
+});
 $('#q').oninput=e=>{ ob.q=e.target.value.trim(); $('#clr').style.display=ob.q?'block':'none'; renderOB(); };
 $('#clr').onclick=()=>{ ob.q=''; $('#q').value=''; $('#clr').style.display='none'; renderOB(); };
 
 renderOB();
+
+/* ===== 年間ルーティン ===== */
+const ROUTINE=[
+ {m:4,items:[
+   {t:'4/1にちょうど止まる',d:'全員の練習効率が少しアップ',key:'hidden'},
+   {t:'入学式（4/8）で新入生を確認',d:'天才肌・内気・転生OBをチェック。ベンチ外は能力の低い選手に'},
+   {t:'育成方針を決める',d:'打撃力重視が総合的におすすめ（特打が出る／ミパは投資効率が良い）'},
+   {t:'練習指示カードを4月に使う',d:'3月中に温存しておくと新入生に合わせて設定できる'},
+ ]},
+ {m:5,items:[
+   {t:'グラウンドLvを上げる',d:'1000P器材を全て揃える→お楽しみ交換券で2000P器材'},
+   {t:'練習試合をこなす',d:'5勝ごとにアイテム業者。経験値・信頼度・評判も稼げる'},
+ ]},
+ {m:6,items:[
+   {t:'6/20 夏合宿の提案 → カード厳選開始',d:'内野安打○（ハードル等）・ムード○（アロマ等）・キャッチャー（投げ込み/特守）を残す',key:'important'},
+   {t:'6/26〜7/2 技術指導を狙う',d:'青マスで赤特消し。投球指導は投手の赤特を最も多く消せる',key:'hidden'},
+   {t:'大会前に体力・テンションを整える',d:'お褒めの言葉で先発投手の調子を上げる'},
+ ]},
+ {m:7,items:[
+   {t:'7/2 夏の都道府県大会',d:'負けたら3年生は引退'},
+   {t:'7/21〜30 インタビューを狙う',d:'甲子園出場時のみ。青マスで発生。打撃力or機動力がおすすめ',key:'hidden'},
+   {t:'7/25〜29 夏合宿',d:'入る時点の手札で取れる特能が決まる。体力回復も忘れずに',key:'important'},
+ ]},
+ {m:8,items:[
+   {t:'敗退後の特訓マスを狙う',d:'8/10（北海道・東北等）/8/15（青森・秋田）/8/21（その他）にちょうど止まる',key:'hidden'},
+   {t:'8/27 高校日本代表の選出',d:'選出されると9月に大成長＋特能のチャンス'},
+ ]},
+ {m:9,items:[
+   {t:'9/8〜9/14 技術指導を狙う',d:'年2回目の赤特消しチャンス',key:'hidden'},
+   {t:'9/13 秋の都道府県大会',d:'2勝すると10月の地区大会へ'},
+ ]},
+ {m:10,items:[
+   {t:'10/26 ドラフト会議',d:'卒業生が指名されるとパワポイント獲得'},
+   {t:'進路相談を使う',d:'アイドル・本屋さん・スカウトを指定しておくと翌年のOBマスが強くなる'},
+ ]},
+ {m:11,items:[
+   {t:'11/1〜 スカウト期間開始',d:'翌2月末まで年10回。履歴書も使い切る',key:'important'},
+   {t:'11/10 冬合宿の提案 → カード厳選',d:'夏と同様に戦術Lv6条件の特能を狙う'},
+   {t:'11/25 2学期末試験',d:'学力が低いと練習効率が下がる。参考書で対策'},
+ ]},
+ {m:12,items:[
+   {t:'12/10〜14 冬合宿',d:'直前のカード厳選と体力回復をセットで',key:'important'},
+   {t:'12/24にちょうど止まる',d:'体力回復／練習効率大アップ／特訓マス4つのいずれか。毎年狙う',key:'hidden'},
+ ]},
+ {m:1,items:[
+   {t:'1/25 春の選抜の当落発表',d:'出場が決まれば2月のインタビューが狙える'},
+ ]},
+ {m:2,items:[
+   {t:'2/1〜10 インタビューを狙う',d:'選抜出場時。青マスを厚めに配置',key:'hidden'},
+   {t:'2/28（2/29）にちょうど止まる',d:'特訓マスが最大4つ出現',key:'hidden'},
+   {t:'2月末までにスカウトを使い切る',d:'年10回の枠を余らせない',key:'important'},
+ ]},
+ {m:3,items:[
+   {t:'3/7 卒業式',d:'3年生が引退。全員の練習効率が小アップ'},
+   {t:'3/8〜31 卒業生からの指導',d:'青マスでプロ入り卒業生の特能を1つ習得（今作の新要素）',key:'hidden'},
+   {t:'練習指示カードを温存する',d:'4月の新入生入学直後に使えるように'},
+ ]},
+];
+(function(){
+  const el=document.getElementById('routine-list'); if(!el) return;
+  const KEY='eikan-routine-v1';
+  let done={};
+  try{ done=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){ done={}; }
+  function save(){ try{ localStorage.setItem(KEY,JSON.stringify(done)); }catch(e){} }
+  function render(){
+    el.innerHTML=ROUTINE.map(mo=>{
+      const items=mo.items.map((it,idx)=>{
+        const id=mo.m+'-'+idx;
+        const on=done[id]?' rt-done':'';
+        const tag=it.key==='hidden'?'<span class="badge b-hidden">隠し</span>':
+                  (it.key==='important'?'<span class="badge b-cond">重要</span>':'');
+        return `<div class="rt-item${on}" data-id="${id}"><span class="rt-box"></span>`+
+          `<span class="rt-body"><span class="rt-t">${it.t} ${tag}</span>`+
+          `<span class="rt-d">${it.d}</span></span></div>`;
+      }).join('');
+      return `<div class="season"><span class="dot"></span>${mo.m}月</div><div class="rt-group">${items}</div>`;
+    }).join('');
+    el.querySelectorAll('.rt-item').forEach(r=>{
+      r.addEventListener('click',()=>{
+        const id=r.dataset.id;
+        done[id]=!done[id]; if(!done[id]) delete done[id];
+        r.classList.toggle('rt-done'); save();
+      });
+    });
+  }
+  render();
+  document.querySelectorAll('.rt-reset').forEach(b=>{
+    b.addEventListener('click',()=>{ done={}; save(); render(); });
+  });
+})();
+
+
+/* ===== 横断検索 ===== */
+(function(){
+  const input=document.getElementById('gsInput');
+  const clr=document.getElementById('gsClr');
+  const out=document.getElementById('gsResults');
+  if(!input||!out) return;
+
+  const TABNAME={events:'イベント',seikaku:'性格',senjutsu:'戦術',cards:'カード',tech:'コツ',ob:'転生OB',routine:'ルーティン'};
+
+  // 検索インデックスを構築（各タブのアコーディオン/カード単位）
+  let INDEX=null;
+  function buildIndex(){
+    const idx=[];
+    Object.keys(TABNAME).forEach(tid=>{
+      if(tid==='ob') return; // OBは専用検索があるので除外
+      const tab=document.getElementById('tab-'+tid);
+      if(!tab) return;
+      // アコーディオン単位
+      tab.querySelectorAll('.acc').forEach(acc=>{
+        const title=acc.querySelector('.acc-title');
+        const sec=title?title.textContent.trim():'';
+        acc.querySelectorAll('.rc, .tip, .warn, .ev, .best-card, .rt-item').forEach(node=>{
+          const txt=node.textContent.replace(/\s+/g,' ').trim();
+          if(txt.length>4) idx.push({tab:tid,sec:sec,txt:txt});
+        });
+      });
+      // アコーディオン外（イベント・ルーティンなど）
+      tab.querySelectorAll('.ev, .rt-item').forEach(node=>{
+        if(node.closest('.acc')) return;
+        const txt=node.textContent.replace(/\s+/g,' ').trim();
+        if(txt.length>4) idx.push({tab:tid,sec:'',txt:txt});
+      });
+    });
+    return idx;
+  }
+
+  function esc(s){ return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+
+  function render(q){
+    if(!q){ out.innerHTML='<div class="gs-none">キーワードを入力してください。<br>例：内野安打／合宿／天才肌／赤特／効率</div>'; return; }
+    if(!INDEX) INDEX=buildIndex();
+    const re=new RegExp(esc(q),'gi');
+    const hits=INDEX.filter(r=>r.txt.indexOf(q)>=0 || (r.sec&&r.sec.indexOf(q)>=0)).slice(0,60);
+    if(!hits.length){ out.innerHTML='<div class="gs-none">「'+q+'」に一致する項目が見つかりません。</div>'; return; }
+    out.innerHTML=hits.map(r=>{
+      // ヒット箇所の前後を抜粋
+      let t=r.txt; const p=t.indexOf(q);
+      if(p>60) t='…'+t.slice(p-40);
+      if(t.length>170) t=t.slice(0,170)+'…';
+      const marked=t.replace(re,m=>'<mark>'+m+'</mark>');
+      return `<div class="gs-hit" data-tab="${r.tab}"><div class="gs-hit-top">`+
+        `<span class="gs-tab">${TABNAME[r.tab]}</span>`+
+        (r.sec?`<span class="gs-sec">${r.sec}</span>`:'')+
+        `</div><div class="gs-txt">${marked}</div></div>`;
+    }).join('');
+    out.querySelectorAll('.gs-hit').forEach(h=>{
+      h.addEventListener('click',()=>{ switchTab(h.dataset.tab); });
+    });
+  }
+
+  input.addEventListener('input',e=>{
+    const q=e.target.value.trim();
+    clr.style.display=q?'block':'none';
+    render(q);
+  });
+  clr.addEventListener('click',()=>{ input.value=''; clr.style.display='none'; render(''); });
+  render('');
+})();
+
+
+/* ===== 戦術Lv6 チェッカー ===== */
+(function(){
+  const resEl=document.getElementById('chkResult'); if(!resEl) return;
+  const RANKS=['S','A','B','C','D','E以下'];
+  const RV={'S':90,'A':80,'B':70,'C':60,'D':50,'E以下':40};
+  const ABIS=['内野安打○','バント○','バント職人','アベレージヒッター','広角打法','流し打ち',
+    'アウトコースヒッター','プルヒッター','インコースヒッター','ハイボールヒッター','ローボールヒッター','粘り打ち','悪球打ち'];
+  const st={meet:'C',power:'C',speed:'C',abis:new Set()};
+
+  document.querySelectorAll('.chk-sel').forEach(sel=>{
+    const k=sel.dataset.k;
+    sel.innerHTML=RANKS.map(r=>`<button data-r="${r}"${r===st[k]?' class="on"':''}>${r}</button>`).join('');
+    sel.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
+      st[k]=b.dataset.r;
+      sel.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
+      calc();
+    }));
+  });
+  const abisEl=document.getElementById('chkAbis');
+  abisEl.innerHTML=ABIS.map(a=>`<button data-a="${a}">${a}</button>`).join('');
+  abisEl.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
+    const a=b.dataset.a;
+    if(st.abis.has(a)) st.abis.delete(a); else st.abis.add(a);
+    b.classList.toggle('on'); calc();
+  }));
+
+  const TACTICS=[
+    {n:'転がせ',base:()=>RV[st.meet]>=60&&RV[st.speed]>=60,baseTxt:'ミート・走力C以上',ab:['内野安打○']},
+    {n:'センター返し',base:()=>RV[st.meet]>=60,baseTxt:'ミートC以上',ab:['アベレージヒッター']},
+    {n:'流し打ち',base:()=>RV[st.meet]>=70,baseTxt:'ミートB以上',ab:['流し打ち','広角打法','アウトコースヒッター']},
+    {n:'引っ張り',base:()=>RV[st.power]>=70,baseTxt:'パワーB以上',ab:['プルヒッター','インコースヒッター']},
+    {n:'犠牲フライ',base:()=>RV[st.power]>=80,baseTxt:'パワーA以上',ab:['ハイボールヒッター','ローボールヒッター']},
+    {n:'エンドラン',base:()=>RV[st.meet]>=80,baseTxt:'ミートA以上',ab:['粘り打ち','悪球打ち']},
+    {n:'送りバント',base:()=>RV[st.meet]>=70,baseTxt:'ミートB以上',ab:['バント○','バント職人']},
+    {n:'スクイズ',base:()=>RV[st.meet]>=80,baseTxt:'ミートA以上',ab:['バント○','バント職人']},
+    {n:'セーフティ',base:()=>RV[st.meet]>=80&&RV[st.speed]>=80,baseTxt:'ミート・走力A以上',ab:['バント○','バント職人','内野安打○']},
+    {n:'盗塁',base:()=>RV[st.speed]>=80,baseTxt:'走力A以上',ab:[]},
+  ];
+
+  function calc(){
+    const ok=[],ng=[];
+    TACTICS.forEach(t=>{
+      const b=t.base();
+      const hasAb=t.ab.length===0?b:t.ab.some(a=>st.abis.has(a));
+      if(b&&hasAb) ok.push(t);
+      else{
+        const miss=[];
+        if(!b) miss.push(t.baseTxt);
+        if(t.ab.length&&!hasAb) miss.push(t.ab.join('／'));
+        ng.push({n:t.n,miss:miss.join(' ＋ ')});
+      }
+    });
+    resEl.innerHTML='<div class="chk-out">'+
+      (ok.length?ok.map(t=>`<div class="chk-ok">✓ <b>${t.n}</b> Lv6達成</div>`).join(''):'')+
+      ng.map(t=>`<div class="chk-ng">− ${t.n}：${t.miss} が不足</div>`).join('')+
+      '</div>';
+  }
+  calc();
+})();
+
+
+/* 転生OBの入手方法（折りたたみ解説） */
+(function(){
+  const g=document.getElementById('obGuide'); if(!g) return;
+  g.innerHTML=`<details class="ref"><summary>転生OBの入手方法・リセマラ手順を見る</summary>
+    <div class="ref-body">
+      <div class="card-list">
+        <div class="rc pri"><div class="rc-head">基本の仕組み</div>
+          <div class="rc-row">転生OBは<b>都道府県ごとに出現する選手が決まっている</b>（→この名鑑）。設定で「転生選手の登場」を<b>あり</b>にしておく（初期値あり）</div>
+          <div class="rc-row">出現するのは<b>その選手が中学3年生だった年代</b>。過去年代スタートなら年代指定で狙い撃ちできる</div>
+          <div class="rc-row">初回の監督就任時は<b>新入生を3回まで再抽選</b>できる</div></div>
+        <div class="rc"><div class="rc-head">現代スタートのリセマラ</div>
+          <div class="rc-row"><span class="k">1</span>狙う選手の<b>都道府県</b>に設定（年代で絞れないため県選びが最重要）</div>
+          <div class="rc-row"><span class="k">2</span>転生選手の登場を「あり」に</div>
+          <div class="rc-row"><span class="k">3</span>目当てが出れば開始。出なければ<b>ホーム画面に戻って</b>やり直し<span class="rc-sub">新入部員の画面まで進むと前に戻れないので注意</span></div></div>
+        <div class="rc"><div class="rc-head">過去年代スタートのリセマラ</div>
+          <div class="rc-row"><span class="k">1</span>狙う選手の<b>年代</b>を設定（例：大谷翔平＝2010年）</div>
+          <div class="rc-row"><span class="k">2</span>同じ選手の<b>都道府県</b>を選ぶ（例：岩手）</div>
+          <div class="rc-row"><span class="k">3</span>転生あり→目当てが出たら開始。<b>年代＋県を合わせれば高確率</b>で出る</div></div>
+        <div class="rc"><div class="rc-head">プレイ中（入学式前）のリセマラ</div>
+          <div class="rc-row"><span class="k">1</span><b>入学式の直前に必ずセーブ</b></div>
+          <div class="rc-row"><span class="k">2</span>ホームで「はじめから」→狙う年代にして<b>リストの上の方の1年</b>を確認</div>
+          <div class="rc-row"><span class="k">3</span>目当てならホームへ戻り「つづきから」→入学式へ。違えばホームに戻って再確認</div>
+          <div class="rc-sub">※年代選択時のリストは<b>ホーム画面まで戻らないと更新されない</b>。なお2026では成否が不安定との報告もあり、年代＋県を合わせる方が確実。</div></div>
+        <div class="rc"><div class="rc-head">DLCレジェンド選手</div>
+          <div class="rc-row">パワプロショップ→引換券リストで<b>全てのレジェンドチームを交換</b>すると栄冠ナインに登場するようになる（この名鑑では<b>DLC</b>表記）</div></div>
+      </div>
+    </div></details>`;
+})();
+
+
+/* ================== スタメン ================== */
+(function(){
+  const dm=document.getElementById('diamond'); if(!dm) return;
+
+  const KEY='eikan-lineup-v1';
+  const POS=['投','捕','一','二','三','遊','左','中','右'];
+  const POSFULL={'投':'ピッチャー','捕':'キャッチャー','一':'ファースト','二':'セカンド','三':'サード','遊':'ショート','左':'レフト','中':'センター','右':'ライト'};
+  const SEIKAKU=['ごくふつう','やんちゃ','熱血漢','クール','内気','お調子者','したたか','天才肌'];
+  // ダイヤモンド上の座標(%)
+  const COORD={'投':[50,62],'捕':[50,88],'一':[74,52],'二':[63,38],'三':[26,52],'遊':[37,38],
+               '左':[16,24],'中':[50,13],'右':[84,24]};
+  const PGCOL={'投':'#e0512b','捕':'#3a6fc4','一':'#eab308','二':'#eab308','三':'#eab308','遊':'#eab308',
+               '左':'#4fae43','中':'#4fae43','右':'#4fae43'};
+
+  let DB={}; // {grade:{players:[], field:{pos:playerId}, order:[playerId]}}
+  try{ DB=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){ DB={}; }
+  function save(){ try{ localStorage.setItem(KEY,JSON.stringify(DB)); }catch(e){} }
+  function G(){ return DB[grade] || (DB[grade]={players:[],field:{},order:[]}); }
+
+  let grade='3', view='field', sel=null; // sel: 選択中の選手ID
+
+  /* ---- ダイヤモンド描画 ---- */
+  function renderField(){
+    const g=G();
+    dm.innerHTML=POS.map(p=>{
+      const [x,y]=COORD[p];
+      const pid=g.field[p];
+      const pl=pid?g.players.find(z=>z.id===pid):null;
+      let cls='pos-slot'+(pl?' filled':'')+(sel&&sel===pid?' sel':'');
+      let inner;
+      if(pl){
+        const isMain=pl.pos===p;
+        const isSub=(pl.sub||[]).includes(p);
+        if(!isMain&&!isSub) cls+=' warn-sub';
+        inner=`<div class="ps-n">${pl.name}</div>`+
+          (isMain?'':`<div class="ps-sub">${isSub?'サブ':'適性外'}</div>`);
+      } else {
+        inner='<div class="ps-empty">空き</div>';
+      }
+      return `<div class="${cls}" data-pos="${p}" style="left:${x}%;top:${y}%">`+
+        `<div class="ps-lbl" style="color:${PGCOL[p]}">${p}</div>`+
+        `<div class="ps-card">${inner}</div></div>`;
+    }).join('');
+    dm.querySelectorAll('.pos-slot').forEach(s=>{
+      s.addEventListener('click',()=>onSlot(s.dataset.pos));
+    });
+    renderBench();
+  }
+
+  function renderBench(){
+    const g=G(), el=document.getElementById('luBench');
+    const used=Object.values(g.field);
+    const bench=g.players.filter(p=>!used.includes(p.id));
+    if(!g.players.length){
+      el.innerHTML='<div class="lu-empty">「＋ 選手を登録」から追加してください。</div>'; return;
+    }
+    if(!bench.length){ el.innerHTML='<div class="lu-empty">控えはいません。</div>'; return; }
+    el.innerHTML=bench.map(p=>{
+      const s=sel===p.id?' sel':'';
+      const sub=(p.sub||[]).length?`<span class="bn-s">${p.sub.join('')}</span>`:'';
+      return `<div class="bn${s}" data-id="${p.id}"><span class="bn-n">${p.name}</span>`+
+        `<span class="bn-p" style="background:${PGCOL[p.pos]}">${p.pos}</span>${sub}</div>`;
+    }).join('');
+    el.querySelectorAll('.bn').forEach(b=>{
+      b.addEventListener('click',()=>{ sel=(sel===b.dataset.id)?null:b.dataset.id; renderField(); });
+    });
+  }
+
+  /* スロットをタップ：選択中の選手を配置 / 空なら解除 */
+  function onSlot(pos){
+    const g=G();
+    if(sel){
+      // 既に他の位置にいれば外す
+      Object.keys(g.field).forEach(k=>{ if(g.field[k]===sel) delete g.field[k]; });
+      g.field[pos]=sel; sel=null; save(); syncOrder(); renderField();
+    } else if(g.field[pos]){
+      // 配置済みをタップ → 選択（入れ替え用）or 外す
+      sel=g.field[pos]; delete g.field[pos]; save(); syncOrder(); renderField();
+    }
+  }
+
+  /* ---- 打順 ---- */
+  function syncOrder(){
+    const g=G();
+    const onField=Object.values(g.field);
+    g.order=(g.order||[]).filter(id=>onField.includes(id));
+    onField.forEach(id=>{ if(!g.order.includes(id)) g.order.push(id); });
+    save();
+  }
+  function renderOrder(){
+    const g=G(); syncOrder();
+    const el=document.getElementById('luOrderList');
+    if(!g.order.length){ el.innerHTML='<div class="lu-empty">守備配置で選手を配置すると打順が作れます。</div>'; return; }
+    el.innerHTML=g.order.map((id,i)=>{
+      const p=g.players.find(z=>z.id===id); if(!p) return '';
+      const pos=Object.keys(g.field).find(k=>g.field[k]===id)||'';
+      return `<div class="ord-row"><span class="ord-no">${i+1}</span>`+
+        `<span class="ord-n">${p.name}</span>`+
+        `<span class="ord-pos" style="background:${PGCOL[pos]||'#555'}">${pos}</span>`+
+        `<span class="ord-mv"><button data-mv="up" data-i="${i}">▲</button>`+
+        `<button data-mv="down" data-i="${i}">▼</button></span></div>`;
+    }).join('');
+    el.querySelectorAll('button[data-mv]').forEach(b=>{
+      b.addEventListener('click',()=>{
+        const i=+b.dataset.i, d=b.dataset.mv==='up'?-1:1, j=i+d;
+        if(j<0||j>=g.order.length) return;
+        [g.order[i],g.order[j]]=[g.order[j],g.order[i]];
+        save(); renderOrder();
+      });
+    });
+  }
+
+  /* ---- 選手一覧 ---- */
+  function renderRoster(){
+    const g=G(), el=document.getElementById('luRosterList');
+    if(!g.players.length){ el.innerHTML='<div class="lu-empty">登録された選手がいません。</div>'; return; }
+    el.innerHTML=g.players.map(p=>{
+      const sub=(p.sub||[]).length?`<span class="rs-seik">サブ ${p.sub.join('')}</span>`:'';
+      return `<div class="rs"><span class="rs-n">${p.name}</span><span class="rs-tags">`+
+        `<span class="bn-p" style="background:${PGCOL[p.pos]}">${p.pos}</span>${sub}`+
+        (p.seikaku?`<span class="rs-seik">${p.seikaku}</span>`:'')+
+        `</span><button class="rs-del" data-del="${p.id}" title="削除">✕</button></div>`;
+    }).join('');
+    el.querySelectorAll('.rs-del').forEach(b=>{
+      b.addEventListener('click',()=>{
+        const id=b.dataset.del;
+        g.players=g.players.filter(z=>z.id!==id);
+        Object.keys(g.field).forEach(k=>{ if(g.field[k]===id) delete g.field[k]; });
+        g.order=(g.order||[]).filter(z=>z!==id);
+        save(); renderAll();
+      });
+    });
+  }
+
+  function renderAll(){
+    if(view==='field') renderField();
+    else if(view==='order') renderOrder();
+    else renderRoster();
+  }
+
+  /* ---- ビュー切替 ---- */
+  document.querySelectorAll('.lu-vtab').forEach(b=>{
+    b.addEventListener('click',()=>{
+      view=b.dataset.v;
+      document.querySelectorAll('.lu-vtab').forEach(x=>x.classList.toggle('on',x===b));
+      document.getElementById('luField').style.display=view==='field'?'':'none';
+      document.getElementById('luOrder').style.display=view==='order'?'':'none';
+      document.getElementById('luRoster').style.display=view==='roster'?'':'none';
+      renderAll();
+    });
+  });
+  /* ---- 学年切替 ---- */
+  document.querySelectorAll('#luGrade button').forEach(b=>{
+    b.addEventListener('click',()=>{
+      grade=b.dataset.g; sel=null;
+      document.querySelectorAll('#luGrade button').forEach(x=>x.classList.toggle('on',x===b));
+      renderAll();
+    });
+  });
+  /* ---- リセット ---- */
+  document.getElementById('luReset').addEventListener('click',()=>{
+    if(!confirm(grade+'年の登録選手・配置をすべて削除します。よろしいですか？')) return;
+    DB[grade]={players:[],field:{},order:[]}; save(); renderAll();
+  });
+
+  /* ---- 登録モーダル ---- */
+  const modal=document.createElement('div');
+  modal.className='lu-modal hide';
+  modal.innerHTML=`<div class="lu-sheet">
+    <h4>選手を登録</h4>
+    <div class="lu-f"><label>名前</label><input type="text" id="mName" placeholder="例：山田太郎" autocomplete="off"></div>
+    <div class="lu-f"><label>メインポジション</label><div class="lu-chips" id="mPos"></div></div>
+    <div class="lu-f"><label>サブポジション（複数可）</label><div class="lu-chips" id="mSub"></div></div>
+    <div class="lu-f"><label>性格</label><div class="lu-chips" id="mSeik"></div></div>
+    <div class="lu-acts"><button class="lu-cancel" id="mCancel">キャンセル</button>
+      <button class="lu-save" id="mSave">登録</button></div>
+  </div>`;
+  document.body.appendChild(modal);
+
+  let mPos='投', mSub=new Set(), mSeik='';
+  function buildChips(){
+    document.getElementById('mPos').innerHTML=POS.map(p=>`<button data-p="${p}"${p===mPos?' class="on"':''}>${p}</button>`).join('');
+    document.getElementById('mSub').innerHTML=POS.map(p=>`<button data-p="${p}"${mSub.has(p)?' class="on"':''}>${p}</button>`).join('');
+    document.getElementById('mSeik').innerHTML=SEIKAKU.map(s=>`<button data-s="${s}"${s===mSeik?' class="on"':''}>${s}</button>`).join('');
+    document.getElementById('mPos').querySelectorAll('button').forEach(b=>b.onclick=()=>{ mPos=b.dataset.p; buildChips(); });
+    document.getElementById('mSub').querySelectorAll('button').forEach(b=>b.onclick=()=>{
+      const p=b.dataset.p; if(mSub.has(p)) mSub.delete(p); else mSub.add(p); buildChips(); });
+    document.getElementById('mSeik').querySelectorAll('button').forEach(b=>b.onclick=()=>{
+      mSeik=(mSeik===b.dataset.s)?'':b.dataset.s; buildChips(); });
+  }
+  function openModal(){ mPos='投'; mSub=new Set(); mSeik='';
+    document.getElementById('mName').value=''; buildChips(); modal.classList.remove('hide');
+    setTimeout(()=>document.getElementById('mName').focus(),50); }
+  function closeModal(){ modal.classList.add('hide'); }
+
+  document.getElementById('luAdd').addEventListener('click',openModal);
+  document.getElementById('mCancel').addEventListener('click',closeModal);
+  modal.addEventListener('click',e=>{ if(e.target===modal) closeModal(); });
+  document.getElementById('mSave').addEventListener('click',()=>{
+    const name=document.getElementById('mName').value.trim();
+    if(!name){ alert('名前を入力してください'); return; }
+    const g=G();
+    g.players.push({id:'p'+Date.now()+Math.random().toString(36).slice(2,6),
+      name:name,pos:mPos,sub:[...mSub],seikaku:mSeik});
+    save(); closeModal(); renderAll();
+  });
+
+  renderAll();
+})();
+
 </script>
 </body>
 </html>
